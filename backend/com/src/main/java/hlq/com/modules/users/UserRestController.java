@@ -4,28 +4,29 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import hlq.com.bean.ResponseBean;
+import hlq.com.bean.UserLoginBean;
+import hlq.com.commons.BaseController;
 import hlq.com.configations.JwtService;
 import hlq.com.entitys.User;
 
 @RestController
 @RequestMapping("/api")
-public class UserRestController {
+public class UserRestController extends BaseController {
 	@Autowired
 	private JwtService jwtService;
 	@Autowired
 	private UserService userService;
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserRestController.class);
 
 	/* ---------------- GET ALL USER ------------------------ */
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
@@ -60,22 +61,21 @@ public class UserRestController {
 //		return new ResponseEntity<String>("Deleted!", HttpStatus.OK);
 //	}
 
-	@RequestMapping(value = "/login", method = RequestMethod.POST)
-	public ResponseEntity<String> login(HttpServletRequest request, @RequestBody User user) {
-		String result = "";
-		HttpStatus httpStatus = null;
+	@PostMapping(value = "/login")
+	public ResponseEntity<ResponseBean> login(HttpServletRequest request, @RequestBody UserLoginBean user) {
+		ResponseBean response = new ResponseBean();
 		try {
 			if (userService.checkLogin(user)) {
-				result = jwtService.generateTokenLogin(user.getUsername());
-				httpStatus = HttpStatus.OK;
+				response.setData(jwtService.generateTokenLogin(user.getUsername()));
+				response.setCode(HttpStatus.OK);
 			} else {
-				result = "Wrong userId and password";
-				httpStatus = HttpStatus.BAD_REQUEST;
+				response.setMessage("Wrong userId and password");
+				response.setCode(HttpStatus.UNAUTHORIZED);
 			}
 		} catch (Exception ex) {
-			result = "Server Error";
-			httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+
+			return responseError(response, ex.getMessage());
 		}
-		return new ResponseEntity<String>(result, httpStatus);
+		return response(response);
 	}
 }

@@ -1,8 +1,14 @@
 package hlq.com.entitys;
 
 import java.io.Serializable;
-import javax.persistence.*;
 import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 
 
 /**
@@ -43,26 +49,26 @@ public class Role implements Serializable {
 		this.name = name;
 	}
 
-	public List<RolePermistion> getRolePermistions() {
-		return this.rolePermistions;
-	}
-
-	public void setRolePermistions(List<RolePermistion> rolePermistions) {
-		this.rolePermistions = rolePermistions;
-	}
-
-	public RolePermistion addRolePermistion(RolePermistion rolePermistion) {
-		getRolePermistions().add(rolePermistion);
-		rolePermistion.setRole(this);
-
-		return rolePermistion;
-	}
-
-	public RolePermistion removeRolePermistion(RolePermistion rolePermistion) {
-		getRolePermistions().remove(rolePermistion);
-		rolePermistion.setRole(null);
-
-		return rolePermistion;
-	}
+//	public List<RolePermistion> getRolePermistions() {
+//		return this.rolePermistions;
+//	}
+//
+//	public void setRolePermistions(List<RolePermistion> rolePermistions) {
+//		this.rolePermistions = rolePermistions;
+//	}
+//
+//	public RolePermistion addRolePermistion(RolePermistion rolePermistion) {
+//		getRolePermistions().add(rolePermistion);
+//		rolePermistion.setRole(this);
+//
+//		return rolePermistion;
+//	}
+//
+//	public RolePermistion removeRolePermistion(RolePermistion rolePermistion) {
+//		getRolePermistions().remove(rolePermistion);
+//		rolePermistion.setRole(null);
+//
+//		return rolePermistion;
+//	}
 
 }

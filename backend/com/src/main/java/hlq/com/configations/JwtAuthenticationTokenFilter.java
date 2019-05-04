@@ -7,8 +7,10 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
@@ -16,10 +18,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import hlq.com.bean.ResponseBean;
 import hlq.com.modules.users.UserService;
 
 public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthenticationFilter {
-	private final static String TOKEN_HEADER = "authorization";
+	private final static String TOKEN_HEADER = "Authorization";
 	@Autowired
 	private JwtService jwtService;
 	@Autowired
@@ -28,11 +33,36 @@ public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthentication
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
+
+		ResponseBean resBean = new ResponseBean();
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
+		if (request instanceof HttpServletRequest) {
+			String url = httpRequest.getRequestURI();
+			String ignored = "/v2/api-docs" + "/configuration/ui" + "/swagger-resources" + "/configuration/security"
+					+ "/swagger-ui.html" + "/webjars" + "/api/swagger.json" + "/v2/api-docs" + "/api/login";
+
+			if (ignored.contains(url) || (url.contains("webjars"))
+					|| (url.contains("swagger-resources") || (url.contains("testapi")))) {
+				chain.doFilter(request, response);
+				return;
+			}
+		}
+
 		String authToken = httpRequest.getHeader(TOKEN_HEADER);
-		if (jwtService.validateTokenLogin(authToken)) {
+		if (authToken != null) {
+			authToken = authToken.substring(7, authToken.length());
+		}
+		Boolean hasPermistion = true;
+
+		if (!jwtService.validateTokenLogin(authToken, resBean)) {
+
+			hasPermistion = false;
+		}
+
+		if (hasPermistion) {
 			String username = jwtService.getUsernameFromToken(authToken);
 			hlq.com.entitys.User user = userService.loadUserByUsername(username);
+
 			if (user != null) {
 				boolean enabled = true;
 				boolean accountNonExpired = true;
@@ -45,7 +75,22 @@ public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthentication
 				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			}
+			chain.doFilter(request, response);
+		} else {
+			byte[] responseToSend = restResponseBytes(resBean);
+			((HttpServletResponse) response).setHeader("Content-Type", "application/json");
+			((HttpServletResponse) response).setStatus(HttpStatus.OK.hashCode());
+			response.getOutputStream().write(responseToSend);
 		}
-		chain.doFilter(request, response);
+	}
+
+	@Override
+	public void destroy() {
+
+	}
+
+	private byte[] restResponseBytes(ResponseBean responseBean) throws IOException {
+		String serialized = new ObjectMapper().writeValueAsString(responseBean);
+		return serialized.getBytes();
 	}
 }

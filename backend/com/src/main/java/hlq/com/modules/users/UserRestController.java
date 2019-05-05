@@ -66,6 +66,7 @@ public class UserRestController extends BaseController {
 		ResponseBean response = new ResponseBean();
 		try {
 			if (userService.checkLogin(user)) {
+				
 				response.setData(jwtService.generateTokenLogin(user.getUsername()));
 				response.setCode(HttpStatus.OK);
 			} else {

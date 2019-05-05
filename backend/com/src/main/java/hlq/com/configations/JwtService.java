@@ -2,6 +2,9 @@ package hlq.com.configations;
 
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -15,15 +18,26 @@ import com.nimbusds.jwt.JWTClaimsSet;
 import com.nimbusds.jwt.SignedJWT;
 
 import hlq.com.bean.ResponseBean;
+import hlq.com.bean.TokenBean;
 
 @Service
+@PropertySource("classpath:application.properties")
 public class JwtService {
+	@Autowired
+	private Environment env;
 	public static final String USERNAME = "username";
 	public static final String SECRET_KEY = "11111111111111111111111111111111";
 	public static final int EXPIRE_TIME = 86400000;
 
-	public String generateTokenLogin(String username) {
-		String token = null;
+	public int getExpireTime() {
+		String timeStr = env.getProperty("tokenTimeExpiresMilisecond");
+		if (timeStr == null)
+			return EXPIRE_TIME;
+		return Integer.parseInt(timeStr);
+	}
+
+	public TokenBean generateTokenLogin(String username) {
+		TokenBean data = new TokenBean();
 		try {
 			// Create HMAC signer
 			JWSSigner signer = new MACSigner(generateShareSecret());
@@ -36,11 +50,13 @@ public class JwtService {
 			signedJWT.sign(signer);
 			// Serialize to compact form, produces something like
 			// eyJhbGciOiJIUzI1NiJ9.SGVsbG8sIHdvcmxkIQ.onO9Ihudz3WkiauDO2Uhyuz0Y18UASXlSc1eS0NkWyA
-			token = signedJWT.serialize();
+			data.setToken(signedJWT.serialize());
+			data.setExpireTime(getExpireTime());
+			data.setUsername(username);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return token;
+		return data;
 	}
 
 	private JWTClaimsSet getClaimsFromToken(String token) {
@@ -58,7 +74,7 @@ public class JwtService {
 	}
 
 	private Date generateExpirationDate() {
-		return new Date(System.currentTimeMillis() + EXPIRE_TIME);
+		return new Date(System.currentTimeMillis() + getExpireTime());
 	}
 
 	private Date getExpirationDateFromToken(String token) {

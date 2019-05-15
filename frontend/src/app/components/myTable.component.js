@@ -450,19 +450,19 @@
             //truyền tham số search ra controller cha để xử lý list
             if ($scope.mConfig.customList) {
               $scope.$parent[$scope.mConfig.customList](function (res) {
-                value.recordsFiltered = res.info.meta.total;
-                value.recordsTotal = res.info.meta.total;
-                value.data = res.data;
-                $scope.listData = res.data;
+                value.recordsFiltered = res.data.data.totalPages;
+                value.recordsTotal = res.data.data.totalPages;
+                value.data = res.data.data.content;
+                $scope.listData = res.data.data.content;
                 callback(value);
               }, objFilter);
             }
             else {
               ApiService[$scope.mConfig.module].list(objFilter).then(function (res) {
-                value.recordsFiltered = res.info.meta.total;
-                value.recordsTotal = res.info.meta.total;
-                value.data = res.data;
-                $scope.listData = res.data;
+                value.recordsFiltered = res.data.data.totalPages;
+                value.recordsTotal = res.data.data.totalPages;
+                value.data = res.data.data.content;
+                $scope.listData = res.data.data.content;
                 callback(value);
               });
             }

@@ -397,10 +397,29 @@ deferredBootstrapper.bootstrap({
           App.unblockUI();
 
           AuthService.getType().then(function(res){
-            debugger;
+            res.data.data.content
+            resolve({
+              userInfo: "admin",
+              menuConfig: newMenu,
+              languageConfig: {
+                translations_vi: translations_vi,
+                translations_en: translations_en,
+                language: language
+              }
+            });
+          },function(){
+            resolve({
+              userInfo: "admin",
+              menuConfig: newMenu,
+              languageConfig: {
+                translations_vi: translations_vi,
+                translations_en: translations_en,
+                language: language
+              }
+            });
           });
 
-          resolve({
+          /* resolve({
             userInfo: "admin",
             menuConfig: newMenu,
             languageConfig: {
@@ -408,7 +427,7 @@ deferredBootstrapper.bootstrap({
               translations_en: translations_en,
               language: language
             }
-          });
+          }); */
 
           /* AuthService.me().then(function (res) {
             var newMenu = createMenu(res.roles);

@@ -395,6 +395,11 @@ deferredBootstrapper.bootstrap({
         return new Promise(function (resolve, reject) {
           var newMenu = createMenu(["*"]);       
           App.unblockUI();
+
+          AuthService.getType().then(function(res){
+            debugger;
+          });
+
           resolve({
             userInfo: "admin",
             menuConfig: newMenu,

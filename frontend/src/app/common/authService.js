@@ -2,6 +2,27 @@ angular.module("Auth").service('AuthService', ['$rootScope', '$http',
   function ($rootScope, $http, ) {
     var _self = this;
 
+    //get type
+    this.getType = () => {
+      return new Promise(function (resolve, reject) {
+        var access_token = localStorage.getItem('access_token');
+        console.log(access_token);
+        $http.get(MyConfig.host + "/api/type", { }, {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + access_token
+          }
+        })
+          .then(function (response) {
+            debugger;
+            resolve(response);
+          }, function (error) {
+            debugger;
+            reject(error);
+          });
+      })
+    };
+
     // đăng nhập
     this.login = (username, password, remember) => {
       return new Promise(function (resolve, reject) {

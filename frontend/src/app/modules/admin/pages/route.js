@@ -4,7 +4,7 @@
     .module('MyApp')
     .config(function routerConfig($stateProvider, APP_CONFIG) {
       
-      var listModule = ["province", "district", "commune", "nation", "school", "branch", "channel", "prioritize", "aspiration", "contributor", "program"];
+      var listModule = ["province", "district", "commune", "nation", "school", "branch", "channel", "prioritize", "aspiration", "contributor", "program","register"];
       var a_language = APP_CONFIG.languageConfig.language;
 
       for (let i = 0; i < listModule.length; i++) {

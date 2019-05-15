@@ -16,9 +16,20 @@
       $scope.currentScope = $scope;
 
       $scope.attrForm = [
-        [{
+        [
+          {
+            title: "province_name",
+            name: "parentId",
+            col: "3",
+            required: true,
+            ngDisabled: "viewMode == 'detail'",
+            type: "select",
+            mOption: "listProvince",
+            mKeytotext: "name",
+          },
+          {
           name: "name",
-          col: "6",
+          col: "3",
           required: true,
           ngDisabled: "viewMode == 'detail'",
           type: "text",
@@ -47,6 +58,7 @@
           $scope.initTable();
         } else if ($state.current.name == $scope.route + ".create") {
           $scope.viewMode = "create";
+          $scope.getListProvince();
         } else {
           if ($state.current.name == $scope.route + ".update") {
             $scope.viewMode = "update";
@@ -54,13 +66,23 @@
           if ($state.current.name == $scope.route + ".detail") {
             $scope.viewMode = "detail";
           }
+          $scope.getListProvince();
           ApiService[$scope.module].findById($stateParams.id).then(function (res) {
             $scope.$apply(function () {
-              $scope[$scope.modelForm] = res;
+              $scope[$scope.modelForm] = res.data;
             });
           })
         }
       });
+
+      $scope.getListProvince = function () {
+        ApiService['province'].list({size: 1000}).then(function (res) {
+          $scope.$apply(function () {
+            $scope.listProvince = res.data.content;
+          });
+        })
+      };
+      
 
       $scope.search = function () {
         // hàm được viết trong myTable
@@ -116,8 +138,15 @@
           customButtons: [],
           customList: null,
           customOperatorSearch: null,
-          columns: [{
-            type: "stt"
+          columns: [
+          //   {
+          //   type: "stt"
+          // },
+          {
+            title: a_language.province_numericalOrder,
+            data: "numericalOrder",
+            width: "50px",
+            className:"text-center"
           },
           {
             title: a_language.district_name,
@@ -125,15 +154,20 @@
             width: "200px",
           },
           {
+            title: a_language.province_name,
+            data: "parentId",
+            width: "200px",
+          },
+          {
             title: a_language.district_description,
             data: "description",
             width: "auto",
           },
-          {
-            title: a_language.district_numericalOrder,
-            data: "numericalOrder",
-            width: "50px",
-          }
+          // {
+          //   title: a_language.district_numericalOrder,
+          //   data: "numericalOrder",
+          //   width: "50px",
+          // }
           ]
         };
       };

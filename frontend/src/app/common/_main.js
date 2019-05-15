@@ -164,6 +164,7 @@ Metronic AngularJS App Main Script
         $rootScope.requestCount--;
         if ($rootScope.requestCount == 0) {
           App.unblockUI();
+          Ladda.stopAll();
         }
         return true;
       });
@@ -172,6 +173,7 @@ Metronic AngularJS App Main Script
         $rootScope.requestCount--;
         if ($rootScope.requestCount == 0) {
           App.unblockUI();
+          Ladda.stopAll();
         }
         deferred.resolve(data);
       });

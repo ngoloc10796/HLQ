@@ -72,7 +72,7 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG','Restangular',
           //objData.typeCode = item_module;
           //objData.typeId = item_id;
           return new Promise(function (resolve, reject) {
-            Restangular.all(url).customGET("", { id: id }).then(function (response){
+            Restangular.all(url).customGET(id).then(function (response){
               checkSuccess(resolve, "findById", response, objMessage);
             },function(error){
               checkError(reject, "findById", error, objMessage);
@@ -89,12 +89,11 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG','Restangular',
         },
 
         list: function (objData, objMessage) {
-          debugger;
           objData.typeCode = item_module;
           objData.typeId = item_id;
           return new Promise(function (resolve, reject) {
             Restangular.all(url).customGET("", objData).then(function (response, info){
-              checkSuccess(resolve, "list", { data: response, info: info }, objMessage);
+              checkSuccess(resolve, "list", { data: response.data, info: info }, objMessage);
             },function(error){
               checkError(reject, "list", error, objMessage);
             });
@@ -154,7 +153,7 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG','Restangular',
         delete: function (id, objMessage) {
           // objData.typeCode = item_module;
           return new Promise(function (resolve, reject) {
-            Restangular.all(url).customDELETE({ id: id }).then(function (response){
+            Restangular.all(url).customDELETE(id).then(function (response){
               checkSuccess(resolve, "delete", response, objMessage);
             },function(error){
               checkError(reject, "delete", error, objMessage);

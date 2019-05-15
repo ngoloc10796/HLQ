@@ -18,7 +18,7 @@
       $scope.attrForm = [
         [{
           name: "name",
-          col: "6",
+          col: "3",
           required: true,
           ngDisabled: "viewMode == 'detail'",
           type: "text",
@@ -56,7 +56,7 @@
           }
           ApiService[$scope.module].findById($stateParams.id).then(function (res) {
             $scope.$apply(function () {
-              $scope[$scope.modelForm] = res;
+              $scope[$scope.modelForm] = res.data;
             });
           })
         }
@@ -116,8 +116,15 @@
           customButtons: [],
           customList: null,
           customOperatorSearch: null,
-          columns: [{
-            type: "stt"
+          columns: [
+          //   {
+          //   type: "stt"
+          // },
+          {
+            title: a_language.province_numericalOrder,
+            data: "numericalOrder",
+            width: "50px",
+            className:"text-center"
           },
           {
             title: a_language.province_name,
@@ -129,11 +136,7 @@
             data: "description",
             width: "auto",
           },
-          {
-            title: a_language.province_numericalOrder,
-            data: "numericalOrder",
-            width: "50px",
-          }
+          
           ]
         };
       };

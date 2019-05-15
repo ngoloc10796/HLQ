@@ -6,8 +6,6 @@ angular.module("Auth").service('AuthService', ['$rootScope', '$http',
     this.getType = () => {
       return new Promise(function (resolve, reject) {
         var access_token = localStorage.getItem('access_token');
-        console.log(access_token);
-        
         $http.get(MyConfig.host + "/api/type", {
           headers: {
             "Content-Type": "application/json",
@@ -15,21 +13,10 @@ angular.module("Auth").service('AuthService', ['$rootScope', '$http',
           }
         })
           .then(function (response) {
-            debugger;
             resolve(response);
           }, function (error) {
-            debugger;
             reject(error);
           });
-
-        // $.ajax({
-        //   url: MyConfig.host + "/api/type",
-        //   headers: { 
-        //     "Content-Type": "application/json",
-        //     "authorization": "Bearer " + access_token
-        //   }
-        // }).done(function() {
-        // });
       })
     };
 
@@ -64,18 +51,18 @@ angular.module("Auth").service('AuthService', ['$rootScope', '$http',
       let now = new Date().getTime();
       let access_expireTime = localStorage.getItem('access_expireTime');
 
-      if(isTooken){
-        if(now < access_expireTime){
+      if (isTooken) {
+        if (now < access_expireTime) {
           return true;
         }
-        else{
+        else {
           return false;
         }
       }
-      else{
+      else {
         return false;
       }
-      
+
     };
 
     // đăng xuất

@@ -117,12 +117,25 @@ App_Dictionary = [
   ['', '', ''],
 
   ['location', 'Địa danh hành chính', ''],
+
+
   ['Province', 'Tỉnh', ''],
-  ['District', 'Huyện', ''],
-  ['Commune', 'Xã', ''],
   ['province', 'tỉnh', ''],
+  ['province_name', 'Tên tỉnh', ''],
+  ['province_numericalOrder', 'Thứ tự', ''],
+  ['province_description', 'Mô tả', ''],
+
+  ['District', 'Huyện', ''],
   ['district', 'huyện', ''],
+  ['district_name', 'Tên huyện', ''],
+  ['district_numericalOrder', 'Thứ tự', ''],
+  ['district_description', 'Mô tả', ''],
+
+  ['Commune', 'Xã', ''],
   ['commune', 'xã', ''],
+  ['commune_name', 'Tên xã', ''],
+  ['commune_numericalOrder', 'Thứ tự', ''],
+  ['commune_description', 'Mô tả', ''],
 
   ['Nation', 'Dân tộc', ''],
   ['nation', 'dân tộc', ''],

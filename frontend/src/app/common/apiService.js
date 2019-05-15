@@ -64,24 +64,34 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG','Restangular',
       reject(err);
     };
 
-    function createFn(item_module){
+    function createFn(item_module,item_id){
       var url = "/api/category";
 
       _this[item_module] = {
         findById: function (id, objMessage) {
+          //objData.typeCode = item_module;
+          //objData.typeId = item_id;
           return new Promise(function (resolve, reject) {
-            mushroom.faq.findById({ id: id })
+            Restangular.all(url).customGET("", { id: id }).then(function (response){
+              checkSuccess(resolve, "findById", response, objMessage);
+            },function(error){
+              checkError(reject, "findById", error, objMessage);
+            });
+
+            /* mushroom.faq.findById({ id: id })
               .done(function (response) {
                 checkSuccess(resolve, "findById", response, objMessage);
               })
               .fail(function (error) {
                 checkError(reject, "findById", error, objMessage);
-              });
+              }); */
           });
         },
 
         list: function (objData, objMessage) {
+          debugger;
           objData.typeCode = item_module;
+          objData.typeId = item_id;
           return new Promise(function (resolve, reject) {
             Restangular.all(url).customGET("", objData).then(function (response, info){
               checkSuccess(resolve, "list", { data: response, info: info }, objMessage);
@@ -101,6 +111,8 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG','Restangular',
         },
 
         create: function (objData, objMessage) {
+          objData.typeCode = item_module;
+          objData.typeId = item_id;
           return new Promise(function (resolve, reject) {
             Restangular.all(url).customPOST(objData).then(function (response){
               checkSuccess(resolve, "create", response, objMessage);
@@ -120,26 +132,41 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG','Restangular',
         },
 
         update: function (objData, objMessage) {
+          objData.typeCode = item_module;
+          objData.typeId = item_id;
           return new Promise(function (resolve, reject) {
-            mushroom.faq.partialUpdate(objData)
+            Restangular.all(url).customPUT(objData).then(function (response){
+              checkSuccess(resolve, "update", response, objMessage);
+            },function(error){
+              checkError(reject, "update", error, objMessage);
+            });
+
+            /* mushroom.faq.partialUpdate(objData)
               .done(function (response) {
                 checkSuccess(resolve, "update", response, objMessage);
               })
               .fail(function (error) {
                 checkError(reject, "update", error, objMessage);
-              });
+              }); */
           });
         },
 
         delete: function (id, objMessage) {
+          // objData.typeCode = item_module;
           return new Promise(function (resolve, reject) {
-            mushroom.faq.delete({ id: id })
+            Restangular.all(url).customDELETE({ id: id }).then(function (response){
+              checkSuccess(resolve, "delete", response, objMessage);
+            },function(error){
+              checkError(reject, "delete", error, objMessage);
+            });
+
+            /* mushroom.faq.delete({ id: id })
               .done(function (response) {
                 checkSuccess(resolve, "delete", response, objMessage);
               })
               .fail(function (error) {
                 checkError(reject, "delete", error, objMessage);
-              });
+              }); */
           });
         },
 
@@ -157,11 +184,15 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG','Restangular',
       }
     };
 
-    var listModule = ["province", "district", "commune"];
+    var listModule = [{"code":"province","id":"1"},{"code":"district","id":"2"},{"code":"commune","id":"3"}];
 
-    for (let i = 0; i < listModule.length; i++) {
-      createFn(listModule[i]);
-    }  
+    $.each(listModule,function(index,val){
+      createFn(val.code,val.id);
+    });
+
+    // for (let i = 0; i < listModule.length; i++) {
+    //   createFn(listModule[i]);
+    // }  
 
   }
 ]);

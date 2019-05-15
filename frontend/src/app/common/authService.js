@@ -7,7 +7,8 @@ angular.module("Auth").service('AuthService', ['$rootScope', '$http',
       return new Promise(function (resolve, reject) {
         var access_token = localStorage.getItem('access_token');
         console.log(access_token);
-        $http.get(MyConfig.host + "/api/type", { }, {
+        
+        $http.get(MyConfig.host + "/api/type", {
           headers: {
             "Content-Type": "application/json",
             "Authorization": "Bearer " + access_token
@@ -20,6 +21,15 @@ angular.module("Auth").service('AuthService', ['$rootScope', '$http',
             debugger;
             reject(error);
           });
+
+        // $.ajax({
+        //   url: MyConfig.host + "/api/type",
+        //   headers: { 
+        //     "Content-Type": "application/json",
+        //     "authorization": "Bearer " + access_token
+        //   }
+        // }).done(function() {
+        // });
       })
     };
 

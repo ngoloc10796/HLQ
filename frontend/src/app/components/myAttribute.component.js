@@ -11,7 +11,6 @@
       },
       link: function ($scope, $element, $attrs) {
         var html = ``;
-        debugger;
         if($scope.mAttribute && $scope.mAttribute.length>0){
           for (let i = 0; i < $scope.mAttribute.length; i++) {
             html += `<div class="row">`;

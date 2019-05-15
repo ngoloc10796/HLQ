@@ -16,10 +16,12 @@ import hlq.com.entitys.Category;
 public interface CategoryRepository extends JpaRepository<Category, Integer> {
 	public Category findById(int id);
 
-	@Query("select s from Category s where (s.code like :code or :code is null)"
+	@Query("select s from Category s,Type t where  s.typeId = t.id" + " AND (s.code like :code or :code is null)"
 			+ " AND (s.name like :name or :name is null)"
-			+ " AND  (s.description like :description or :description is null)")
+			+ " AND  (s.description like :description or :description is null)"
+			+ " AND (s.typeId = :typeId or :typeId is null)" + " AND (t.code = :typeCode or :typeCode is null)")
 	public Page<Category> getAndPaging(@Param("code") String code, @Param("name") String name,
-			@Param("description") String description, Pageable pageRequest);
+			@Param("description") String description, @Param("typeId") Integer typeId,
+			@Param("typeCode") String typeCode, Pageable pageRequest);
 
 }

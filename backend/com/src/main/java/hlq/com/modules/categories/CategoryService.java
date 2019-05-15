@@ -41,11 +41,10 @@ public class CategoryService {
 	}
 
 	public Page<Category> getPage(int page, int size, String sortBy, String sortType, String name, String code,
-			String description) {
+			String description, Integer typeId,String typeCode) {
 		Sort.Order order = new Sort.Order(
 				Contants.ORDER_ASC.equalsIgnoreCase(sortType) ? Direction.ASC : Direction.DESC, sortBy).ignoreCase();
-
-		return repo.getAndPaging(code, name, description, new PageRequest(page, size, new Sort(order)));
+		return repo.getAndPaging(code, name, description, typeId,typeCode, new PageRequest(page, size, new Sort(order)));
 	}
 
 	public void delete(int id, ResponseBean response) {

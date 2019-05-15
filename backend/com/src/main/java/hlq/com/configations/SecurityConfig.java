@@ -42,7 +42,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		// Disable crsf cho đường dẫn /rest/**
-		http.csrf().ignoringAntMatchers("/api/**");
+
+		http.csrf().ignoringAntMatchers("/api/**").disable();
+		http.authorizeRequests().antMatchers("/admin").permitAll();
 		http.authorizeRequests().antMatchers("/api/login").permitAll();
 		http.authorizeRequests().antMatchers("/api/**").permitAll();
 		http.antMatcher("/api/**").httpBasic().authenticationEntryPoint(restServicesEntryPoint()).and()
@@ -59,5 +61,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public void configure(WebSecurity web) throws Exception {
 		web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources", "/configuration/security",
 				"/swagger-ui.html", "/webjars/**");
+
 	}
 }

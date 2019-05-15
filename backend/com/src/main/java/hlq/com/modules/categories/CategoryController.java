@@ -31,10 +31,12 @@ public class CategoryController extends BaseController {
 			@RequestParam(value = "sortType", required = false, defaultValue = "asc") String sortType,
 			@RequestParam(value = "name", required = false) String name,
 			@RequestParam(value = "code", required = false) String code,
-			@RequestParam(value = "description", required = false) String description) {
+			@RequestParam(value = "description", required = false) String description,
+			@RequestParam(value = "typeId", required = false) Integer typeId,
+			@RequestParam(value = "typeCode", required = false) String typeCode) {
 		ResponseBean response = new ResponseBean();
 		try {
-			response.setData(service.getPage(page, size, sortBy, sortType, name, code, description));
+			response.setData(service.getPage(page, size, sortBy, sortType, name, code, description, typeId, typeCode));
 			return response(response);
 		} catch (Exception e) {
 			return responseError(response, e.getMessage());

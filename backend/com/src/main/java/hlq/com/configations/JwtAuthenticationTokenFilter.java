@@ -33,13 +33,19 @@ public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthentication
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-
+		HttpServletResponse response1 = (HttpServletResponse) response;
+		response1.setHeader("Access-Control-Allow-Origin", "*");
+		response1.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
+		response1.setHeader("Access-Control-Max-Age", "3600");
+		response1.setHeader("Access-Control-Allow-Headers",
+				"Content-Type, Authorization, Content-Length, X-Requested-With");
+		
 		ResponseBean resBean = new ResponseBean();
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 		if (request instanceof HttpServletRequest) {
 			String url = httpRequest.getRequestURI();
 			String ignored = "/v2/api-docs" + "/configuration/ui" + "/swagger-resources" + "/configuration/security"
-					+ "/swagger-ui.html" + "/webjars" + "/api/swagger.json" + "/v2/api-docs" + "/api/login";
+					+ "/swagger-ui.html" + "/webjars" + "/api/swagger.json" + "/v2/api-docs" + "/api/login" + "/admin";
 
 			if (ignored.contains(url) || (url.contains("webjars"))
 					|| (url.contains("swagger-resources") || (url.contains("testapi")))) {

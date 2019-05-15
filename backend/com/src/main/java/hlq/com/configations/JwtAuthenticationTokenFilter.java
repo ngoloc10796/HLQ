@@ -46,7 +46,8 @@ public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthentication
 		if (request instanceof HttpServletRequest) {
 			String url = httpRequest.getRequestURI();
 			String ignored = "/v2/api-docs" + "/configuration/ui" + "/swagger-resources" + "/configuration/security"
-					+ "/swagger-ui.html" + "/webjars" + "/api/swagger.json" + "/v2/api-docs" + "/api/login" + "/admin";
+					+ "/swagger-ui.html" + "/webjars" + "/api/swagger.json" + "/v2/api-docs" + "/api/login"
+					+ "/api/register" + "/admin";
 
 			if (ignored.contains(url) || (url.contains("webjars"))
 					|| (url.contains("swagger-resources") || (url.contains("testapi")))) {

@@ -29,7 +29,8 @@ public class Register implements Serializable {
 	private int id;
 
 	private String aspirations1;
-
+	private String name;
+	private String email;
 	private String aspirations2;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -110,6 +111,22 @@ public class Register implements Serializable {
 		if (category2 == null)
 			return null;
 		return category2.getName();
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public void setDistrict(String district) {

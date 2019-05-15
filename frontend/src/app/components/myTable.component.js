@@ -418,12 +418,13 @@
                   }
                 }
 
-
               });
 
               for (let i = 0; i < arrOperator.length; i++) {
                 filter = filter + arrOperator[i] + "&";
               }
+
+
               //cắt dấu & cuối
               filter = filter.slice(0, -1);
 
@@ -433,10 +434,16 @@
             }
 
             var objFilter = {
-              filters: filter,
-              limit: $scope.urlParams.limit,
-              offset: $scope.urlParams.offset,
-              sort: sortTypeList
+              //filters: filter,
+              //limit: $scope.urlParams.limit,
+              //offset: $scope.urlParams.offset,
+              //sort: sortTypeList
+
+              size: $scope.urlParams.limit,
+              page: $scope.urlParams.page - 1,
+              sortType: $scope.urlParams.sortType,
+              sortBy: $scope.urlParams.sortBy,
+
             };
             var value = {};
 

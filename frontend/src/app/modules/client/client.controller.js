@@ -13,52 +13,85 @@
       $scope.modelSearch = "dataSearch";
       $scope.currentScope = $scope;
 
-      $scope.$on("$viewContentLoaded", function () { });
+      $scope.$on("$viewContentLoaded", function () {
+        $scope.getListProvince();
+        $scope.getListDistrict();
+        $scope.getListCommune();
+      });
 
       $scope.attrForm = [
         [{
-          name: "hvt",
+          name: "name",
           col: "4",
-          required: false,
+          required: true,
           ngDisabled: false,
           type: "text",
         },
         {
-          name: "sdt",
+          name: "phone",
           col: "4",
-          required: false,
+          required: true,
           ngDisabled: false,
-          type: "text",
+          type: "number-integer",
         },
         {
-          name: "ns",
+          name: "birthday",
           col: "4",
-          required: false,
+          required: true,
           ngDisabled: false,
           type: "date",
         },
         ],
         [
           {
-            name: "ttp",
+            name: "provinceId",
             col: "4",
-            required: false,
+            required: true,
             ngDisabled: false,
             type: "select",
             mOption: "listProvince",
             mKeytotext: "name",
-            mKeytoid: "ma",
           },
           {
-            name: "qh",
+            name: "districtId",
             col: "4",
-            required: false,
+            required: true,
+            ngDisabled: false,
+            type: "select",
+            mOption: "listDistrict",
+            mKeytotext: "name",
+
+          },
+          {
+            name: "communeId",
+            col: "4",
+            required: true,
+            ngDisabled: false,
+            type: "select",
+            mOption: "listCommune",
+            mKeytotext: "name",
+
+          }
+        ],
+        [
+          {
+            name: "peopleId",
+            col: "4",
+            required: true,
             ngDisabled: false,
             type: "text",
 
           },
           {
-            name: "xt",
+            name: "permanentResidence",
+            col: "4",
+            required: true,
+            ngDisabled: false,
+            type: "text",
+
+          },
+          {
+            name: "schools",
             col: "4",
             required: false,
             ngDisabled: false,
@@ -68,7 +101,7 @@
         ],
         [
           {
-            name: "scmnd",
+            name: "youGraduated",
             col: "4",
             required: false,
             ngDisabled: false,
@@ -76,25 +109,26 @@
 
           },
           {
-            name: "hktt",
+            name: "graduationYear",
             col: "4",
             required: false,
             ngDisabled: false,
-            type: "text",
+            type: "date",
+            valid: "m-type='year'"
 
           },
           {
-            name: "tthcs",
+            name: "score",
             col: "4",
             required: false,
             ngDisabled: false,
-            type: "text",
+            type: "number-float",
 
           }
         ],
         [
           {
-            name: "bdtn",
+            name: "wantToApply",
             col: "4",
             required: false,
             ngDisabled: false,
@@ -102,7 +136,7 @@
 
           },
           {
-            name: "ntn",
+            name: "aspirations1",
             col: "4",
             required: false,
             ngDisabled: false,
@@ -110,44 +144,17 @@
 
           },
           {
-            name: "dtkhb",
+            name: "aspirations2",
             col: "4",
             required: false,
             ngDisabled: false,
             type: "text",
-
-          }
-        ],
-        [
-          {
-            name: "bmxt",
-            col: "4",
-            required: false,
-            ngDisabled: false,
-            type: "text",
-
-          },
-          {
-            name: "nv1",
-            col: "4",
-            required: false,
-            ngDisabled: false,
-            type: "text",
-
-          },
-          {
-            name: "nv2",
-            col: "4",
-            required: false,
-            ngDisabled: false,
-            type: "text",
-
           }
         ],
 
         [
           {
-            name: "gc",
+            name: "mailingAddress",
             col: "12",
             required: false,
             ngDisabled: false,
@@ -155,7 +162,7 @@
 
           },
           {
-            name: "dt",
+            name: "phoneAnswered",
             col: "4",
             required: false,
             ngDisabled: false,
@@ -163,7 +170,7 @@
 
           },
           {
-            name: "lfb",
+            name: "linkFacebook",
             col: "8",
             required: false,
             ngDisabled: false,
@@ -174,15 +181,33 @@
 
       ];
 
-      $scope.listProvince =
-        [{
-          ma: "hn",
-          name: "Hà Nội"
-        },
-        {
-          ma: "hcm",
-          name: "Hồ Chí Minh"
-        }];
+      $scope.getListProvince = function () {
+        ApiService['province'].list({ size: 1000 }).then(function (res) {
+          $scope.$apply(function () {
+            $scope.listProvince = res.data.content;
+          });
+        })
+      };
+      
+      $scope.getListDistrict = function () {
+        ApiService['district'].list({ size: 1000 }).then(function (res) {
+          $scope.$apply(function () {
+            $scope.listDistrict = res.data.content;
+          });
+        })
+      };
+
+      $scope.getListCommune = function () {
+        ApiService['commune'].list({ size: 1000 }).then(function (res) {
+          $scope.$apply(function () {
+            $scope.listCommune = res.data.content;
+          });
+        })
+      };
+
+      $scope.create = function(){
+        ApiService['register'].create($scope[$scope.modelForm]);
+      };
 
     });
 })();

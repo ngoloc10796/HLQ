@@ -16,9 +16,20 @@
       $scope.currentScope = $scope;
 
       $scope.attrForm = [
-        [{
+        [
+          {
+            title: "district_name",
+            name: "parentId",
+            col: "3",
+            required: true,
+            ngDisabled: "viewMode == 'detail'",
+            type: "select",
+            mOption: "listDistrict",
+            mKeytotext: "name",
+          },
+          {
           name: "name",
-          col: "6",
+          col: "3",
           required: true,
           ngDisabled: "viewMode == 'detail'",
           type: "text",
@@ -47,6 +58,7 @@
           $scope.initTable();
         } else if ($state.current.name == $scope.route + ".create") {
           $scope.viewMode = "create";
+          $scope.getListDistrict();
         } else {
           if ($state.current.name == $scope.route + ".update") {
             $scope.viewMode = "update";
@@ -54,13 +66,22 @@
           if ($state.current.name == $scope.route + ".detail") {
             $scope.viewMode = "detail";
           }
+          $scope.getListDistrict();
           ApiService[$scope.module].findById($stateParams.id).then(function (res) {
             $scope.$apply(function () {
-              $scope[$scope.modelForm] = res;
+              $scope[$scope.modelForm] = res.data;
             });
           })
         }
       });
+
+      $scope.getListDistrict = function () {
+        ApiService['district'].list({size: 1000}).then(function (res) {
+          $scope.$apply(function () {
+            $scope.listDistrict = res.data.content;
+          });
+        })
+      };
 
       $scope.search = function () {
         // hàm được viết trong myTable
@@ -116,12 +137,24 @@
           customButtons: [],
           customList: null,
           customOperatorSearch: null,
-          columns: [{
-            type: "stt"
+          columns: [
+          //   {
+          //   type: "stt"
+          // },
+          {
+            title: a_language.province_numericalOrder,
+            data: "numericalOrder",
+            width: "50px",
+            className:"text-center"
           },
           {
             title: a_language.commune_name,
             data: "name",
+            width: "200px",
+          },
+          {
+            title: a_language.district_name,
+            data: "parentId",
             width: "200px",
           },
           {

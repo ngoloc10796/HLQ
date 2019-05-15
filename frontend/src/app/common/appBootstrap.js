@@ -340,6 +340,18 @@ deferredBootstrapper.bootstrap({
             ],
             childItems: null            
           },
+          {
+            title: language.Register,
+            showInMenuIsRoles: ["*"],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: "fa fa-graduation-cap",
+            state: "admin.register.list",
+            activeState: [
+              "admin.register.create", "admin.register.update", "admin.register.detail",
+            ],
+            childItems: null            
+          },
           
         ];
 
@@ -396,7 +408,7 @@ deferredBootstrapper.bootstrap({
           var newMenu = createMenu(["*"]);       
           App.unblockUI();
 
-          AuthService.getType().then(function(res){
+          /* AuthService.getType().then(function(res){
             res.data.data.content
             resolve({
               userInfo: "admin",
@@ -417,9 +429,9 @@ deferredBootstrapper.bootstrap({
                 language: language
               }
             });
-          });
+          }); */
 
-          /* resolve({
+          resolve({
             userInfo: "admin",
             menuConfig: newMenu,
             languageConfig: {
@@ -427,7 +439,7 @@ deferredBootstrapper.bootstrap({
               translations_en: translations_en,
               language: language
             }
-          }); */
+          });
 
           /* AuthService.me().then(function (res) {
             var newMenu = createMenu(res.roles);

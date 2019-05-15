@@ -65,14 +65,14 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG','Restangular',
     };
 
     function createFn(item_module,item_id){
-      var url = "/api/category";
+      let url = "/api/category";
 
       _this[item_module] = {
         findById: function (id, objMessage) {
           //objData.typeCode = item_module;
           //objData.typeId = item_id;
           return new Promise(function (resolve, reject) {
-            Restangular.all(url).customGET("", { id: id }).then(function (response){
+            Restangular.all(url).customGET(id).then(function (response){
               checkSuccess(resolve, "findById", response, objMessage);
             },function(error){
               checkError(reject, "findById", error, objMessage);
@@ -89,12 +89,11 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG','Restangular',
         },
 
         list: function (objData, objMessage) {
-          debugger;
           objData.typeCode = item_module;
           objData.typeId = item_id;
           return new Promise(function (resolve, reject) {
             Restangular.all(url).customGET("", objData).then(function (response, info){
-              checkSuccess(resolve, "list", { data: response, info: info }, objMessage);
+              checkSuccess(resolve, "list", { data: response.data, info: info }, objMessage);
             },function(error){
               checkError(reject, "list", error, objMessage);
             });
@@ -154,7 +153,7 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG','Restangular',
         delete: function (id, objMessage) {
           // objData.typeCode = item_module;
           return new Promise(function (resolve, reject) {
-            Restangular.all(url).customDELETE({ id: id }).then(function (response){
+            Restangular.all(url).customDELETE(id).then(function (response){
               checkSuccess(resolve, "delete", response, objMessage);
             },function(error){
               checkError(reject, "delete", error, objMessage);
@@ -190,9 +189,121 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG','Restangular',
       createFn(val.code,val.id);
     });
 
-    // for (let i = 0; i < listModule.length; i++) {
-    //   createFn(listModule[i]);
-    // }  
+    let url = "/api/register";
+    _this['register'] = {      
+      findById: function (id, objMessage) {
+        //objData.typeCode = item_module;
+        //objData.typeId = item_id;
+        return new Promise(function (resolve, reject) {
+          Restangular.all(url).customGET(id).then(function (response){
+            checkSuccess(resolve, "findById", response, objMessage);
+          },function(error){
+            checkError(reject, "findById", error, objMessage);
+          });
+
+          /* mushroom.faq.findById({ id: id })
+            .done(function (response) {
+              checkSuccess(resolve, "findById", response, objMessage);
+            })
+            .fail(function (error) {
+              checkError(reject, "findById", error, objMessage);
+            }); */
+        });
+      },
+
+      list: function (objData, objMessage) {
+        // objData.typeCode = item_module;
+        // objData.typeId = item_id;
+        return new Promise(function (resolve, reject) {
+          Restangular.all(url).customGET("", objData).then(function (response, info){
+            checkSuccess(resolve, "list", { data: response.data, info: info }, objMessage);
+          },function(error){
+            checkError(reject, "list", error, objMessage);
+          });
+
+
+            // .done(function (response, info) {
+            //   checkSuccess(resolve, "list", { data: response, info: info }, objMessage);
+            // })
+            // .fail(function (error) {
+            //   checkError(reject, "list", error, objMessage);
+            // });
+
+        });
+      },
+
+      create: function (objData, objMessage) {
+        // objData.typeCode = item_module;
+        // objData.typeId = item_id;
+        return new Promise(function (resolve, reject) {
+          Restangular.all(url).customPOST(objData).then(function (response){
+            checkSuccess(resolve, "create", response, objMessage);
+          },function(error){
+            checkError(reject, "create", error, objMessage);
+          });
+
+          /* mushroom.faq.create(objData)
+            .done(function (response) {
+              checkSuccess(resolve, "create", response, objMessage);
+            })
+            .fail(function (error) {
+              checkError(reject, "create", error, objMessage);
+            }); */
+
+        });
+      },
+
+      update: function (objData, objMessage) {
+        // objData.typeCode = item_module;
+        // objData.typeId = item_id;
+        return new Promise(function (resolve, reject) {
+          Restangular.all(url).customPUT(objData).then(function (response){
+            checkSuccess(resolve, "update", response, objMessage);
+          },function(error){
+            checkError(reject, "update", error, objMessage);
+          });
+
+          /* mushroom.faq.partialUpdate(objData)
+            .done(function (response) {
+              checkSuccess(resolve, "update", response, objMessage);
+            })
+            .fail(function (error) {
+              checkError(reject, "update", error, objMessage);
+            }); */
+        });
+      },
+
+      delete: function (id, objMessage) {
+        // objData.typeCode = item_module;
+        return new Promise(function (resolve, reject) {
+          Restangular.all(url).customDELETE(id).then(function (response){
+            checkSuccess(resolve, "delete", response, objMessage);
+          },function(error){
+            checkError(reject, "delete", error, objMessage);
+          });
+
+          /* mushroom.faq.delete({ id: id })
+            .done(function (response) {
+              checkSuccess(resolve, "delete", response, objMessage);
+            })
+            .fail(function (error) {
+              checkError(reject, "delete", error, objMessage);
+            }); */
+        });
+      },
+
+      deleteList: function (arr, objMessage) {
+        return new Promise(function (resolve, reject) {
+          mushroom.faq.batchDelete(arr)
+            .done(function (response, info) {
+              checkSuccess(resolve, "deleteList", { response: response, info: info }, objMessage);
+            })
+            .fail(function (error) {
+              checkError(reject, "deleteList", error, objMessage);
+            });
+        });
+      }
+    }
 
   }
 ]);

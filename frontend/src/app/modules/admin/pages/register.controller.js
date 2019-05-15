@@ -2,12 +2,12 @@
   "use strict";
   angular
     .module("MyApp")
-    .controller("district.Controller", function ($rootScope, $scope, $timeout, $q, $state, $stateParams, $compile, AuthService, ApiService, APP_CONFIG) {
+    .controller("register.Controller", function ($rootScope, $scope, $timeout, $q, $state, $stateParams, $compile, AuthService, ApiService, APP_CONFIG) {
 
       var a_language = APP_CONFIG.languageConfig.language;
       var a_userInfo = APP_CONFIG.userInfo;
 
-      $scope.module = "district";
+      $scope.module = "register";
       $scope.route = "admin." + $scope.module;
       $scope.modelForm = "dataForm";
       $scope.modelSearch = "dataSearch";
@@ -16,18 +16,7 @@
       $scope.currentScope = $scope;
 
       $scope.attrForm = [
-        [
-          {
-            title: "province_name",
-            name: "parentId",
-            col: "3",
-            required: true,
-            ngDisabled: "viewMode == 'detail'",
-            type: "select",
-            mOption: "listProvince",
-            mKeytotext: "name",
-          },
-          {
+        [{
           name: "name",
           col: "3",
           required: true,
@@ -58,7 +47,6 @@
           $scope.initTable();
         } else if ($state.current.name == $scope.route + ".create") {
           $scope.viewMode = "create";
-          $scope.getListProvince();
         } else {
           if ($state.current.name == $scope.route + ".update") {
             $scope.viewMode = "update";
@@ -66,7 +54,6 @@
           if ($state.current.name == $scope.route + ".detail") {
             $scope.viewMode = "detail";
           }
-          $scope.getListProvince();
           ApiService[$scope.module].findById($stateParams.id).then(function (res) {
             $scope.$apply(function () {
               $scope[$scope.modelForm] = res.data;
@@ -74,15 +61,6 @@
           })
         }
       });
-
-      $scope.getListProvince = function () {
-        ApiService['province'].list({size: 1000}).then(function (res) {
-          $scope.$apply(function () {
-            $scope.listProvince = res.data.content;
-          });
-        })
-      };
-      
 
       $scope.search = function () {
         // hàm được viết trong myTable
@@ -132,42 +110,43 @@
           allowDrag: false,
           orderDefault: ["name", "asc"],
           allowUpdate: $state.current.update,
-          allowButtons: ["create"],
-          allowActions: ["view", "update", "delete"],
+          allowButtons: [],
+          allowActions: [],
           excelColumn: [1, 2, 3, 4, 6, 7],
           customButtons: [],
           customList: null,
           customOperatorSearch: null,
           columns: [
-          //   {
-          //   type: "stt"
-          // },
-          {
-            title: a_language.province_numericalOrder,
-            data: "numericalOrder",
-            width: "50px",
-            className:"text-center"
-          },
-          {
-            title: a_language.district_name,
-            data: "name",
-            width: "200px",
-          },
-          {
-            title: a_language.province_name,
-            data: "parentId",
-            width: "200px",
-          },
-          {
-            title: a_language.district_description,
-            data: "description",
-            width: "auto",
+            {
+            type: "stt"
           },
           // {
-          //   title: a_language.district_numericalOrder,
+          //   title: a_language.province_numericalOrder,
           //   data: "numericalOrder",
           //   width: "50px",
-          // }
+          //   className:"text-center"
+          // },
+          {
+            title: a_language.client_name,
+            data: "name",
+            width: "auto",
+          },
+          {
+            title: a_language.client_phone,
+            data: "phone",
+            width: "150px",
+          },
+          {
+            title: a_language.client_birthday,
+            data: "birthday",
+            width: "150px",
+          },
+          // {
+          //   title: a_language.province_description,
+          //   data: "description",
+          //   width: "auto",
+          // },
+          
           ]
         };
       };

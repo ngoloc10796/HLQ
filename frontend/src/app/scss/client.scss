@@ -1,0 +1,33 @@
+#client-page {
+  background: #1bbc9b;
+  min-height: 100vh;
+  overflow-x: hidden;
+  
+  .title{
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+    font-size: 30px;
+    margin: 30px;
+    font-family: initial;
+  }
+  .form-control{
+    border: none;
+  }
+  .control-label{
+    color: #fff;
+    font-size: 14px;
+  }
+  .input-group-addon{
+    background: #fff !important;
+    border: 1px solid #fff;
+    .btn.default:not(.btn-outline){
+      background-color: #ffffff;
+      box-shadow: none;
+    }
+  }
+  .select2-selection__rendered{
+    text-align: left;
+  }
+
+}

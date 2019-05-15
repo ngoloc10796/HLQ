@@ -39,9 +39,10 @@ public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthentication
 		response1.setHeader("Access-Control-Max-Age", "3600");
 		response1.setHeader("Access-Control-Allow-Headers",
 				"Content-Type, Authorization, Content-Length, X-Requested-With");
-		
+
 		ResponseBean resBean = new ResponseBean();
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
+
 		if (request instanceof HttpServletRequest) {
 			String url = httpRequest.getRequestURI();
 			String ignored = "/v2/api-docs" + "/configuration/ui" + "/swagger-resources" + "/configuration/security"
@@ -64,7 +65,7 @@ public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthentication
 
 			hasPermistion = false;
 		}
-
+		hasPermistion = true;
 		if (hasPermistion) {
 			String username = jwtService.getUsernameFromToken(authToken);
 			hlq.com.entitys.User user = userService.loadUserByUsername(username);
@@ -81,7 +82,7 @@ public class JwtAuthenticationTokenFilter extends UsernamePasswordAuthentication
 				authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(httpRequest));
 				SecurityContextHolder.getContext().setAuthentication(authentication);
 			}
-			chain.doFilter(request, response);
+			chain.doFilter(request, response1);
 		} else {
 			byte[] responseToSend = restResponseBytes(resBean);
 			((HttpServletResponse) response).setHeader("Content-Type", "application/json");

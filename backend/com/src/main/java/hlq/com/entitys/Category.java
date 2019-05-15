@@ -35,8 +35,14 @@ public class Category implements Serializable {
 	private int numericalOrder;
 
 	@Column(name = "parent_id")
+	private Integer parentId;
 
-	private int parentId;
+	@Transient
+	private String parent;
+
+	@ManyToOne
+	@JoinColumn(name = "parent_id", insertable = false, updatable = false)
+	private Category category1;
 
 	@Column(name = "TYPE_ID")
 	private Integer typeId;
@@ -53,6 +59,16 @@ public class Category implements Serializable {
 
 	public int getId() {
 		return this.id;
+	}
+
+	public String getParent() {
+		if (category1 == null)
+			return null;
+		return category1.getName();
+	}
+
+	public void setParent(String parent) {
+		this.parent = parent;
 	}
 
 	public Integer getTypeId() {
@@ -103,11 +119,11 @@ public class Category implements Serializable {
 		this.numericalOrder = numericalOrder;
 	}
 
-	public int getParentId() {
+	public Integer getParentId() {
 		return this.parentId;
 	}
 
-	public void setParentId(int parentId) {
+	public void setParentId(Integer parentId) {
 		this.parentId = parentId;
 	}
 

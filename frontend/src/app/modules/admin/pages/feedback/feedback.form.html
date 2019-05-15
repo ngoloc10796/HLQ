@@ -1,0 +1,96 @@
+<div class="portlet light bordered" id="{{module}}-page">
+  <div class="portlet-title">
+    <div class="caption">
+      <span class="caption-subject bold uppercase" ng-if="viewMode == 'create'"> {{'c_create' | translate}}
+        {{module | translate}}
+      </span>
+      <span class="caption-subject bold uppercase" ng-if="viewMode == 'update'"> {{'c_update' | translate}}
+        {{module | translate}}
+      </span>
+      <span class="caption-subject bold uppercase" ng-if="viewMode == 'detail'"> {{'c_detail' | translate}}
+        {{module | translate}}
+      </span>
+    </div>
+  </div>
+  <div class="portlet-body">
+    <form my-form update-function="update()" create-function="create()" cancel-function="gotolist()">
+      <div class="form-body form-horizontal">
+
+       <!--  <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="col-md-12 control-label"> {{'feedback_name' | translate}} <span class="required">*</span>
+              </label>
+              <div class="col-md-12">
+                <input type="text" class="form-control" ng-model="dataForm.name" name="name"
+                  ng-disabled="viewMode == 'detail'" required />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="col-md-12 control-label"> {{'feedback_email' | translate}} <span class="required">*</span>
+              </label>
+              <div class="col-md-12">
+                <input type="text" class="form-control" ng-model="dataForm.email" name="email"
+                  ng-disabled="viewMode == 'detail'" required />
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="col-md-12 control-label"> {{'feedback_phone' | translate}} <span class="required">*</span>
+              </label>
+              <div class="col-md-12">
+                <input type="text" class="form-control" ng-model="dataForm.phone" name="phone"
+                  ng-disabled="viewMode == 'detail'"/>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="col-md-12 control-label"> {{'feedback_status' | translate}}<span class="required">*</span>
+              </label>
+              <div class="col-md-12">
+                <select my-select m-clear m-keytotext="name" m-keytoid="ma"  class="form-control" ng-model="dataForm.status" name="status" 
+                  m-option="listStatus" required-select2 ng-disabled="viewMode == 'detail'"></select>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="col-md-12 control-label"> {{'feedback_email' | translate}} <span class="required">*</span>
+              </label>
+              <div class="col-md-12">
+                <input type="text" class="form-control" ng-model="dataForm.email" name="email"
+                  ng-disabled="viewMode == 'detail'" required />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label class="col-md-12 control-label"> {{'feedback_message' | translate}} <span class="required">*</span>
+              </label>
+              <div class="col-md-12">
+                <textarea type="text" class="form-control" ng-model="dataForm.message" name="message"
+                  ng-disabled="viewMode == 'detail'" required></textarea>
+              </div>
+            </div>
+          </div>
+        </div> -->
+
+        <my-attribute m-scope="currentScope" m-attribute="attrForm" m-module="{{module}}" m-model="{{modelForm}}"></my-attribute>
+
+        <div class="form-group form-actions text-center">
+          <my-button-create ng-if="viewMode == 'create'"></my-button-create>
+          <my-button-update ng-if="viewMode == 'update'"></my-button-update>
+          <my-button-cancel m-text="{{'c_back' | translate}}"></my-button-cancel>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

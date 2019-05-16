@@ -352,6 +352,36 @@ deferredBootstrapper.bootstrap({
             ],
             childItems: null            
           },
+          {
+            title: language.c_create +" "+language.register,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.register.create",
+            activeState: null,
+            childItems: null
+          },
+          {
+            title: language.c_update +" "+language.register,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.register.update",
+            activeState: null,
+            childItems: null
+          },
+          {
+            title: language.c_detail +" "+language.register,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.register.detail",
+            activeState: null,
+            childItems: null
+          },
           
         ];
 

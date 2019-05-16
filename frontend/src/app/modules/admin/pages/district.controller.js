@@ -155,7 +155,7 @@
           },
           {
             title: a_language.province_name,
-            data: "parentId",
+            data: "parent",
             width: "200px",
           },
           {

@@ -2,7 +2,7 @@
 var MyConfig = {};
 
 //Nhận 1 trong các giá trị sau: test | production
-var environment = "test";
+var environment = "production";
 
 if (environment == "test") {
 

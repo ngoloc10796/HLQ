@@ -7,7 +7,7 @@
       var a_language = APP_CONFIG.languageConfig.language;
       var a_userInfo = APP_CONFIG.userInfo;
 
-      $scope.module = "client";
+      $scope.module = "register";
       $scope.route = $scope.module;
       $scope.modelForm = "dataForm";
       $scope.modelSearch = "dataSearch";
@@ -32,7 +32,7 @@
           col: "4",
           required: true,
           ngDisabled: false,
-          type: "number-integer",
+          type: "text",
         },
         {
           name: "birthday",

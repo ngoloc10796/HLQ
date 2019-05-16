@@ -154,7 +154,7 @@
           },
           {
             title: a_language.district_name,
-            data: "parentId",
+            data: "parent",
             width: "200px",
           },
           {

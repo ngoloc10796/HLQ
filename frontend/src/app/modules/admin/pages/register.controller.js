@@ -18,25 +18,163 @@
       $scope.attrForm = [
         [{
           name: "name",
-          col: "3",
+          col: "4",
           required: true,
           ngDisabled: "viewMode == 'detail'",
           type: "text",
         },
         {
-          name: "numericalOrder",
-          col: "2",
+          name: "phone",
+          col: "4",
           required: true,
           ngDisabled: "viewMode == 'detail'",
-          type: "number-integer",
-        }],[
+          type: "text",
+        },
         {
-          name: "description",
-          col: "12",
-          required: false,
+          name: "birthday",
+          col: "4",
+          required: true,
           ngDisabled: "viewMode == 'detail'",
-          type: "textarea",
-        }],
+          type: "date",
+        },
+        ],
+        [
+          {
+            name: "provinceId",
+            col: "4",
+            required: true,
+            ngDisabled: "viewMode == 'detail'",
+            type: "select",
+            mOption: "listProvince",
+            mKeytotext: "name",
+          },
+          {
+            name: "districtId",
+            col: "4",
+            required: true,
+            ngDisabled: "viewMode == 'detail'",
+            type: "select",
+            mOption: "listDistrict",
+            mKeytotext: "name",
+
+          },
+          {
+            name: "communeId",
+            col: "4",
+            required: true,
+            ngDisabled: "viewMode == 'detail'",
+            type: "select",
+            mOption: "listCommune",
+            mKeytotext: "name",
+
+          }
+        ],
+        [
+          {
+            name: "peopleId",
+            col: "4",
+            required: true,
+            ngDisabled: "viewMode == 'detail'",
+            type: "text",
+
+          },
+          {
+            name: "permanentResidence",
+            col: "4",
+            required: true,
+            ngDisabled: "viewMode == 'detail'",
+            type: "text",
+
+          },
+          {
+            name: "schools",
+            col: "4",
+            required: false,
+            ngDisabled: "viewMode == 'detail'",
+            type: "text",
+
+          }
+        ],
+        [
+          {
+            name: "youGraduated",
+            col: "4",
+            required: false,
+            ngDisabled: "viewMode == 'detail'",
+            type: "text",
+
+          },
+          {
+            name: "graduationYear",
+            col: "4",
+            required: false,
+            ngDisabled: "viewMode == 'detail'",
+            type: "date",
+            valid: "m-type='year'"
+
+          },
+          {
+            name: "score",
+            col: "4",
+            required: false,
+            ngDisabled: "viewMode == 'detail'",
+            type: "number-float",
+
+          }
+        ],
+        [
+          {
+            name: "wantToApply",
+            col: "4",
+            required: false,
+            ngDisabled: "viewMode == 'detail'",
+            type: "text",
+
+          },
+          {
+            name: "aspirations1",
+            col: "4",
+            required: false,
+            ngDisabled: "viewMode == 'detail'",
+            type: "text",
+
+          },
+          {
+            name: "aspirations2",
+            col: "4",
+            required: false,
+            ngDisabled: "viewMode == 'detail'",
+            type: "text",
+          }
+        ],
+
+        [
+          {
+            name: "mailingAddress",
+            col: "12",
+            required: false,
+            ngDisabled: "viewMode == 'detail'",
+            type: "text",
+
+          },
+          {
+            name: "phoneAnswered",
+            col: "4",
+            required: false,
+            ngDisabled: "viewMode == 'detail'",
+            type: "text",
+
+          },
+          {
+            name: "linkFacebook",
+            col: "8",
+            required: false,
+            ngDisabled: "viewMode == 'detail'",
+            type: "text",
+
+          }
+        ],
+
       ];
 
       $scope.attrSearch = null;
@@ -47,6 +185,9 @@
           $scope.initTable();
         } else if ($state.current.name == $scope.route + ".create") {
           $scope.viewMode = "create";
+          $scope.getListProvince();
+          $scope.getListDistrict();
+          $scope.getListCommune();
         } else {
           if ($state.current.name == $scope.route + ".update") {
             $scope.viewMode = "update";
@@ -54,6 +195,9 @@
           if ($state.current.name == $scope.route + ".detail") {
             $scope.viewMode = "detail";
           }
+          $scope.getListProvince();
+          $scope.getListDistrict();
+          $scope.getListCommune();
           ApiService[$scope.module].findById($stateParams.id).then(function (res) {
             $scope.$apply(function () {
               $scope[$scope.modelForm] = res.data;
@@ -62,12 +206,36 @@
         }
       });
 
+      $scope.getListProvince = function () {
+        ApiService['province'].list({ size: 1000 }).then(function (res) {
+          $scope.$apply(function () {
+            $scope.listProvince = res.data.content;
+          });
+        })
+      };
+
+      $scope.getListDistrict = function () {
+        ApiService['district'].list({ size: 1000 }).then(function (res) {
+          $scope.$apply(function () {
+            $scope.listDistrict = res.data.content;
+          });
+        })
+      };
+
+      $scope.getListCommune = function () {
+        ApiService['commune'].list({ size: 1000 }).then(function (res) {
+          $scope.$apply(function () {
+            $scope.listCommune = res.data.content;
+          });
+        })
+      };
+
       $scope.search = function () {
         // hàm được viết trong myTable
         $rootScope.searchDataTable();
       };
 
-      $scope.clearSearch = function(){
+      $scope.clearSearch = function () {
         $scope[$scope.modelSearch] = {};
       }
 
@@ -111,42 +279,43 @@
           orderDefault: ["name", "asc"],
           allowUpdate: $state.current.update,
           allowButtons: [],
-          allowActions: [],
+          allowActions: ['view', 'update', 'delete'],
           excelColumn: [1, 2, 3, 4, 6, 7],
           customButtons: [],
           customList: null,
           customOperatorSearch: null,
           columns: [
             {
-            type: "stt"
-          },
-          // {
-          //   title: a_language.province_numericalOrder,
-          //   data: "numericalOrder",
-          //   width: "50px",
-          //   className:"text-center"
-          // },
-          {
-            title: a_language.client_name,
-            data: "name",
-            width: "auto",
-          },
-          {
-            title: a_language.client_phone,
-            data: "phone",
-            width: "150px",
-          },
-          {
-            title: a_language.client_birthday,
-            data: "birthday",
-            width: "150px",
-          },
-          // {
-          //   title: a_language.province_description,
-          //   data: "description",
-          //   width: "auto",
-          // },
-          
+              type: "stt"
+            },
+            // {
+            //   title: a_language.province_numericalOrder,
+            //   data: "numericalOrder",
+            //   width: "50px",
+            //   className:"text-center"
+            // },
+            {
+              title: a_language.register_name,
+              data: "name",
+              width: "auto",
+            },
+            {
+              title: a_language.register_phone,
+              data: "phone",
+              width: "150px",
+            },
+            {
+              title: a_language.register_birthday,
+              data: "birthday",
+              width: "150px",
+              type: "date"
+            },
+            // {
+            //   title: a_language.province_description,
+            //   data: "description",
+            //   width: "auto",
+            // },
+
           ]
         };
       };

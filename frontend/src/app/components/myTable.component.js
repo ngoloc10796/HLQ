@@ -291,7 +291,9 @@
             delete: function (id) {
               swal.show('confirm', a_language.c_deleteConfirm, '', function (confirm) {
                 if (confirm) {
-                  ApiService[$scope.mConfig.module].delete(id);
+                  ApiService[$scope.mConfig.module].delete(id).then(function(res){
+                    datatable_init.draw();
+                  });
                 }
               });
             },

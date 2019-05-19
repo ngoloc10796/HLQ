@@ -17,6 +17,7 @@
         $scope.getListProvince();
         $scope.getListDistrict();
         $scope.getListCommune();
+        $scope.getListAspirations();
       });
 
       $scope.attrForm = [
@@ -136,19 +137,24 @@
 
           },
           {
-            name: "aspirations1",
+            title: a_language.register_aspirations1,
+            name: "aspirations1Id",
             col: "4",
-            required: false,
+            required: true,
             ngDisabled: false,
-            type: "text",
-
+            type: "select",
+            mOption: "listAspirations",
+            mKeytotext: "name",
           },
           {
-            name: "aspirations2",
+            title: a_language.register_aspirations2,
+            name: "aspirations2Id",
             col: "4",
-            required: false,
+            required: true,
             ngDisabled: false,
-            type: "text",
+            type: "select",
+            mOption: "listAspirations",
+            mKeytotext: "name",
           }
         ],
 
@@ -201,6 +207,14 @@
         ApiService['commune'].list({ size: 1000 }).then(function (res) {
           $scope.$apply(function () {
             $scope.listCommune = res.data.content;
+          });
+        })
+      };
+
+      $scope.getListAspirations = function () {
+        ApiService['aspiration'].list({ size: 1000 }).then(function (res) {
+          $scope.$apply(function () {
+            $scope.listAspirations = res.data.content;
           });
         })
       };

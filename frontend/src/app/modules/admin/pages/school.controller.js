@@ -2,12 +2,12 @@
   "use strict";
   angular
     .module("MyApp")
-    .controller("nation.Controller", function ($rootScope, $scope, $timeout, $q, $state, $stateParams, $compile, AuthService, ApiService, APP_CONFIG) {
+    .controller("school.Controller", function ($rootScope, $scope, $timeout, $q, $state, $stateParams, $compile, AuthService, ApiService, APP_CONFIG) {
 
       var a_language = APP_CONFIG.languageConfig.language;
       var a_userInfo = APP_CONFIG.userInfo;
 
-      $scope.module = "nation";
+      $scope.module = "school";
       $scope.route = "admin." + $scope.module;
       $scope.modelForm = "dataForm";
       $scope.modelSearch = "dataSearch";
@@ -18,17 +18,30 @@
       $scope.attrForm = [
         [{
           name: "name",
-          col: "3",
+          col: "4",
           required: true,
           ngDisabled: "viewMode == 'detail'",
           type: "text",
         },
         {
-          name: "numericalOrder",
-          col: "2",
+          name: "born",
+          col: "4",
           required: true,
           ngDisabled: "viewMode == 'detail'",
-          type: "number-integer",
+          type: "date",
+        },{
+          name: "type",
+          col: "4",
+          required: false,
+          ngDisabled: "viewMode == 'detail'",
+          type: "text",
+        }],
+        [{
+          name: "address",
+          col: "12",
+          required: true,
+          ngDisabled: "viewMode == 'detail'",
+          type: "text",
         }],[
         {
           name: "description",
@@ -117,26 +130,24 @@
           customList: null,
           customOperatorSearch: null,
           columns: [
-          //   {
-          //   type: "stt"
-          // },
-          {
-            title: a_language.nation_numericalOrder,
-            data: "numericalOrder",
-            width: "50px",
-            className:"text-center"
+            {
+            type: "stt"
           },
           {
-            title: a_language.nation_name,
+            title: a_language.school_name,
             data: "name",
+            width: "auto",
+          },
+          {
+            title: a_language.school_born,
+            data: "born",
             width: "200px",
           },
           {
-            title: a_language.nation_description,
-            data: "description",
-            width: "auto",
+            title: a_language.school_type,
+            data: "type",
+            width: "200px",
           },
-          
           ]
         };
       };

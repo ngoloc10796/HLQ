@@ -116,7 +116,7 @@ deferredBootstrapper.bootstrap({
             activeState: null,
             childItems: [
               {
-                title: language.c_list +" "+language.province,
+                title: language.c_list + " " + language.province,
                 showInMenuIsRoles: ["*"],
                 accessIsRoles: ["*"],
                 updateIsRoles: ["*"],
@@ -128,7 +128,7 @@ deferredBootstrapper.bootstrap({
                 childItems: null
               },
               {
-                title: language.c_create +" "+language.province,
+                title: language.c_create + " " + language.province,
                 showInMenuIsRoles: [],
                 accessIsRoles: ["*"],
                 updateIsRoles: ["*"],
@@ -138,7 +138,7 @@ deferredBootstrapper.bootstrap({
                 childItems: null
               },
               {
-                title: language.c_update +" "+language.province,
+                title: language.c_update + " " + language.province,
                 showInMenuIsRoles: [],
                 accessIsRoles: ["*"],
                 updateIsRoles: ["*"],
@@ -148,7 +148,7 @@ deferredBootstrapper.bootstrap({
                 childItems: null
               },
               {
-                title: language.c_detail +" "+language.province,
+                title: language.c_detail + " " + language.province,
                 showInMenuIsRoles: [],
                 accessIsRoles: ["*"],
                 updateIsRoles: ["*"],
@@ -158,7 +158,7 @@ deferredBootstrapper.bootstrap({
                 childItems: null
               },
               {
-                title: language.c_list +" "+language.district,
+                title: language.c_list + " " + language.district,
                 showInMenuIsRoles: ["*"],
                 accessIsRoles: ["*"],
                 updateIsRoles: ["*"],
@@ -170,7 +170,7 @@ deferredBootstrapper.bootstrap({
                 childItems: null
               },
               {
-                title: language.c_create +" "+language.district,
+                title: language.c_create + " " + language.district,
                 showInMenuIsRoles: [],
                 accessIsRoles: ["*"],
                 updateIsRoles: ["*"],
@@ -180,7 +180,7 @@ deferredBootstrapper.bootstrap({
                 childItems: null
               },
               {
-                title: language.c_update +" "+language.district,
+                title: language.c_update + " " + language.district,
                 showInMenuIsRoles: [],
                 accessIsRoles: ["*"],
                 updateIsRoles: ["*"],
@@ -190,7 +190,7 @@ deferredBootstrapper.bootstrap({
                 childItems: null
               },
               {
-                title: language.c_detail +" "+language.district,
+                title: language.c_detail + " " + language.district,
                 showInMenuIsRoles: [],
                 accessIsRoles: ["*"],
                 updateIsRoles: ["*"],
@@ -201,7 +201,7 @@ deferredBootstrapper.bootstrap({
               },
 
               {
-                title: language.c_list +" "+language.commune,
+                title: language.c_list + " " + language.commune,
                 showInMenuIsRoles: ["*"],
                 accessIsRoles: ["*"],
                 updateIsRoles: ["*"],
@@ -213,7 +213,7 @@ deferredBootstrapper.bootstrap({
                 childItems: null
               },
               {
-                title: language.c_create +" "+language.commune,
+                title: language.c_create + " " + language.commune,
                 showInMenuIsRoles: [],
                 accessIsRoles: ["*"],
                 updateIsRoles: ["*"],
@@ -223,7 +223,7 @@ deferredBootstrapper.bootstrap({
                 childItems: null
               },
               {
-                title: language.c_update +" "+language.commune,
+                title: language.c_update + " " + language.commune,
                 showInMenuIsRoles: [],
                 accessIsRoles: ["*"],
                 updateIsRoles: ["*"],
@@ -233,7 +233,7 @@ deferredBootstrapper.bootstrap({
                 childItems: null
               },
               {
-                title: language.c_detail +" "+language.commune,
+                title: language.c_detail + " " + language.commune,
                 showInMenuIsRoles: [],
                 accessIsRoles: ["*"],
                 updateIsRoles: ["*"],
@@ -244,6 +244,8 @@ deferredBootstrapper.bootstrap({
               },
             ]
           },
+
+          //nation  dân tộc
           {
             title: language.Nation,
             showInMenuIsRoles: ["*"],
@@ -254,8 +256,41 @@ deferredBootstrapper.bootstrap({
             activeState: [
               "admin.nation.create", "admin.nation.update", "admin.nation.detail",
             ],
-            childItems: null            
+            childItems: null
           },
+          {
+            title: language.c_create + " " + language.nation,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.nation.create",
+            activeState: null,
+            childItems: null
+          },
+          {
+            title: language.c_update + " " + language.nation,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.nation.update",
+            activeState: null,
+            childItems: null
+          },
+          {
+            title: language.c_detail + " " + language.nation,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.nation.detail",
+            activeState: null,
+            childItems: null
+          },
+
+
+          //school trường
           {
             title: language.School,
             showInMenuIsRoles: ["*"],
@@ -266,32 +301,129 @@ deferredBootstrapper.bootstrap({
             activeState: [
               "admin.school.create", "admin.school.update", "admin.school.detail",
             ],
-            childItems: null            
+            childItems: null
           },
           {
-            title: language.Branch,
+            title: language.c_create + " " + language.school,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.school.create",
+            activeState: null,
+            childItems: null
+          },
+          {
+            title: language.c_update + " " + language.school,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.school.update",
+            activeState: null,
+            childItems: null
+          },
+          {
+            title: language.c_detail + " " + language.school,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.school.detail",
+            activeState: null,
+            childItems: null
+          },
+
+
+          //chuyên ngành
+          {
+            title: language.Specialize,
             showInMenuIsRoles: ["*"],
             accessIsRoles: ["*"],
             updateIsRoles: ["*"],
             iconClass: "fa fa-folder-open",
-            state: "admin.branch.list",
+            state: "admin.specialize.list",
             activeState: [
-              "admin.branch.create", "admin.branch.update", "admin.branch.detail",
+              "admin.specialize.create", "admin.specialize.update", "admin.specialize.detail",
             ],
-            childItems: null            
+            childItems: null
           },
           {
-            title: language.Channel,
+            title: language.c_create + " " + language.specialize,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.specialize.create",
+            activeState: null,
+            childItems: null
+          },
+          {
+            title: language.c_update + " " + language.specialize,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.specialize.update",
+            activeState: null,
+            childItems: null
+          },
+          {
+            title: language.c_detail + " " + language.specialize,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.specialize.detail",
+            activeState: null,
+            childItems: null
+          },
+
+          //source nguồn tuyển sinh
+          {
+            title: language.Source,
             showInMenuIsRoles: ["*"],
             accessIsRoles: ["*"],
             updateIsRoles: ["*"],
             iconClass: "fa fa-rss",
-            state: "admin.chanel.list",
+            state: "admin.source.list",
             activeState: [
-              "admin.channel.create", "admin.channel.update", "admin.channel.detail",
+              "admin.source.create", "admin.source.update", "admin.source.detail",
             ],
-            childItems: null            
+            childItems: null
           },
+          {
+            title: language.c_create + " " + language.source,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.source.create",
+            activeState: null,
+            childItems: null
+          },
+          {
+            title: language.c_update + " " + language.source,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.source.update",
+            activeState: null,
+            childItems: null
+          },
+          {
+            title: language.c_detail + " " + language.source,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.source.detail",
+            activeState: null,
+            childItems: null
+          },
+
+          //prioritize ưu tiên
           {
             title: language.Prioritize,
             showInMenuIsRoles: ["*"],
@@ -302,8 +434,40 @@ deferredBootstrapper.bootstrap({
             activeState: [
               "admin.prioritize.create", "admin.prioritize.update", "admin.prioritize.detail",
             ],
-            childItems: null 
+            childItems: null
           },
+          {
+            title: language.c_create + " " + language.prioritize,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.prioritize.create",
+            activeState: null,
+            childItems: null
+          },
+          {
+            title: language.c_update + " " + language.prioritize,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.prioritize.update",
+            activeState: null,
+            childItems: null
+          },
+          {
+            title: language.c_detail + " " + language.prioritize,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.prioritize.detail",
+            activeState: null,
+            childItems: null
+          },
+
+          //aspiration nguyện vọng
           {
             title: language.Aspiration,
             showInMenuIsRoles: ["*"],
@@ -314,32 +478,130 @@ deferredBootstrapper.bootstrap({
             activeState: [
               "admin.aspiration.create", "admin.aspiration.update", "admin.aspiration.detail",
             ],
-            childItems: null            
+            childItems: null
           },
           {
-            title: language.Contributor,
+            title: language.c_create + " " + language.aspiration,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.aspiration.create",
+            activeState: null,
+            childItems: null
+          },
+          {
+            title: language.c_update + " " + language.aspiration,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.aspiration.update",
+            activeState: null,
+            childItems: null
+          },
+          {
+            title: language.c_detail + " " + language.aspiration,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.aspiration.detail",
+            activeState: null,
+            childItems: null
+          },
+
+
+          //collaborator nguyện vọng
+          {
+            title: language.Collaborator,
             showInMenuIsRoles: ["*"],
             accessIsRoles: ["*"],
             updateIsRoles: ["*"],
             iconClass: "fa fa-users",
-            state: "admin.contributor.list",
+            state: "admin.collaborator.list",
             activeState: [
-              "admin.contributor.create", "admin.contributor.update", "admin.contributor.detail",
+              "admin.collaborator.create", "admin.collaborator.update", "admin.collaborator.detail",
             ],
-            childItems: null            
+            childItems: null
           },
           {
-            title: language.Program,
+            title: language.c_create + " " + language.collaborator,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.collaborator.create",
+            activeState: null,
+            childItems: null
+          },
+          {
+            title: language.c_update + " " + language.collaborator,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.collaborator.update",
+            activeState: null,
+            childItems: null
+          },
+          {
+            title: language.c_detail + " " + language.collaborator,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.collaborator.detail",
+            activeState: null,
+            childItems: null
+          },
+
+          //chương trình
+          {
+            title: language.Event,
             showInMenuIsRoles: ["*"],
             accessIsRoles: ["*"],
             updateIsRoles: ["*"],
             iconClass: "fa fa-calendar-o",
-            state: "admin.program.list",
+            state: "admin.event.list",
             activeState: [
-              "admin.program.create", "admin.program.update", "admin.program.detail",
+              "admin.event.create", "admin.event.update", "admin.event.detail",
             ],
-            childItems: null            
+            childItems: null
           },
+          {
+            title: language.c_create + " " + language.event,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.event.create",
+            activeState: null,
+            childItems: null
+          },
+          {
+            title: language.c_update + " " + language.event,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.event.update",
+            activeState: null,
+            childItems: null
+          },
+          {
+            title: language.c_detail + " " + language.event,
+            showInMenuIsRoles: [],
+            accessIsRoles: ["*"],
+            updateIsRoles: ["*"],
+            iconClass: null,
+            state: "admin.event.detail",
+            activeState: null,
+            childItems: null
+          },
+
+
+          //đăng ký
           {
             title: language.Register,
             showInMenuIsRoles: ["*"],
@@ -350,10 +612,10 @@ deferredBootstrapper.bootstrap({
             activeState: [
               "admin.register.create", "admin.register.update", "admin.register.detail",
             ],
-            childItems: null            
+            childItems: null
           },
           {
-            title: language.c_create +" "+language.register,
+            title: language.c_create + " " + language.register,
             showInMenuIsRoles: [],
             accessIsRoles: ["*"],
             updateIsRoles: ["*"],
@@ -363,7 +625,7 @@ deferredBootstrapper.bootstrap({
             childItems: null
           },
           {
-            title: language.c_update +" "+language.register,
+            title: language.c_update + " " + language.register,
             showInMenuIsRoles: [],
             accessIsRoles: ["*"],
             updateIsRoles: ["*"],
@@ -373,7 +635,7 @@ deferredBootstrapper.bootstrap({
             childItems: null
           },
           {
-            title: language.c_detail +" "+language.register,
+            title: language.c_detail + " " + language.register,
             showInMenuIsRoles: [],
             accessIsRoles: ["*"],
             updateIsRoles: ["*"],
@@ -382,7 +644,7 @@ deferredBootstrapper.bootstrap({
             activeState: null,
             childItems: null
           },
-          
+
         ];
 
         var createMenu = function (roles) {
@@ -435,7 +697,7 @@ deferredBootstrapper.bootstrap({
         };
 
         return new Promise(function (resolve, reject) {
-          var newMenu = createMenu(["*"]);       
+          var newMenu = createMenu(["*"]);
           App.unblockUI();
 
           /* AuthService.getType().then(function(res){

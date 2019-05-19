@@ -2,12 +2,12 @@
   "use strict";
   angular
     .module("MyApp")
-    .controller("nation.Controller", function ($rootScope, $scope, $timeout, $q, $state, $stateParams, $compile, AuthService, ApiService, APP_CONFIG) {
+    .controller("aspiration.Controller", function ($rootScope, $scope, $timeout, $q, $state, $stateParams, $compile, AuthService, ApiService, APP_CONFIG) {
 
       var a_language = APP_CONFIG.languageConfig.language;
       var a_userInfo = APP_CONFIG.userInfo;
 
-      $scope.module = "nation";
+      $scope.module = "aspiration";
       $scope.route = "admin." + $scope.module;
       $scope.modelForm = "dataForm";
       $scope.modelSearch = "dataSearch";
@@ -121,18 +121,18 @@
           //   type: "stt"
           // },
           {
-            title: a_language.nation_numericalOrder,
+            title: a_language.aspiration_numericalOrder,
             data: "numericalOrder",
             width: "50px",
             className:"text-center"
           },
           {
-            title: a_language.nation_name,
+            title: a_language.aspiration_name,
             data: "name",
             width: "200px",
           },
           {
-            title: a_language.nation_description,
+            title: a_language.aspiration_description,
             data: "description",
             width: "auto",
           },

@@ -42,7 +42,7 @@
           {
             name: "provinceId",
             col: "4",
-            required: true,
+            required: false,
             ngDisabled: "viewMode == 'detail'",
             type: "select",
             mOption: "listProvince",
@@ -51,7 +51,7 @@
           {
             name: "districtId",
             col: "4",
-            required: true,
+            required: false,
             ngDisabled: "viewMode == 'detail'",
             type: "select",
             mOption: "listDistrict",
@@ -61,7 +61,7 @@
           {
             name: "communeId",
             col: "4",
-            required: true,
+            required: false,
             ngDisabled: "viewMode == 'detail'",
             type: "select",
             mOption: "listCommune",
@@ -73,7 +73,7 @@
           {
             name: "peopleId",
             col: "4",
-            required: true,
+            required: false,
             ngDisabled: "viewMode == 'detail'",
             type: "text",
 
@@ -81,7 +81,7 @@
           {
             name: "permanentResidence",
             col: "4",
-            required: true,
+            required: false,
             ngDisabled: "viewMode == 'detail'",
             type: "text",
 
@@ -132,19 +132,25 @@
 
           },
           {
-            name: "aspirations1",
+            title: a_language.register_aspirations1,
+            name: "aspirations1Id",
             col: "4",
-            required: false,
+            required: true,
             ngDisabled: "viewMode == 'detail'",
-            type: "text",
+            type: "select",
+            mOption: "listAspirations",
+            mKeytotext: "name",
 
           },
           {
-            name: "aspirations2",
+            title: a_language.register_aspirations2,
+            name: "aspirations2Id",
             col: "4",
-            required: false,
+            required: true,
             ngDisabled: "viewMode == 'detail'",
-            type: "text",
+            type: "select",
+            mOption: "listAspirations",
+            mKeytotext: "name",
           }
         ],
 
@@ -183,26 +189,27 @@
       $scope.$on("$viewContentLoaded", function () {
         if ($state.current.name == $scope.route + ".list") {
           $scope.initTable();
-        } else if ($state.current.name == $scope.route + ".create") {
-          $scope.viewMode = "create";
+        }
+        else {
           $scope.getListProvince();
           $scope.getListDistrict();
           $scope.getListCommune();
-        } else {
-          if ($state.current.name == $scope.route + ".update") {
-            $scope.viewMode = "update";
+          $scope.getListAspirations();
+          if ($state.current.name == $scope.route + ".create") {
+            $scope.viewMode = "create";
+          } else {
+            if ($state.current.name == $scope.route + ".update") {
+              $scope.viewMode = "update";
+            }
+            if ($state.current.name == $scope.route + ".detail") {
+              $scope.viewMode = "detail";
+            }
+            ApiService[$scope.module].findById($stateParams.id).then(function (res) {
+              $scope.$apply(function () {
+                $scope[$scope.modelForm] = res.data;
+              });
+            })
           }
-          if ($state.current.name == $scope.route + ".detail") {
-            $scope.viewMode = "detail";
-          }
-          $scope.getListProvince();
-          $scope.getListDistrict();
-          $scope.getListCommune();
-          ApiService[$scope.module].findById($stateParams.id).then(function (res) {
-            $scope.$apply(function () {
-              $scope[$scope.modelForm] = res.data;
-            });
-          })
         }
       });
 
@@ -226,6 +233,14 @@
         ApiService['commune'].list({ size: 1000 }).then(function (res) {
           $scope.$apply(function () {
             $scope.listCommune = res.data.content;
+          });
+        })
+      };
+
+      $scope.getListAspirations = function () {
+        ApiService['aspiration'].list({ size: 1000 }).then(function (res) {
+          $scope.$apply(function () {
+            $scope.listAspirations = res.data.content;
           });
         })
       };
@@ -278,7 +293,7 @@
           allowDrag: false,
           orderDefault: ["name", "asc"],
           allowUpdate: $state.current.update,
-          allowButtons: [],
+          allowButtons: ['create'],
           allowActions: ['view', 'update', 'delete'],
           excelColumn: [1, 2, 3, 4, 6, 7],
           customButtons: [],

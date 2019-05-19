@@ -1,13 +1,13 @@
-MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG','Restangular',
+MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG', 'Restangular',
   function ($rootScope, APP_CONFIG, Restangular) {
     let a_language = APP_CONFIG.languageConfig.language
     var _this = this;
 
     function checkSuccess(resolve, type, res, mess) {
       if (mess) {
-        if(mess.success){
+        if (mess.success) {
           toastr.success(mess.success);
-        }      
+        }
       } else {
         if (type == "findById") {
 
@@ -25,12 +25,12 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG','Restangular',
           toastr.success(a_language.c_deleteSuccess);
         }
         if (type == "deleteList") {
-          if(res.info.meta && res.info.meta.successIds && res.info.meta.successIds.length>0){
+          if (res.info.meta && res.info.meta.successIds && res.info.meta.successIds.length > 0) {
             toastr.success(a_language.c_delete + " " + res.info.meta.successIds.length + " " + a_language.c_record + " " + a_language.c_success);
           }
-          if(res.info.meta && res.info.meta.failureIds && res.info.meta.failureIds.length>0){
+          if (res.info.meta && res.info.meta.failureIds && res.info.meta.failureIds.length > 0) {
             toastr.error(a_language.c_delete + " " + res.info.meta.failureIds.length + " " + a_language.c_record + " " + a_language.c_success);
-          }       
+          }
         }
       }
       resolve(res);
@@ -38,7 +38,7 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG','Restangular',
 
     function checkError(reject, type, err, mess) {
       if (mess) {
-        if(mess.error){
+        if (mess.error) {
           toastr.success(mess.error);
         }
       } else {
@@ -64,235 +64,71 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG','Restangular',
       reject(err);
     };
 
-    function createFn(item_module,item_id){
-      let url = "/api/category";
+    function createFn(data) {
+      let item_module = data.code;
+      let item_id = data.id;
+      let item_typeApi = data.typeApi;
+      let item_url = data.url;
 
-      _this[item_module] = {
-        findById: function (id, objMessage) {
-          //objData.typeCode = item_module;
-          //objData.typeId = item_id;
-          return new Promise(function (resolve, reject) {
-            Restangular.all(url).customGET(id).then(function (response){
-              checkSuccess(resolve, "findById", response, objMessage);
-            },function(error){
-              checkError(reject, "findById", error, objMessage);
-            });
+      _this[item_module] = {};
 
-            /* mushroom.faq.findById({ id: id })
-              .done(function (response) {
-                checkSuccess(resolve, "findById", response, objMessage);
-              })
-              .fail(function (error) {
-                checkError(reject, "findById", error, objMessage);
-              }); */
-          });
-        },
-
-        list: function (objData, objMessage) {
-          objData.typeCode = item_module;
-          objData.typeId = item_id;
-          return new Promise(function (resolve, reject) {
-            Restangular.all(url).customGET("", objData).then(function (response, info){
-              checkSuccess(resolve, "list", { data: response.data, info: info }, objMessage);
-            },function(error){
-              checkError(reject, "list", error, objMessage);
-            });
-
-
-              // .done(function (response, info) {
-              //   checkSuccess(resolve, "list", { data: response, info: info }, objMessage);
-              // })
-              // .fail(function (error) {
-              //   checkError(reject, "list", error, objMessage);
-              // });
-
-          });
-        },
-
-        create: function (objData, objMessage) {
-          objData.typeCode = item_module;
-          objData.typeId = item_id;
-          return new Promise(function (resolve, reject) {
-            Restangular.all(url).customPOST(objData).then(function (response){
-              checkSuccess(resolve, "create", response, objMessage);
-            },function(error){
-              checkError(reject, "create", error, objMessage);
-            });
-
-            /* mushroom.faq.create(objData)
-              .done(function (response) {
-                checkSuccess(resolve, "create", response, objMessage);
-              })
-              .fail(function (error) {
-                checkError(reject, "create", error, objMessage);
-              }); */
-
-          });
-        },
-
-        update: function (objData, objMessage) {
-          objData.typeCode = item_module;
-          objData.typeId = item_id;
-          return new Promise(function (resolve, reject) {
-            Restangular.all(url).customPUT(objData).then(function (response){
-              checkSuccess(resolve, "update", response, objMessage);
-            },function(error){
-              checkError(reject, "update", error, objMessage);
-            });
-
-            /* mushroom.faq.partialUpdate(objData)
-              .done(function (response) {
-                checkSuccess(resolve, "update", response, objMessage);
-              })
-              .fail(function (error) {
-                checkError(reject, "update", error, objMessage);
-              }); */
-          });
-        },
-
-        delete: function (id, objMessage) {
-          // objData.typeCode = item_module;
-          return new Promise(function (resolve, reject) {
-            Restangular.all(url).customDELETE(id).then(function (response){
-              checkSuccess(resolve, "delete", response, objMessage);
-            },function(error){
-              checkError(reject, "delete", error, objMessage);
-            });
-
-            /* mushroom.faq.delete({ id: id })
-              .done(function (response) {
-                checkSuccess(resolve, "delete", response, objMessage);
-              })
-              .fail(function (error) {
-                checkError(reject, "delete", error, objMessage);
-              }); */
-          });
-        },
-
-        deleteList: function (arr, objMessage) {
-          return new Promise(function (resolve, reject) {
-            mushroom.faq.batchDelete(arr)
-              .done(function (response, info) {
-                checkSuccess(resolve, "deleteList", { response: response, info: info }, objMessage);
-              })
-              .fail(function (error) {
-                checkError(reject, "deleteList", error, objMessage);
-              });
-          });
-        }
-      }
-    };
-
-    var listModule = [{"code":"province","id":"1"},{"code":"district","id":"2"},{"code":"commune","id":"3"}];
-
-    $.each(listModule,function(index,val){
-      createFn(val.code,val.id);
-    });
-
-    let url = "/api/register";
-    _this['register'] = {      
-      findById: function (id, objMessage) {
-        //objData.typeCode = item_module;
-        //objData.typeId = item_id;
+      let fn_findById = function (id, objMessage) {
         return new Promise(function (resolve, reject) {
-          Restangular.all(url).customGET(id).then(function (response){
+          Restangular.all(item_url).customGET(id).then(function (response) {
             checkSuccess(resolve, "findById", response, objMessage);
-          },function(error){
+          }, function (error) {
             checkError(reject, "findById", error, objMessage);
           });
-
-          /* mushroom.faq.findById({ id: id })
-            .done(function (response) {
-              checkSuccess(resolve, "findById", response, objMessage);
-            })
-            .fail(function (error) {
-              checkError(reject, "findById", error, objMessage);
-            }); */
         });
-      },
+      };
 
-      list: function (objData, objMessage) {
-        // objData.typeCode = item_module;
-        // objData.typeId = item_id;
+      let fn_list = function (objData, objMessage) {
+        objData.typeCode = item_module;
+        objData.typeId = item_id;
         return new Promise(function (resolve, reject) {
-          Restangular.all(url).customGET("", objData).then(function (response, info){
+          Restangular.all(item_url).customGET("", objData).then(function (response, info) {
             checkSuccess(resolve, "list", { data: response.data, info: info }, objMessage);
-          },function(error){
+          }, function (error) {
             checkError(reject, "list", error, objMessage);
           });
-
-
-            // .done(function (response, info) {
-            //   checkSuccess(resolve, "list", { data: response, info: info }, objMessage);
-            // })
-            // .fail(function (error) {
-            //   checkError(reject, "list", error, objMessage);
-            // });
-
         });
-      },
+      };
 
-      create: function (objData, objMessage) {
-        // objData.typeCode = item_module;
-        // objData.typeId = item_id;
+      let fn_create = function (objData, objMessage) {
+        objData.typeCode = item_module;
+        objData.typeId = item_id;
         return new Promise(function (resolve, reject) {
-          Restangular.all(url).customPOST(objData).then(function (response){
+          Restangular.all(item_url).customPOST(objData).then(function (response) {
             checkSuccess(resolve, "create", response, objMessage);
-          },function(error){
+          }, function (error) {
             checkError(reject, "create", error, objMessage);
           });
-
-          /* mushroom.faq.create(objData)
-            .done(function (response) {
-              checkSuccess(resolve, "create", response, objMessage);
-            })
-            .fail(function (error) {
-              checkError(reject, "create", error, objMessage);
-            }); */
-
         });
-      },
+      };
 
-      update: function (objData, objMessage) {
-        // objData.typeCode = item_module;
-        // objData.typeId = item_id;
+      let fn_update = function (objData, objMessage) {
+        objData.typeCode = item_module;
+        objData.typeId = item_id;
         return new Promise(function (resolve, reject) {
-          Restangular.all(url).customPUT(objData).then(function (response){
+          Restangular.all(item_url).customPUT(objData).then(function (response) {
             checkSuccess(resolve, "update", response, objMessage);
-          },function(error){
+          }, function (error) {
             checkError(reject, "update", error, objMessage);
           });
-
-          /* mushroom.faq.partialUpdate(objData)
-            .done(function (response) {
-              checkSuccess(resolve, "update", response, objMessage);
-            })
-            .fail(function (error) {
-              checkError(reject, "update", error, objMessage);
-            }); */
         });
-      },
+      };
 
-      delete: function (id, objMessage) {
-        // objData.typeCode = item_module;
+      let fn_delete = function (id, objMessage) {
         return new Promise(function (resolve, reject) {
-          Restangular.all(url).customDELETE(id).then(function (response){
+          Restangular.all(item_url).customDELETE(id).then(function (response) {
             checkSuccess(resolve, "delete", response, objMessage);
-          },function(error){
+          }, function (error) {
             checkError(reject, "delete", error, objMessage);
           });
-
-          /* mushroom.faq.delete({ id: id })
-            .done(function (response) {
-              checkSuccess(resolve, "delete", response, objMessage);
-            })
-            .fail(function (error) {
-              checkError(reject, "delete", error, objMessage);
-            }); */
         });
-      },
+      };
 
-      deleteList: function (arr, objMessage) {
+      let fn_deleteList = function (arr, objMessage) {
         return new Promise(function (resolve, reject) {
           mushroom.faq.batchDelete(arr)
             .done(function (response, info) {
@@ -302,8 +138,67 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG','Restangular',
               checkError(reject, "deleteList", error, objMessage);
             });
         });
+      };
+
+      if (item_typeApi.indexOf("*") == 0) {
+
+        _this[item_module].findById = fn_findById;        
+
+        _this[item_module].list = fn_list;
+
+        _this[item_module].create = fn_create;
+
+        _this[item_module].update = fn_update;
+
+        _this[item_module].delete = fn_delete;
+
+        _this[item_module].deleteList = fn_deleteList;
+
       }
-    }
+      else {
+        if (item_typeApi.indexOf("findById") != -1) {
+          _this[item_module].findById = fn_findById;
+        }
+        if (item_typeApi.indexOf("list") != -1) {
+          _this[item_module].list = fn_list;
+        }
+        if (item_typeApi.indexOf("create") != -1) {
+          _this[item_module].create = fn_create;
+        }
+        if (item_typeApi.indexOf("update") != -1) {
+          _this[item_module].update = fn_update;
+        }
+        if (item_typeApi.indexOf("delete") != -1) {
+          _this[item_module].delete = fn_delete;
+        }
+        if (item_typeApi.indexOf("deleteList") != -1) {
+          _this[item_module].deleteList = fn_deleteList;
+        }
+
+      }
+    };
+
+    var listModule = [
+      
+      { "code": "province", "id": "1", "typeApi": ["*"], "url": "/api/category" },
+      { "code": "district", "id": "2", "typeApi": ["*"], "url": "/api/category" },
+      { "code": "commune", "id": "3", "typeApi": ["*"], "url": "/api/category" },
+      { "code": "nation", "id": "4", "typeApi": ["*"], "url": "/api/category" },
+      { "code": "source", "id": "5", "typeApi": ["*"], "url": "/api/category" },
+      { "code": "prioritize", "id": "6", "typeApi": ["*"], "url": "/api/category" },
+      { "code": "aspiration", "id": "7", "typeApi": ["*"], "url": "/api/category" },
+      { "code": "collaborator", "id": "8", "typeApi": ["*"], "url": "/api/category" },
+
+      { "code": "register", "id": null, "typeApi": ["*"], "url": "/api/register" },
+      { "code": "school", "id": null, "typeApi": ["*"], "url": "/api/school" },
+      { "code": "event", "id": null, "typeApi": ["*"], "url": "/api/event" },
+      { "code": "specialize", "id": null, "typeApi": ["*"], "url": "/api/specialize" },
+
+    ];
+
+    $.each(listModule, function (index, val) {
+      createFn(val);
+    });
 
   }
 ]);

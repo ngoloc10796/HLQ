@@ -28,9 +28,19 @@ public class Register implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	private String aspirations1;
 	private String name;
+
 	private String email;
+
+	@Column(name = "aspiration1_id")
+	private Integer aspirations1Id;
+	@Transient
+	private String aspirations1;
+
+	@Column(name = "aspiration2_id")
+	private Integer aspirations2Id;
+
+	@Transient
 	private String aspirations2;
 
 	@Temporal(TemporalType.TIMESTAMP)
@@ -94,6 +104,15 @@ public class Register implements Serializable {
 	@JoinColumn(name = "commune_id", insertable = false, updatable = false)
 	private Category category3;
 
+	@ManyToOne
+	@JoinColumn(name = "aspiration1_id", insertable = false, updatable = false)
+	private Category category4;
+
+	// bi-directional many-to-one association to Category
+	@ManyToOne
+	@JoinColumn(name = "aspiration2_id", insertable = false, updatable = false)
+	private Category category5;
+
 	public Register() {
 	}
 
@@ -151,16 +170,38 @@ public class Register implements Serializable {
 		this.id = id;
 	}
 
+	public Integer getAspirations1Id() {
+		return aspirations1Id;
+	}
+
+	public void setAspirations1Id(Integer aspirations1Id) {
+		this.aspirations1Id = aspirations1Id;
+	}
+
 	public String getAspirations1() {
-		return this.aspirations1;
+		if (category4 == null)
+			return null;
+		return category4.getName();
+
 	}
 
 	public void setAspirations1(String aspirations1) {
 		this.aspirations1 = aspirations1;
 	}
 
+	public Integer getAspirations2Id() {
+		return aspirations2Id;
+	}
+
+	public void setAspirations2Id(Integer aspirations2Id) {
+		this.aspirations2Id = aspirations2Id;
+	}
+
 	public String getAspirations2() {
-		return this.aspirations2;
+		if (category5 == null)
+			return null;
+		return category5.getName();
+
 	}
 
 	public void setAspirations2(String aspirations2) {

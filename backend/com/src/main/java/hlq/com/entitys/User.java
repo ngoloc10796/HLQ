@@ -38,7 +38,10 @@ public class User implements Serializable {
 	private String password;
 
 	private String username;
-
+	
+	private String name;
+	
+	private String email;
 	// bi-directional many-to-one association to RolePermistion
 	@ManyToOne
 	@JoinColumn(name = "role_permistion_id")
@@ -61,6 +64,22 @@ public class User implements Serializable {
 
 	public void setLevel(int level) {
 		this.level = level;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getPassword() {

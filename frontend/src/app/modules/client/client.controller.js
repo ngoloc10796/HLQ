@@ -46,7 +46,7 @@
           {
             name: "provinceId",
             col: "4",
-            required: true,
+            required: false,
             ngDisabled: false,
             type: "select",
             mOption: "listProvince",
@@ -55,7 +55,7 @@
           {
             name: "districtId",
             col: "4",
-            required: true,
+            required: false,
             ngDisabled: false,
             type: "select",
             mOption: "listDistrict",
@@ -65,7 +65,7 @@
           {
             name: "communeId",
             col: "4",
-            required: true,
+            required: false,
             ngDisabled: false,
             type: "select",
             mOption: "listCommune",
@@ -77,7 +77,7 @@
           {
             name: "peopleId",
             col: "4",
-            required: true,
+            required: false,
             ngDisabled: false,
             type: "text",
 
@@ -85,7 +85,7 @@
           {
             name: "permanentResidence",
             col: "4",
-            required: true,
+            required: false,
             ngDisabled: false,
             type: "text",
 

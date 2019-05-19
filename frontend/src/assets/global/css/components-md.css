@@ -718,7 +718,7 @@ fieldset[disabled] .form-group.form-md-line-input .form-control {
 }
 
 .form-group.form-md-line-input.has-error .form-control {
-  border-bottom: 1px solid #e73d4a;
+  border-bottom: 1px solid #e73d4a !important;
 }
 
 .form-group.form-md-line-input.has-error .form-control.edited:not([readonly])~label:after,

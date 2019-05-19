@@ -11,7 +11,7 @@
     </div>
 
     <form my-form create-function="login()" allow-submit-enter>
-      <div class="form-body form-horizontal">
+      <div class="form-body form-horizontal clearfix padding-left-15 padding-right-15">
         <div class="col-md-12">
           <div class="form-group form-md-line-input has-success">
             <input type="text" class="form-control" placeholder="{{'login_account' | translate}}"
@@ -21,7 +21,7 @@
         </div>
         <div class="col-md-12 margin-bottom-15">
           <div class="form-group form-md-line-input has-success">
-            <input type="text" class="form-control" placeholder="{{'login_password' | translate}}"
+            <input type="password" class="form-control" placeholder="{{'login_password' | translate}}"
               ng-model="dataForm.password" name="password" required>
             <label style="left:0;right:0"></label>
           </div>

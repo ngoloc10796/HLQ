@@ -11,7 +11,7 @@ if (environment == "test") {
   //setting origin/path
   MyConfig.basePath = "";
 
-  MyConfig.host = "http://192.168.0.110:9090";
+  MyConfig.host = "http://localhost:9090";
 
 } else if (environment == "production") {
 

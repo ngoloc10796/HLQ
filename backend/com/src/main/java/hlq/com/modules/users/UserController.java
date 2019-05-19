@@ -7,6 +7,10 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -17,16 +21,18 @@ import org.springframework.web.bind.annotation.RestController;
 import hlq.com.bean.ResponseBean;
 import hlq.com.bean.UserLoginBean;
 import hlq.com.commons.BaseController;
-import hlq.com.configations.JwtService;
+import hlq.com.configations.JwtTokenProvider;
 import hlq.com.entitys.User;
 
 @RestController
 @RequestMapping("/api")
-public class UserRestController extends BaseController {
+public class UserController extends BaseController {
 	@Autowired
-	private JwtService jwtService;
+	AuthenticationManager authenticationManager;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	JwtTokenProvider tokenProvider;
 
 	/* ---------------- GET ALL USER ------------------------ */
 	@RequestMapping(value = "/users", method = RequestMethod.GET)
@@ -65,9 +71,13 @@ public class UserRestController extends BaseController {
 	public ResponseEntity<ResponseBean> login(HttpServletRequest request, @RequestBody UserLoginBean user) {
 		ResponseBean response = new ResponseBean();
 		try {
+			Authentication authentication = authenticationManager
+					.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
+
+			SecurityContextHolder.getContext().setAuthentication(authentication);
+
 			if (userService.checkLogin(user)) {
-				
-				response.setData(jwtService.generateTokenLogin(user.getUsername()));
+				response.setData(tokenProvider.generateToken(authentication));
 				response.setCode(HttpStatus.OK);
 			} else {
 				response.setMessage("Wrong userId and password");

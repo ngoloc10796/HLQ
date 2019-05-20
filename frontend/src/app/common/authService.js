@@ -72,7 +72,7 @@ angular.module("Auth").service('AuthService', ['$rootScope', '$http',
       return;
     };
 
-    // Kiểm tra trạng thái đăng nhập
+    /* // Kiểm tra trạng thái đăng nhập
     this.status = () => {
       return new Promise(function (resolve, reject) {
         mushroom.$auth.status()
@@ -184,7 +184,7 @@ angular.module("Auth").service('AuthService', ['$rootScope', '$http',
             reject(error);
           });
       })
-    };
+    }; */
 
     // check quyền truy cập module
     this.checkFunctionRoute = (menuConfig, toState) => {

@@ -33,13 +33,16 @@
       } */
       /* {
         option more:
-        select:[
+        type == select [
           mOption: (required) string, [tên mảng],
           mKeytotext: string | false,
           mKeytoid: string | false,
           mClear: true | false,
           mSearch: true | false,
           mMultiple: true | false,
+        ],
+        type == radio [
+          option: (required) [object], ex: [{value:"nam",title:"Nam"},{value:"nu",title:"Nữ"}]
         ],
 
       */

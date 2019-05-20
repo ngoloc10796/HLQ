@@ -958,9 +958,7 @@ p {
 .md-checkbox label>span.inc{
   display: none;
 }
-.mt-radio{
-  padding-left: 25px;
-  padding-right: 30px;
+.mt-radio-inline .mt-radio{
   margin-bottom: 0px;
 }
 .has-error .mt-radio span{

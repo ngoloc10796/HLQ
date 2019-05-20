@@ -33,9 +33,9 @@ var myApp = {
         if (element.closest(".form-group").find(".input-group").length > 0) {
           error.insertAfter(element.closest(".form-group").find(".input-group"));
         } else if (element.is(':checkbox')) {
-          error.insertAfter(element.closest(".form-group").find(".mt-checkbox"));
+          // error.insertAfter(element.closest(".form-group").find(".mt-checkbox"));
         } else if (element.is(':radio')) {
-          error.insertAfter(element.closest(".md-radio-list, .md-radio-inline, .radio-list,.radio-inline"));
+          // error.insertAfter(element.closest(".md-radio-list, .md-radio-inline, .radio-list,.radio-inline"));
         } else if (element.is('select')) {
           error.insertAfter(element.closest(".form-group").find(".select2-container--bootstrap"));
         } else if (element.is('textarea')) {

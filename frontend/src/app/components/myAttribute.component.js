@@ -180,15 +180,62 @@
                 html += `</label>`;
               }
 
+              else if (attr.type == 'checkbox-list') {
+                if(attr.inline){
+                  html += `<div class="mt-checkbox-inline">`;
+                }
+                else{
+                  html += `<div class="mt-checkbox-list">`;
+                }
+                if (attr.option && attr.option.length > 0) {
+                  for (let j = 0; j < attr.option.length; j++) {
+                    html += `<label class="mt-checkbox mt-checkbox-outline"> ${attr.option[j].title}`;
+                    // if (!attr.model) {
+                    //   attr.model = `${$scope.mModel}.${attr.name}`;
+                    // }
+                    html += `<input type="checkbox" class="form-control" ng-model="${$scope.mModel}.${attr.option[j].model}" name="${attr.option[j].model}"`;
+
+                    if (attr.ngDisabled) {
+                      html += ` ng-disabled="${attr.ngDisabled}"`;
+                    }
+                    if (attr.required) {
+                      html += ` required`;
+                    }
+                    if (attr.valid) {
+                      html += ` ${attr.valid}`;
+                    }
+                    if (attr.event) {
+                      html += ` ${attr.event}`;
+                    }
+                    if (attr.id) {
+                      html += ` id="${attr.id}"`;
+                    }
+                    if (attr.class) {
+                      html += ` class="${attr.class}"`;
+                    }
+                    html += `/>`;
+                    html += `<span></span>`;
+                    html += `</label>`;
+                  }
+                }
+                html += `</div>`;
+              }
+
               else if (attr.type == 'radio') {
-                if(attr.option && attr.option.length > 0){
-                  for(let j=0; j<attr.option.length; j++){
+                if(attr.inline){
+                  html += `<div class="mt-radio-inline">`;
+                }
+                else{
+                  html += `<div class="mt-radio-list">`;
+                }
+                if (attr.option && attr.option.length > 0) {
+                  for (let j = 0; j < attr.option.length; j++) {
                     html += `<label class="mt-radio mt-radio-outline">`;
                     if (!attr.model) {
                       attr.model = `${$scope.mModel}.${attr.name}`;
                     }
                     html += `<input type="radio" class="form-control" value="${attr.option[j].value}" ng-model="${attr.model}" name="${attr.name}"`;
-    
+
                     if (attr.ngDisabled) {
                       html += ` ng-disabled="${attr.ngDisabled}"`;
                     }
@@ -212,7 +259,7 @@
                     html += `</label>`;
                   }
                 }
-                
+                html += `</div>`;
               }
   
               else if (attr.type == 'date') {

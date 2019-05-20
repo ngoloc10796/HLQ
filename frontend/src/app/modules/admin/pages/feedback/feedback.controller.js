@@ -42,6 +42,11 @@
           mMultiple: true | false,
         ],
         type == radio [
+          inline: true | false , trên 1 dòng
+          option: (required) [object], ex: [{value:"nam",title:"Nam"},{value:"nu",title:"Nữ"}]
+        ],
+        type == checkbox-list [
+          inline: true | false , trên 1 dòng
           option: (required) [object], ex: [{value:"nam",title:"Nam"},{value:"nu",title:"Nữ"}]
         ],
 

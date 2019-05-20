@@ -29,14 +29,14 @@
           required: true,
           ngDisabled: "viewMode == 'detail'",
           type: "number-integer",
-        }],[
-        {
-          name: "description",
-          col: "12",
-          required: false,
-          ngDisabled: "viewMode == 'detail'",
-          type: "textarea",
-        }],
+        }], [
+          {
+            name: "description",
+            col: "12",
+            required: false,
+            ngDisabled: "viewMode == 'detail'",
+            type: "textarea",
+          }],
       ];
 
       $scope.attrSearch = null;
@@ -45,20 +45,22 @@
       $scope.$on("$viewContentLoaded", function () {
         if ($state.current.name == $scope.route + ".list") {
           $scope.initTable();
-        } else if ($state.current.name == $scope.route + ".create") {
-          $scope.viewMode = "create";
         } else {
-          if ($state.current.name == $scope.route + ".update") {
-            $scope.viewMode = "update";
+          if ($state.current.name == $scope.route + ".create") {
+            $scope.viewMode = "create";
+          } else {
+            if ($state.current.name == $scope.route + ".update") {
+              $scope.viewMode = "update";
+            }
+            if ($state.current.name == $scope.route + ".detail") {
+              $scope.viewMode = "detail";
+            }
+            ApiService[$scope.module].findById($stateParams.id).then(function (res) {
+              $scope.$apply(function () {
+                $scope[$scope.modelForm] = res.data;
+              });
+            })
           }
-          if ($state.current.name == $scope.route + ".detail") {
-            $scope.viewMode = "detail";
-          }
-          ApiService[$scope.module].findById($stateParams.id).then(function (res) {
-            $scope.$apply(function () {
-              $scope[$scope.modelForm] = res.data;
-            });
-          })
         }
       });
 
@@ -67,7 +69,7 @@
         $rootScope.searchDataTable();
       };
 
-      $scope.clearSearch = function(){
+      $scope.clearSearch = function () {
         $scope[$scope.modelSearch] = {};
       }
 
@@ -117,26 +119,26 @@
           customList: null,
           customOperatorSearch: null,
           columns: [
-          //   {
-          //   type: "stt"
-          // },
-          {
-            title: a_language.prioritize_numericalOrder,
-            data: "numericalOrder",
-            width: "50px",
-            className:"text-center"
-          },
-          {
-            title: a_language.prioritize_name,
-            data: "name",
-            width: "200px",
-          },
-          {
-            title: a_language.prioritize_description,
-            data: "description",
-            width: "auto",
-          },
-          
+            //   {
+            //   type: "stt"
+            // },
+            {
+              title: a_language.prioritize_numericalOrder,
+              data: "numericalOrder",
+              width: "50px",
+              className: "text-center"
+            },
+            {
+              title: a_language.prioritize_name,
+              data: "name",
+              width: "200px",
+            },
+            {
+              title: a_language.prioritize_description,
+              data: "description",
+              width: "auto",
+            },
+
           ]
         };
       };

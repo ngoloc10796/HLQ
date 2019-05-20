@@ -56,22 +56,24 @@
       $scope.$on("$viewContentLoaded", function () {
         if ($state.current.name == $scope.route + ".list") {
           $scope.initTable();
-        } else if ($state.current.name == $scope.route + ".create") {
-          $scope.viewMode = "create";
-          $scope.getListProvince();
         } else {
-          if ($state.current.name == $scope.route + ".update") {
-            $scope.viewMode = "update";
+          if ($state.current.name == $scope.route + ".create") {
+            $scope.viewMode = "create";
+            $scope.getListProvince();
+          } else {
+            if ($state.current.name == $scope.route + ".update") {
+              $scope.viewMode = "update";
+            }
+            if ($state.current.name == $scope.route + ".detail") {
+              $scope.viewMode = "detail";
+            }
+            $scope.getListProvince();
+            ApiService[$scope.module].findById($stateParams.id).then(function (res) {
+              $scope.$apply(function () {
+                $scope[$scope.modelForm] = res.data;
+              });
+            })
           }
-          if ($state.current.name == $scope.route + ".detail") {
-            $scope.viewMode = "detail";
-          }
-          $scope.getListProvince();
-          ApiService[$scope.module].findById($stateParams.id).then(function (res) {
-            $scope.$apply(function () {
-              $scope[$scope.modelForm] = res.data;
-            });
-          })
         }
       });
 

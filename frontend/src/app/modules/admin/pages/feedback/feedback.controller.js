@@ -95,7 +95,7 @@
         {
           name: "email",
           col: "4",
-          type: "text",          
+          type: "text",
         },
         {
           name: "status",
@@ -161,30 +161,32 @@
         ma: "closed",
         name: a_language.feedback_closed
       }
-      ];     
+      ];
 
 
       $scope.$on("$viewContentLoaded", function () {
         if ($state.current.name == $scope.route + ".list") {
           $scope.initTable();
-        } else if ($state.current.name == $scope.route + ".create") {
-          $scope.viewMode = "create";
-          $scope.dataForm = {
-            message: "Tôi rất hài lòng về sản phầm này",
-            status: "new"
-          }
         } else {
-          if ($state.current.name == $scope.route + ".update") {
-            $scope.viewMode = "update";
+          if ($state.current.name == $scope.route + ".create") {
+            $scope.viewMode = "create";
+            $scope.dataForm = {
+              message: "Tôi rất hài lòng về sản phầm này",
+              status: "new"
+            }
+          } else {
+            if ($state.current.name == $scope.route + ".update") {
+              $scope.viewMode = "update";
+            }
+            if ($state.current.name == $scope.route + ".detail") {
+              $scope.viewMode = "detail";
+            }
+            ApiService[$scope.module].findById($stateParams.id).then(function (res) {
+              $scope.$apply(function () {
+                $scope[$scope.modelForm] = res;
+              });
+            })
           }
-          if ($state.current.name == $scope.route + ".detail") {
-            $scope.viewMode = "detail";
-          }
-          ApiService[$scope.module].findById($stateParams.id).then(function (res) {
-            $scope.$apply(function () {
-              $scope[$scope.modelForm] = res;
-            });
-          })
         }
       });
 
@@ -193,7 +195,7 @@
         $rootScope.searchDataTable();
       };
 
-      $scope.clearSearch = function(){
+      $scope.clearSearch = function () {
         $scope[$scope.modelSearch] = {};
       }
 
@@ -219,7 +221,7 @@
 
       $scope.getList = function (callback, objFilter) {
         ApiService[$scope.module].list(objFilter).then(function (res) {
-          callback(res,res.info.meta.total);
+          callback(res, res.info.meta.total);
         });
       };
 

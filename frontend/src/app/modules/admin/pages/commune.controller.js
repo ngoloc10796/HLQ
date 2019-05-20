@@ -144,31 +144,26 @@
           //   type: "stt"
           // },
           {
-            title: a_language.province_numericalOrder,
+            title: a_language[$scope.module + '_' + 'numericalOrder'],
             data: "numericalOrder",
             width: "50px",
             className:"text-center"
           },
           {
-            title: a_language.commune_name,
+            title: a_language[$scope.module + '_' + 'name'],
             data: "name",
             width: "200px",
           },
           {
-            title: a_language.district_name,
+            title: a_language[$scope.module + '_' + 'parent'],
             data: "parent",
             width: "200px",
           },
           {
-            title: a_language.commune_description,
+            title: a_language[$scope.module + '_' + 'description'],
             data: "description",
             width: "auto",
           },
-          {
-            title: a_language.commune_numericalOrder,
-            data: "numericalOrder",
-            width: "50px",
-          }
           ]
         };
       };

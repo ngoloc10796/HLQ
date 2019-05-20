@@ -124,18 +124,18 @@
             //   type: "stt"
             // },
             {
-              title: a_language.source_numericalOrder,
+              title: a_language[$scope.module + '_' + 'numericalOrder'],
               data: "numericalOrder",
               width: "50px",
               className: "text-center"
             },
             {
-              title: a_language.source_name,
+              title: a_language[$scope.module + '_' + 'name'],
               data: "name",
               width: "200px",
             },
             {
-              title: a_language.source_description,
+              title: a_language[$scope.module + '_' + 'description'],
               data: "description",
               width: "auto",
             },

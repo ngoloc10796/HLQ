@@ -310,17 +310,17 @@
             //   className:"text-center"
             // },
             {
-              title: a_language.register_name,
+              title: a_language[$scope.module + '_' + 'name'],
               data: "name",
               width: "auto",
             },
             {
-              title: a_language.register_phone,
+              title: a_language[$scope.module + '_' + 'phone'],
               data: "phone",
               width: "150px",
             },
             {
-              title: a_language.register_birthday,
+              title: a_language[$scope.module + '_' + 'birthday'],
               data: "birthday",
               width: "150px",
               type: "date"

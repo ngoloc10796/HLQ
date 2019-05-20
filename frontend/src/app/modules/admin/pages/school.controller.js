@@ -136,17 +136,17 @@
             type: "stt"
           },
           {
-            title: a_language.school_name,
+            title: a_language[$scope.module + '_' + 'name'],
             data: "name",
             width: "auto",
           },
           {
-            title: a_language.school_born,
+            title: a_language[$scope.module + '_' + 'born'],
             data: "born",
             width: "200px",
           },
           {
-            title: a_language.school_type,
+            title: a_language[$scope.module + '_' + 'type'],
             data: "type",
             width: "200px",
           },

@@ -140,18 +140,18 @@
           customOperatorSearch: null,
           columns: [
             {
-              title: a_language.event_orders,
+              title: a_language[$scope.module + '_' + 'orders'],
               data: "orders",
               width: "50px",
               className:"text-center"
             },
           {
-            title: a_language.event_name,
+            title: a_language[$scope.module + '_' + 'name'],
             data: "name",
             width: "auto",
           },
           {
-            title: a_language.event_active,
+            title: a_language[$scope.module + '_' + 'active'],
             data: "active",
             width: "200px",
           }

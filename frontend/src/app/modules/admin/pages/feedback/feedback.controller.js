@@ -76,6 +76,7 @@
           mKeytotext: "name",
           mKeytoid: "ma",
           mClear: true,
+          valid: ""
         }],
         [{
           name: "message",
@@ -124,45 +125,24 @@
 
       $scope.viewMode = "";
 
-      setTimeout(function () {
-        $scope.listStatus2 = [{
+      $scope.listStatus = [
+        {
           ma: "new",
-          name: a_language.feedback_new
+          name: a_language[$scope.module + '_' + 'new'],
         },
         {
           ma: "processing",
-          name: a_language.feedback_processing
+          name: a_language[$scope.module + '_' + 'processing'],
         },
         {
           ma: "deleted",
-          name: a_language.feedback_deleted
+          name: a_language[$scope.module + '_' + 'deleted'],
         },
         {
           ma: "closed",
-          name: a_language.feedback_closed
+          name: a_language[$scope.module + '_' + 'closed'],
         }
-        ];
-        $scope.$apply();
-      }, 3000);
-
-      $scope.listStatus = [{
-        ma: "new",
-        name: a_language.feedback_new
-      },
-      {
-        ma: "processing",
-        name: a_language.feedback_processing
-      },
-      {
-        ma: "deleted",
-        name: a_language.feedback_deleted
-      },
-      {
-        ma: "closed",
-        name: a_language.feedback_closed
-      }
       ];
-
 
       $scope.$on("$viewContentLoaded", function () {
         if ($state.current.name == $scope.route + ".list") {
@@ -292,7 +272,7 @@
             type: "stt"
           },
           {
-            title: a_language.feedback_name,
+            title: a_language[$scope.module + '_' + 'name'],
             data: "name",
             width: "150px",
             render: function (data) {
@@ -301,7 +281,7 @@
             type: "render"
           },
           {
-            title: a_language.feedback_email,
+            title: a_language[$scope.module + '_' + 'email'],
             data: "email",
             width: "150px",
             render: function (data) {
@@ -310,12 +290,12 @@
             type: "render"
           },
           {
-            title: a_language.feedback_phone,
+            title: a_language[$scope.module + '_' + 'phone'],
             data: "phone",
             width: "150px",
           },
           {
-            title: a_language.feedback_idRead,
+            title: a_language[$scope.module + '_' + 'idRead'],
             data: "idRead",
             width: "100px",
             class: "text-center",
@@ -326,7 +306,7 @@
             }
           },
           {
-            title: a_language.feedback_status,
+            title: a_language[$scope.module + '_' + 'status'],
             data: "status",
             width: "100px",
             type: "render",
@@ -346,7 +326,7 @@
             }
           },
           {
-            title: a_language.feedback_createdTime,
+            title: a_language[$scope.module + '_' + 'createdTime'],
             data: "createdTime",
             width: "100px",
             type: "datetime",

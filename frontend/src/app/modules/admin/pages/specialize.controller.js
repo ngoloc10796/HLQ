@@ -136,17 +136,17 @@
               type: "stt"
             },
             {
-              title: a_language.specialize_name,
+              title: a_language[$scope.module + '_' + 'name'],
               data: "name",
               width: "auto",
             },
             {
-              title: a_language.specialize_duration,
+              title: a_language[$scope.module + '_' + 'duration'],
               data: "duration",
               width: "200px",
             },
             {
-              title: a_language.specialize_groupObject,
+              title: a_language[$scope.module + '_' + 'groupObject'],
               data: "groupObject",
               width: "200px",
             },

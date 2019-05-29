@@ -403,12 +403,12 @@
               Object.keys($scope.mSearch).map(function (key, index) {
 
                 //cắt _to và _from
-                var key2 = key;
+                /* var key2 = key;
                 key2 = key.replace("_to", "");
-                key2 = key2.replace("_from", "");
+                key2 = key2.replace("_from", ""); */
 
                 if ($scope.mSearch[key] && $scope.mSearch[key] != "") {
-                  if ($scope.mConfig.customOperatorSearch) {
+                  /* if ($scope.mConfig.customOperatorSearch) {
                     if ($scope.mConfig.customOperatorSearch[key]) {
                       arrOperator.push(key2 + $scope.mConfig.customOperatorSearch[key] + $scope.mSearch[key]);
                     } else {
@@ -417,7 +417,8 @@
                   }
                   else {
                     arrOperator.push(key2 + "=" + $scope.mSearch[key]);
-                  }
+                  } */
+                  arrOperator.push(key + "=" + $scope.mSearch[key]);
                 }
 
               });

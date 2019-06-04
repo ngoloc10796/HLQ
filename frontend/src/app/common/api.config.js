@@ -64,15 +64,15 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG', 'Restangular',
       reject(err);
     };
 
-    function createFn(data) {
+    _this.createFn = function(data) {
       let item_module = data.code;
       let item_id = data.id;
       let item_typeApi = data.typeApi;
       let item_url = data.url;
+     
+      let objectFn = {};
 
-      _this[item_module] = {};
-
-      let fn_findById = function (id, objMessage) {
+      objectFn.fn_findById = function (id, objMessage) {
         return new Promise(function (resolve, reject) {
           Restangular.all(item_url).customGET(id).then(function (response) {
             checkSuccess(resolve, "findById", response, objMessage);
@@ -82,7 +82,7 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG', 'Restangular',
         });
       };
 
-      let fn_list = function (objData, objMessage) {
+      objectFn.fn_list = function (objData, objMessage) {
         objData.typeCode = item_module;
         objData.typeId = item_id;
         return new Promise(function (resolve, reject) {
@@ -94,7 +94,7 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG', 'Restangular',
         });
       };
 
-      let fn_create = function (objData, objMessage) {
+      objectFn.fn_create = function (objData, objMessage) {
         objData.typeCode = item_module;
         objData.typeId = item_id;
         return new Promise(function (resolve, reject) {
@@ -106,7 +106,7 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG', 'Restangular',
         });
       };
 
-      let fn_update = function (objData, objMessage) {
+      objectFn.fn_update = function (objData, objMessage) {
         objData.typeCode = item_module;
         objData.typeId = item_id;
         return new Promise(function (resolve, reject) {
@@ -118,7 +118,7 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG', 'Restangular',
         });
       };
 
-      let fn_delete = function (id, objMessage) {
+      objectFn.fn_delete = function (id, objMessage) {
         return new Promise(function (resolve, reject) {
           Restangular.all(item_url).customDELETE(id).then(function (response) {
             checkSuccess(resolve, "delete", response, objMessage);
@@ -128,7 +128,7 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG', 'Restangular',
         });
       };
 
-      let fn_deleteList = function (arr, objMessage) {
+      objectFn.fn_deleteList = function (arr, objMessage) {
         return new Promise(function (resolve, reject) {
           mushroom.faq.batchDelete(arr)
             .done(function (response, info) {
@@ -140,65 +140,67 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG', 'Restangular',
         });
       };
 
+      _this[item_module] = {};
+
       if (item_typeApi.indexOf("*") == 0) {
 
-        _this[item_module].findById = fn_findById;        
+        _this[item_module].findById = objectFn.fn_findById;        
 
-        _this[item_module].list = fn_list;
+        _this[item_module].list = objectFn.fn_list;
 
-        _this[item_module].create = fn_create;
+        _this[item_module].create = objectFn.fn_create;
 
-        _this[item_module].update = fn_update;
+        _this[item_module].update = objectFn.fn_update;
 
-        _this[item_module].delete = fn_delete;
+        _this[item_module].delete = objectFn.fn_delete;
 
-        _this[item_module].deleteList = fn_deleteList;
+        _this[item_module].deleteList = objectFn.fn_deleteList;
 
       }
       else {
         if (item_typeApi.indexOf("findById") != -1) {
-          _this[item_module].findById = fn_findById;
+          _this[item_module].findById = objectFn.fn_findById;
         }
         if (item_typeApi.indexOf("list") != -1) {
-          _this[item_module].list = fn_list;
+          _this[item_module].list = objectFn.fn_list;
         }
         if (item_typeApi.indexOf("create") != -1) {
-          _this[item_module].create = fn_create;
+          _this[item_module].create = objectFn.fn_create;
         }
         if (item_typeApi.indexOf("update") != -1) {
-          _this[item_module].update = fn_update;
+          _this[item_module].update = objectFn.fn_update;
         }
         if (item_typeApi.indexOf("delete") != -1) {
-          _this[item_module].delete = fn_delete;
+          _this[item_module].delete = objectFn.fn_delete;
         }
         if (item_typeApi.indexOf("deleteList") != -1) {
-          _this[item_module].deleteList = fn_deleteList;
+          _this[item_module].deleteList = objectFn.fn_deleteList;
         }
 
       }
     };
 
-    var listModule = [
+    // var listModule = [
       
-      { "code": "province", "id": "1", "typeApi": ["*"], "url": "/api/category" },
-      { "code": "district", "id": "2", "typeApi": ["*"], "url": "/api/category" },
-      { "code": "commune", "id": "3", "typeApi": ["*"], "url": "/api/category" },
-      { "code": "nation", "id": "4", "typeApi": ["*"], "url": "/api/category" },
-      { "code": "source", "id": "5", "typeApi": ["*"], "url": "/api/category" },
-      { "code": "prioritize", "id": "6", "typeApi": ["*"], "url": "/api/category" },
-      { "code": "aspiration", "id": "7", "typeApi": ["*"], "url": "/api/category" },
-      { "code": "collaborator", "id": "8", "typeApi": ["*"], "url": "/api/category" },
+    //   { "code": "province", "id": "1", "typeApi": ["*"], "url": "/api/category" },
+    //   { "code": "district", "id": "2", "typeApi": ["*"], "url": "/api/category" },
+    //   { "code": "commune", "id": "3", "typeApi": ["*"], "url": "/api/category" },
+    //   { "code": "nation", "id": "4", "typeApi": ["*"], "url": "/api/category" },
+    //   { "code": "source", "id": "5", "typeApi": ["*"], "url": "/api/category" },
+    //   { "code": "prioritize", "id": "6", "typeApi": ["*"], "url": "/api/category" },
+    //   { "code": "aspiration", "id": "7", "typeApi": ["*"], "url": "/api/category" },
+    //   { "code": "collaborator", "id": "8", "typeApi": ["*"], "url": "/api/category" },
 
-      { "code": "register", "id": null, "typeApi": ["*"], "url": "/api/register" },
-      { "code": "school", "id": null, "typeApi": ["*"], "url": "/api/school" },
-      { "code": "event", "id": null, "typeApi": ["*"], "url": "/api/event" },
-      { "code": "specialize", "id": null, "typeApi": ["*"], "url": "/api/specialize" },
+    //   { "code": "register", "id": null, "typeApi": ["*"], "url": "/api/register" },
+    //   { "code": "school", "id": null, "typeApi": ["*"], "url": "/api/school" },
+    //   { "code": "event", "id": null, "typeApi": ["*"], "url": "/api/event" },
+    //   { "code": "specialize", "id": null, "typeApi": ["*"], "url": "/api/specialize" },
 
-    ];
+    // ];
 
-    $.each(listModule, function (index, val) {
-      createFn(val);
-    });
+    // $.each(listModule, function (index, val) {
+    //   createFn(val);
+    // });
 
   }
 ]);

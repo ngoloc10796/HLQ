@@ -24,15 +24,25 @@ gulp.task('inject', ['scripts', 'styles'], function () {
   });
 
   var injectScripts = gulp.src([
-      path.join(conf.paths.src, '/app/**/*.module.js'),
+      path.join(conf.paths.src, '/app/**/*_main.js'),
+      path.join(conf.paths.src, '/app/**/*common.js'),
+      path.join(conf.paths.src, '/app/**/*.config.js'),
+      path.join(conf.paths.src, '/app/**/*.configApi.js'),
+      path.join(conf.paths.src, '/app/**/*.service.js'),
+      path.join(conf.paths.src, '/app/**/*.route.js'),
+      path.join(conf.paths.src, '/app/**/*.controller.js'),
+      path.join(conf.paths.src, '/app/components/**/*.controller.js'),
+      // path.join(conf.paths.src, '/app/**/*.module.js'),
       path.join(conf.paths.src, '/app/**/*.js'),
+      path.join(conf.paths.src, '/app/**/*.bootstrap.js'),
+      
       //path.join('!' + conf.paths.src, '/app/**/*.spec.js'),
       //path.join('!' + conf.paths.src, '/app/**/*.mock.js'),
     ])
     .pipe(babel({
       presets: ['es2015']
     }))
-    .pipe($.angularFilesort()).on('error', conf.errorHandler('AngularFilesort'));
+    // .pipe($.angularFilesort()).on('error', conf.errorHandler('AngularFilesort'));
 
   var injectOptions = {
     ignorePath: [conf.paths.src, path.join(conf.paths.tmp, '/serve')],

@@ -21,7 +21,27 @@ NProgress.configure({
   minimum: 0.2
 });
 
+var objLanguage = {
+  translations_vi: {},
+  translations_en: {},
+  language: {}
+};
+
+App_Dictionary.forEach(item => {
+  objLanguage.translations_vi[item[0]] = item[1];
+  objLanguage.translations_en[item[0]] = item[2];
+});
+if (MyConfig.language == "vi") {
+  objLanguage.language = objLanguage.translations_vi;
+}
+if (MyConfig.language == "en") {
+  objLanguage.language = objLanguage.translations_en;
+}
+
 var myApp = {
+  configMenu: [],
+  configLanguage: objLanguage,
+  
   validateForm: function (element, config) {
     var defaultConfig = {
       errorElement: 'div', //default input error message container

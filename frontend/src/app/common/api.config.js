@@ -180,27 +180,5 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG', 'Restangular',
       }
     };
 
-    // var listModule = [
-      
-    //   { "code": "province", "id": "1", "typeApi": ["*"], "url": "/api/category" },
-    //   { "code": "district", "id": "2", "typeApi": ["*"], "url": "/api/category" },
-    //   { "code": "commune", "id": "3", "typeApi": ["*"], "url": "/api/category" },
-    //   { "code": "nation", "id": "4", "typeApi": ["*"], "url": "/api/category" },
-    //   { "code": "source", "id": "5", "typeApi": ["*"], "url": "/api/category" },
-    //   { "code": "prioritize", "id": "6", "typeApi": ["*"], "url": "/api/category" },
-    //   { "code": "aspiration", "id": "7", "typeApi": ["*"], "url": "/api/category" },
-    //   { "code": "collaborator", "id": "8", "typeApi": ["*"], "url": "/api/category" },
-
-    //   { "code": "register", "id": null, "typeApi": ["*"], "url": "/api/register" },
-    //   { "code": "school", "id": null, "typeApi": ["*"], "url": "/api/school" },
-    //   { "code": "event", "id": null, "typeApi": ["*"], "url": "/api/event" },
-    //   { "code": "specialize", "id": null, "typeApi": ["*"], "url": "/api/specialize" },
-
-    // ];
-
-    // $.each(listModule, function (index, val) {
-    //   createFn(val);
-    // });
-
   }
 ]);

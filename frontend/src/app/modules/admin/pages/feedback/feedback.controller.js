@@ -209,27 +209,27 @@
 
       $scope.getList = function (callback, objFilter) {
         ApiService[$scope.module].list(objFilter).then(function (res) {
-          callback(res, res.info.meta.total);
+          callback(res, res.data.totalElements);
         });
       };
 
       /* $scope.config = {
           module: $scope.module,  (required) string, tên module apiService
           route: $scope.route,  (required) string, tên route
-          hiddenParamUrl: false,  true | false ,default: false
-          allowSelect: false,   (required) true | false
-          ordering: true,   (required) true | false
-          paging: true,   (required) true | false
-          lengthMenu: [10, 25, 50, 100, 500, 700, 1000], [array number]
-          filter: true,   (required) true | false
-          info: true,   (required) true | false
+          hiddenParamUrl: true | false ,default: false
+          allowSelect: true | false ,default: false
+          ordering: true | false ,default: false
+          paging: true | false ,default: false
+          lengthMenu: [10, 25], [array number] ,default: false [10, 25, 50, 100, 500, 700, 1000]
+          filter: true | false ,default: false
+          info: true | false ,default: false
           allowDrag: string | false, tên trường
           orderDefault: ["name", "asc"],  (required if ordering: true) ["attr", "asc | desc"] | false
-          allowUpdate: $state.current.update, (required) true | false
+          allowUpdate: $state.current.update, true | false ,default: false
           allowButtons: ["delete", "create", "filter", "excel"], (required) ["delete", "create", "filter", "excel"] | []
-          excelColumn: [1, 2, 3, 4, 6, 7], [array number]
+          excelColumn: [1, 2, 3, 4, 6, 7], [array number] ,default: []
           allowActions: ["view", "update", "delete"], (required)  ["view", "update", "delete"] | []
-          customButtons: [], (required), array[object] | []
+          customButtons: array[object] | []
           customList: "getList", string | null, name of function getList
           customOperatorSearch: {     ["key": "operator"] | null
             "name": ":regex:",

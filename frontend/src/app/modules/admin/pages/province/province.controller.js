@@ -39,7 +39,21 @@
           }],
       ];
 
-      $scope.attrSearch = null;
+      $scope.attrSearch = [
+        [{
+          name: "name",
+          col: "3",
+          required: true,
+          ngDisabled: "viewMode == 'detail'",
+          type: "text",
+        },
+        {
+          name: "numericalOrder",
+          col: "2",
+          required: true,
+          ngDisabled: "viewMode == 'detail'",
+          type: "number-integer",
+        }]];
 
 
       $scope.$on("$viewContentLoaded", function () {
@@ -95,8 +109,8 @@
       };
 
       // $scope.getList = function (callback, objFilter) {
-      //   ApiService[$scope.module].list(objFilter).then(function (res) {
-      //     callback(res,res.info.meta.total);
+      //   ApiService[$scope.module]["getListProvince"](objFilter).then(function (res) {
+      //     callback(res, res.data.totalElements);
       //   });
       // };
 
@@ -104,21 +118,21 @@
         $scope.config = {
           module: $scope.module,
           route: $scope.route,
-          allowSelect: false,
-          ordering: false,
+          // allowSelect: false,
+          // ordering: true,
           paging: true,
-          lengthMenu: [10, 25, 50, 100, 500, 700, 1000],
-          filter: false,
+          // lengthMenu: [10, 25, 50, 100, 500, 700, 1001],
+          // filter: true,
           info: true,
-          allowDrag: false,
-          orderDefault: ["name", "asc"],
-          allowUpdate: $state.current.update,
+          // allowDrag: false,
+          // orderDefault: ["name", "asc"],
+          // allowUpdate: $state.current.update,
           allowButtons: ["create"],
           allowActions: ["view", "update", "delete"],
-          excelColumn: [1, 2, 3, 4, 6, 7],
-          customButtons: [],
-          customList: null,
-          customOperatorSearch: null,
+          // excelColumn: [1, 2, 3, 4, 6, 7],
+          // customButtons: [],
+          // customList: null,
+          // customOperatorSearch: null,
           columns: [
             //   {
             //   type: "stt"

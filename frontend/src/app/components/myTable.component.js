@@ -161,14 +161,14 @@
           //khởi tạo
           var options = {
             serverSide: true, //để khi sắp xếp sẽ gọi lại ajax
-            info: $scope.mConfig.info,
-            paging: $scope.mConfig.paging,
+            info: $scope.mConfig.info ? $scope.mConfig.info : false,
+            paging: $scope.mConfig.paging ? $scope.mConfig.paging : false,
             autoWidth: false,
-            processing: false, //hiện loading
-            lengthMenu: [10, 25, 50, 100, 500, 700],
+            processing: $scope.mConfig.processing ? $scope.mConfig.processing : false, //hiện loading
+            lengthMenu: $scope.mConfig.lengthMenu ? $scope.mConfig.lengthMenu : [10, 25, 50, 100, 500, 700, 1000],
             iDisplayLength: $scope.urlParams.limit,
             iDisplayStart: $scope.urlParams.offset,
-            ordering: $scope.mConfig.ordering,
+            ordering: $scope.mConfig.ordering ? $scope.mConfig.ordering : false,
             order: [[$scope.mConfig.orderNumber, $scope.urlParams.sortType]],
             language: {
               lengthMenu: "_MENU_",
@@ -243,6 +243,19 @@
               },
               className: "btn"
             },
+            btnExcel: {
+              text: `<i class="fa fa-download"></i> ${a_language.datatable_exportExcel}`,
+              extend: 'excelHtml5',
+              customize: function(xlsx) {
+                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                $('row:first c', sheet).attr('s', '42');
+              },
+              exportOptions: {
+                columns: $scope.mConfig.excelColumn ? $scope.mConfig.excelColumn : [],
+              },
+              className: "btn",
+              extension: ".xlsx"
+            }
           };
 
           //check ẩn hiện button theo quyền sửa
@@ -259,6 +272,10 @@
               options.buttons.push(buttons.btnFilter);
             }
 
+            if ($scope.mConfig.allowButtons.indexOf('excel') > -1) {
+              options.buttons.push(buttons.btnExcel);
+            }
+
             if ($scope.mConfig.customButtons && $scope.mConfig.customButtons.length > 0) {
               options.buttons.push($scope.mConfig.customButtons);
             }
@@ -266,6 +283,11 @@
             if ($scope.mConfig.allowButtons.indexOf('filter') > -1) {
               options.buttons.push(buttons.btnFilter);
             }
+
+            if ($scope.mConfig.allowButtons.indexOf('excel') > -1) {
+              options.buttons.push(buttons.btnExcel);
+            }
+            
           }
 
           //khai báo thao tác mặc định
@@ -382,21 +404,23 @@
               $("th.select-checkbox").removeClass("selected");
             }
 
-            var sortTypeList = "";
+            /* var sortTypeList = "";
             if ($scope.urlParams.sortType == "asc") {
               sortTypeList = $scope.urlParams.sortBy;
             }
             if ($scope.urlParams.sortType == "desc") {
               sortTypeList = "-" + $scope.urlParams.sortBy;
-            }
+            } */
 
+
+            var filter = "";
             //kiểm tra object.Search có rỗng k
             if (_.isEmpty($scope.mSearch)) {
               locationSearch();
             }
 
             else {
-              var filter = "";
+              
               var arrOperator = [];
 
               //xử lý filter
@@ -436,7 +460,7 @@
               locationSearch();
             }
 
-            var objFilter = {
+            /* var objFilter = {
               //filters: filter,
               //limit: $scope.urlParams.limit,
               //offset: $scope.urlParams.offset,
@@ -447,12 +471,20 @@
               sortType: $scope.urlParams.sortType,
               sortBy: $scope.urlParams.sortBy,
 
-            };
-            var value = {};
-
+            }; */
+            var objFilter = {};
+            if ($scope.mConfig.paging) {
+              objFilter.size = $scope.urlParams.limit;
+              objFilter.page = $scope.urlParams.page - 1;
+            }
+            if ($scope.mConfig.ordering) {
+              objFilter.sortType = $scope.urlParams.sortType;
+              objFilter.sortBy = $scope.urlParams.sortBy;
+            }
             //truyền tham số search ra controller cha để xử lý list
             if ($scope.mConfig.customList) {
               $scope.$parent[$scope.mConfig.customList](function (res) {
+                let value = {};
                 value.recordsFiltered = res.data.totalElements;
                 value.recordsTotal = res.data.totalElements;
                 value.data = res.data.content;
@@ -462,6 +494,7 @@
             }
             else {
               ApiService[$scope.mConfig.module].list(objFilter).then(function (res) {
+                let value = {};
                 value.recordsFiltered = res.data.totalElements;
                 value.recordsTotal = res.data.totalElements;
                 value.data = res.data.content;

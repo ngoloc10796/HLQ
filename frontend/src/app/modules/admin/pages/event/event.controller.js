@@ -115,7 +115,7 @@
 
       // $scope.getList = function (callback, objFilter) {
       //   ApiService[$scope.module].list(objFilter).then(function (res) {
-      //     callback(res,res.info.meta.total);
+      //     callback(res,res.data.totalElements);
       //   });
       // };
 

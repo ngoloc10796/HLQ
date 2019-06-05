@@ -64,12 +64,12 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG', 'Restangular',
       reject(err);
     };
 
-    _this.createFn = function(data) {
+    _this.createFn = function (data) {
       let item_module = data.code;
       let item_id = data.id;
       let item_typeApi = data.typeApi;
       let item_url = data.url;
-     
+
       let objectFn = {};
 
       objectFn.fn_findById = function (id, objMessage) {
@@ -140,11 +140,107 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG', 'Restangular',
         });
       };
 
+      if (data.customApi && data.customApi.length > 0) {
+        for (let i = 0; i < data.customApi.length; i++) {
+          let item_api = data.customApi[i];
+
+          if (item_api.typeApi == "findById") {
+
+            objectFn[item_api.name] = function (id, objMessage) {
+              return new Promise(function (resolve, reject) {
+                Restangular.all(item_url).customGET(id).then(function (response) {
+                  checkSuccess(resolve, "findById", response, objMessage);
+                }, function (error) {
+                  checkError(reject, "findById", error, objMessage);
+                });
+              });
+            };
+          }
+
+          if (item_api.typeApi == "list") {
+            debugger;
+            objectFn[item_api.name] = function (objData, objMessage) {
+              objData.typeCode = item_module;
+              objData.typeId = item_id;
+              return new Promise(function (resolve, reject) {
+                Restangular.all(item_url).customGET("", objData).then(function (response, info) {
+                  checkSuccess(resolve, "list", { data: response.data, info: info }, objMessage);
+                }, function (error) {
+                  checkError(reject, "list", error, objMessage);
+                });
+              });
+            };
+
+          }
+
+          if (item_api.typeApi == "create") {
+
+            objectFn[item_api.name] = function (objData, objMessage) {
+              objData.typeCode = item_module;
+              objData.typeId = item_id;
+              return new Promise(function (resolve, reject) {
+                Restangular.all(item_url).customPOST(objData).then(function (response) {
+                  checkSuccess(resolve, "create", response, objMessage);
+                }, function (error) {
+                  checkError(reject, "create", error, objMessage);
+                });
+              });
+            };
+
+          }
+          if (item_api.typeApi == "update") {
+
+            objectFn[item_api.name] = function (objData, objMessage) {
+              objData.typeCode = item_module;
+              objData.typeId = item_id;
+              return new Promise(function (resolve, reject) {
+                Restangular.all(item_url).customPUT(objData).then(function (response) {
+                  checkSuccess(resolve, "update", response, objMessage);
+                }, function (error) {
+                  checkError(reject, "update", error, objMessage);
+                });
+              });
+            };
+
+          }
+
+          if (item_api.typeApi == "delete") {
+
+            objectFn[item_api.name] = function (id, objMessage) {
+              return new Promise(function (resolve, reject) {
+                Restangular.all(item_url).customDELETE(id).then(function (response) {
+                  checkSuccess(resolve, "delete", response, objMessage);
+                }, function (error) {
+                  checkError(reject, "delete", error, objMessage);
+                });
+              });
+            };
+
+          }
+          if (item_api.typeApi == "deleteList") {
+
+            objectFn[item_api.name] = function (arr, objMessage) {
+              return new Promise(function (resolve, reject) {
+                mushroom.faq.batchDelete(arr)
+                  .done(function (response, info) {
+                    checkSuccess(resolve, "deleteList", { response: response, info: info }, objMessage);
+                  })
+                  .fail(function (error) {
+                    checkError(reject, "deleteList", error, objMessage);
+                  });
+              });
+            };
+
+          }
+
+        }
+      }
+
       _this[item_module] = {};
 
       if (item_typeApi.indexOf("*") == 0) {
 
-        _this[item_module].findById = objectFn.fn_findById;        
+        _this[item_module].findById = objectFn.fn_findById;
 
         _this[item_module].list = objectFn.fn_list;
 
@@ -178,6 +274,14 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG', 'Restangular',
         }
 
       }
+
+      if(data.customApi && data.customApi.length > 0){
+        for (let i = 0; i < data.customApi.length; i++) {
+          let item_api = data.customApi[i];
+          _this[item_module][item_api.name] = objectFn[item_api.name];
+        }
+      }
+
     };
 
   }

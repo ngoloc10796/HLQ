@@ -22,7 +22,7 @@
           else{
             $rootScope.historyDataTable = {};
             if ($scope.mConfig.paging) {
-              $scope.urlParams.limit = $location.$$search.limit ? parseInt($location.$$search.limit) : 10;
+              $scope.urlParams.limit = $location.$$search.limit ? parseInt($location.$$search.limit) : $scope.mConfig.lengthMenu ? $scope.mConfig.lengthMenu[0] : 10;
               $scope.urlParams.page = $location.$$search.page ? parseInt($location.$$search.page) : 1;
               $scope.urlParams.offset = ($scope.urlParams.page - 1) * $scope.urlParams.limit;
             }
@@ -251,7 +251,7 @@
                 $('row:first c', sheet).attr('s', '42');
               },
               exportOptions: {
-                columns: $scope.mConfig.excelColumn ? $scope.mConfig.excelColumn : [],
+                columns: $scope.mConfig.excelColumn ? $scope.mConfig.excelColumn : undefined,
               },
               className: "btn",
               extension: ".xlsx"

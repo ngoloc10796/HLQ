@@ -227,7 +227,7 @@
           orderDefault: ["name", "asc"],  (required if ordering: true) ["attr", "asc | desc"] | false
           allowUpdate: $state.current.update, true | false ,default: false
           allowButtons: ["delete", "create", "filter", "excel"], (required) ["delete", "create", "filter", "excel"] | []
-          excelColumn: [1, 2, 3, 4, 6, 7], [array number] ,default: []
+          excelColumn: [1, 2, 3, 4, 6, 7], [array number] ,default: allColumn
           allowActions: ["view", "update", "delete"], (required)  ["view", "update", "delete"] | []
           customButtons: array[object] | []
           customList: "getList", string | null, name of function getList

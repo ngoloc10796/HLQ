@@ -7,14 +7,14 @@
       var a_language = APP_CONFIG.languageConfig.language;
       var a_userInfo = APP_CONFIG.userInfo;
 
-      $scope.module = "feedback";
-      $scope.route = "admin." + $scope.module;
-      $scope.modelForm = "dataForm";
-      $scope.modelSearch = "dataSearch";
+      $scope.module = "feedback"; //tên module
+      $scope.route = "admin." + $scope.module;  //tên route
+      $scope.modelForm = "dataForm";  //tên ng-model trong form thêm sửa
+      $scope.modelSearch = "dataSearch";  //tên ng-model trong form tìm kiếm
 
       $scope.currentScope = $scope;
 
-      /* array[array[object]] default: false */
+      /* array[array[object]] default: false, mỗi array[object] là 1 row */
       /* {
         title: string, key of object language
         name: (required) string (*_form *_to),  ex: "email"
@@ -29,7 +29,7 @@
         ngHide: string | false, ex: ngHide:`${$scope.modelForm}.name == 'quyet'`
         valid: string | false, ex: valid:`check-maxLength="10"`
         event: string | false,   ex: event: `ng-change="functionAlert()"`
-        type: (required) text | number-integer | number-float | textarea | select | summernote | ckeditor | date | datetime | checkbox,
+        type: (required) text | number-integer | number-float | textarea | select | summernote | ckeditor | date | datetime | checkbox | checkbox-list | radio,
       } */
       /* {
         option more:
@@ -173,7 +173,7 @@
               $scope.$apply(function () {
                 $scope[$scope.modelForm] = res;
               });
-            })
+            });
           }
         }
       });
@@ -209,8 +209,37 @@
 
       $scope.getList = function (callback, objFilter) {
         ApiService[$scope.module].list(objFilter).then(function (res) {
-          callback(res, res.data.totalElements);
+          callback(res, res.info.meta.total);
         });
+      };
+
+      $scope.openModalForm = function (typeForm, id) {
+        if (typeForm == "create") {
+          $scope.viewMode = "create";
+          $scope.dataForm = {
+            message: "Tôi rất hài lòng về sản phầm này",
+            status: "new"
+          }
+          $scope.$apply();
+        }
+        else {
+          if (typeForm == "update") {
+            $scope.viewMode = "update";
+          }
+          if (typeForm == "detail") {
+            $scope.viewMode = "detail";
+          }
+          ApiService[$scope.module].findById(id).then(function (res) {
+            $scope.$apply(function () {
+              $scope[$scope.modelForm] = res;
+            });
+          });
+        }
+        $("#" + $scope.module + "-modal").modal("show");
+      };
+
+      $scope.customButtonAction = function (id) {
+        toastr.success(" open function customButtonAction");
       };
 
       /* $scope.config = {
@@ -227,9 +256,39 @@
           orderDefault: ["name", "asc"],  (required if ordering: true) ["attr", "asc | desc"] | false
           allowUpdate: $state.current.update, true | false ,default: false
           allowButtons: ["delete", "create", "filter", "excel"], (required) ["delete", "create", "filter", "excel"] | []
+          allowOpenModal: "openModalForm", string | null, name of function openModal
           excelColumn: [1, 2, 3, 4, 6, 7], [array number] ,default: allColumn
           allowActions: ["view", "update", "delete"], (required)  ["view", "update", "delete"] | []
-          customButtons: array[object] | []
+          customButtons: object{allowUpdate :array[object],notAllowUpdate:array[object]} | [], tương tự khai báo button của datatable
+          ex: customButtons: {
+            allowUpdate: [{
+              text: `<i class="fa fa-cog"></i> ButtonName`,
+              action: function () {
+                
+              },
+              className: "btn"
+            }],
+            notAllowUpdate: [{
+              text: `<i class="fa fa-cog"></i> ButtonName2`,
+              action: function () {
+                
+              },
+              className: "btn"
+            }]
+          },
+          customActions: object{allowUpdate :array[object],notAllowUpdate:array[object]} | [], khai báo 3 trường
+          ex: customActions: {
+            allowUpdate: [{
+              nameActionFn: "customButtonAction",
+              text: `<i class="fa fa-cog"></i>`,
+              title: "ButtonName"
+            }],
+            notAllowUpdate: [{
+              nameActionFn: "customButtonAction",
+              text: `<i class="fa fa-cog"></i>`,
+              title: "ButtonName2"
+            }]
+          },
           customList: "getList", string | null, name of function getList
           customOperatorSearch: {     ["key": "operator"] | null
             "name": ":regex:",
@@ -255,20 +314,50 @@
         $scope.config = {
           module: $scope.module,
           route: $scope.route,
-          allowSelect: true,
-          ordering: true,
-          paging: true,
-          lengthMenu: [10, 25, 50, 100, 500, 700, 1000],
-          filter: true,
-          info: true,
-          allowDrag: false,
-          orderDefault: ["name", "asc"],
+          // hiddenParamUrl: true,
+          // filter: true,
+          // allowSelect: true,
+          // ordering: true,
+          // paging: true,
+          // lengthMenu: [10, 25, 50, 100, 500, 700, 1000],
+          // filter: true,
+          // info: true,
+          // allowDrag: false,
+          // orderDefault: ["name", "asc"],
           allowUpdate: $state.current.update,
-          allowButtons: ["delete", "create", "filter", 'excel'],
+          allowButtons: ["delete", "create", 'excel', "filter"],
           allowActions: ["view", "update", "delete"],
-          excelColumn: [1, 2, 3, 4, 6, 7],
-          customButtons: [],
-          customList: "getList",
+          // allowOpenModal: "openModalForm",
+          // excelColumn: [1, 2, 3, 4, 6, 7],
+          // customButtons: {
+          //   allowUpdate: [{
+          //     text: `<i class="fa fa-cog"></i> ButtonName`,
+          //     action: function () {
+
+          //     },
+          //     className: "btn"
+          //   }],
+          //   notAllowUpdate: [{
+          //     text: `<i class="fa fa-cog"></i> ButtonName2`,
+          //     action: function () {
+
+          //     },
+          //     className: "btn"
+          //   }]
+          // },
+          // customActions: {
+          //   allowUpdate: [{
+          //     nameActionFn: "customButtonAction",
+          //     text: `<i class="fa fa-cog"></i>`,
+          //     title: "ButtonName"
+          //   }],
+          //   notAllowUpdate: [{
+          //     nameActionFn: "customButtonAction",
+          //     text: `<i class="fa fa-cog"></i>`,
+          //     title: "ButtonName2"
+          //   }]
+          // },
+          // customList: "getList",
           customOperatorSearch: {
             "name": ":regex:",
             "email": ":regex:",
@@ -337,7 +426,7 @@
             title: a_language[$scope.module + '_' + 'createdTime'],
             data: "createdTime",
             width: "100px",
-            type: "datetime",
+            type: "date",
           }
           ]
         };

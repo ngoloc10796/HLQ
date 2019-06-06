@@ -260,93 +260,120 @@
 
           //check ẩn hiện button theo quyền sửa
           if ($scope.mConfig.allowUpdate) {
-            if ($scope.mConfig.allowButtons.indexOf('delete') > -1) {
+            if ($scope.mConfig.allowButtons && $scope.mConfig.allowButtons.indexOf('delete') > -1) {
               options.buttons.push(buttons.btnDelete);
             }
 
-            if ($scope.mConfig.allowButtons.indexOf('create') > -1) {
+            if ($scope.mConfig.allowButtons && $scope.mConfig.allowButtons.indexOf('create') > -1) {
               options.buttons.push(buttons.btnAdd);
             }
 
-            if ($scope.mConfig.allowButtons.indexOf('filter') > -1) {
+            if ($scope.mConfig.allowButtons && $scope.mConfig.allowButtons.indexOf('filter') > -1) {
               options.buttons.push(buttons.btnFilter);
             }
 
-            if ($scope.mConfig.allowButtons.indexOf('excel') > -1) {
+            if ($scope.mConfig.allowButtons && $scope.mConfig.allowButtons.indexOf('excel') > -1) {
               options.buttons.push(buttons.btnExcel);
             }
 
-            if ($scope.mConfig.customButtons && $scope.mConfig.customButtons.length > 0) {
-              options.buttons.push($scope.mConfig.customButtons);
+            if ($scope.mConfig.customButtons && $scope.mConfig.customButtons.allowUpdate && $scope.mConfig.customButtons.allowUpdate.length > 0) {
+              options.buttons.push($scope.mConfig.customButtons.allowUpdate);
             }
+
           } else {
-            if ($scope.mConfig.allowButtons.indexOf('filter') > -1) {
+            if ($scope.mConfig.allowButtons && $scope.mConfig.allowButtons.indexOf('filter') > -1) {
               options.buttons.push(buttons.btnFilter);
             }
 
-            if ($scope.mConfig.allowButtons.indexOf('excel') > -1) {
+            if ($scope.mConfig.allowButtons && $scope.mConfig.allowButtons.indexOf('excel') > -1) {
               options.buttons.push(buttons.btnExcel);
+            }
+
+            if ($scope.mConfig.customButtons && $scope.mConfig.customButtons.notAllowUpdate && $scope.mConfig.customButtons.notAllowUpdate.length > 0) {
+              options.buttons.push($scope.mConfig.customButtons.notAllowUpdate);
             }
             
           }
 
           //khai báo thao tác mặc định
-          $scope.action = {
-            update: function (id) {
-              $rootScope.historyDataTable = {
-                url: $scope.urlParams,
-                controller: $state.current.controller
-              };
-              $state.go(`${$scope.mConfig.route}.update`, {
-                id: id,
-              });
-            },
-            detail: function (id) {
-              $rootScope.historyDataTable = {
-                url: $scope.urlParams,
-                controller: $state.current.controller
-              };
-              $state.go(`${$scope.mConfig.route}.detail`, {
-                id: id,
-              });
-            },
-            delete: function (id) {
-              swal.show('confirm', a_language.c_deleteConfirm, '', function (confirm) {
-                if (confirm) {
-                  ApiService[$scope.mConfig.module].delete(id).then(function(res){
-                    datatable_init.draw();
-                  });
-                }
-              });
-            },
+          $scope.action = {};
+          $scope.action.update = function (id) {
+            $rootScope.historyDataTable = {
+              url: $scope.urlParams,
+              controller: $state.current.controller
+            };
+            $state.go(`${$scope.mConfig.route}.update`, {
+              id: id,
+            });
+          };
+          $scope.action.detail = function (id) {
+            $rootScope.historyDataTable = {
+              url: $scope.urlParams,
+              controller: $state.current.controller
+            };
+            $state.go(`${$scope.mConfig.route}.detail`, {
+              id: id,
+            });
+          };
+          $scope.action.delete = function (id) {
+            swal.show('confirm', a_language.c_deleteConfirm, '', function (confirm) {
+              if (confirm) {
+                ApiService[$scope.mConfig.module].delete(id).then(function(res){
+                  datatable_init.draw();
+                });
+              }
+            });
           };
 
+          //custom button action
+          if ($scope.mConfig.customActions && $scope.mConfig.customActions.allowUpdate && $scope.mConfig.customActions.allowUpdate.length > 0) {
+            $.each($scope.mConfig.customActions.allowUpdate, function (index, item) {
+              $scope.action[item.nameActionFn] = $scope.$parent[item.nameActionFn];
+            });
+          }
+
+          if ($scope.mConfig.customActions && $scope.mConfig.customActions.notAllowUpdate && $scope.mConfig.customActions.notAllowUpdate.length > 0) {
+            $.each($scope.mConfig.customActions.notAllowUpdate, function (index, item) {
+              $scope.action[item.nameActionFn] = $scope.$parent[item.nameActionFn];
+            });
+          }
+
           //check ẩn hiện action theo quyền sửa
-          if ($scope.mConfig.allowActions && $scope.mConfig.allowActions.length > 0) {
+          if (($scope.mConfig.allowActions && $scope.mConfig.allowActions.length > 0) || $scope.mConfig.customActions) {
             options.columns.push({
               data: "id",
               title: a_language.datatable_action,
               orderable: false,
               className: "text-center",
-              width: 40 * $scope.mConfig.allowActions.length + 'px',
+              width: 45 * (($scope.mConfig.allowActions ? $scope.mConfig.allowActions.length : 0) + ($scope.mConfig.customActions && $scope.mConfig.customActions.allowUpdate && $scope.mConfig.allowUpdate ? $scope.mConfig.customActions.allowUpdate.length : 0) + ($scope.mConfig.customActions && $scope.mConfig.customActions.notAllowUpdate && !$scope.mConfig.allowUpdate ? $scope.mConfig.customActions.notAllowUpdate.length : 0)) + 'px',
               render: function (data, type, full, meta) {
                 let btnView = `<button class="btn btn-xs tooltipster" title="${a_language.c_view}" ng-click="action.detail('${data}')"><i class="fa fa-eye"></i></button>`;
                 let btnUpdate = `<button class="btn btn-xs tooltipster" title="${a_language.c_update}" ng-click="action.update('${data}')"><i class="fa fa-pencil"></i></button>`;
                 let btnDelete = `<button class="btn btn-xs tooltipster" title="${a_language.c_delete}" ng-click="action.delete('${data}')"><i class="fa fa-trash-o"></i></button>`;
                 let buttons = "";
                 if ($scope.mConfig.allowUpdate) {
-                  if ($scope.mConfig.allowActions.indexOf('view') > -1) {
+                  if ($scope.mConfig.allowActions && $scope.mConfig.allowActions.indexOf('view') > -1) {
                     buttons += btnView;
                   }
-                  if ($scope.mConfig.allowActions.indexOf('update') > -1) {
+                  if ($scope.mConfig.allowActions && $scope.mConfig.allowActions.indexOf('update') > -1) {
                     buttons += btnUpdate;
                   }
-                  if ($scope.mConfig.allowActions.indexOf('delete') > -1) {
+                  if ($scope.mConfig.allowActions && $scope.mConfig.allowActions.indexOf('delete') > -1) {
                     buttons += btnDelete;
                   }
+                  if ($scope.mConfig.customActions && $scope.mConfig.customActions.allowUpdate && $scope.mConfig.customActions.allowUpdate.length > 0) {
+                    $.each($scope.mConfig.customActions.allowUpdate, function (index, item) {
+                      buttons += `<button class="btn btn-xs tooltipster" title="${item.title}" ng-click="action.${item.nameActionFn}('${data}')">${item.text}</button>`;
+                    });
+                  }
                 } else {
-                  if ($scope.mConfig.allowActions.indexOf('view') > -1) {
+                  if ($scope.mConfig.allowActions && $scope.mConfig.allowActions.indexOf('view') > -1) {
                     buttons += btnView;
+                  }
+                  if ($scope.mConfig.customActions && $scope.mConfig.customActions.notAllowUpdate && $scope.mConfig.customActions.notAllowUpdate.length > 0) {
+                    $.each($scope.mConfig.customActions.notAllowUpdate, function (index, item) {
+                      buttons += `<button class="btn btn-xs tooltipster" title="${item.title}" ng-click="action.${item.nameActionFn}('${data}')">${item.text}</button>`;
+                    });
                   }
                 }
                 return buttons;

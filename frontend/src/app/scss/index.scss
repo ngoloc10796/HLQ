@@ -704,4 +704,19 @@ small {
 .datatable-drag{
   cursor: move;
 }
-
+.modal-title-close2{
+  position: absolute;
+    right: 13px;
+    color: #ccc;
+    top: 13px;
+    cursor: pointer;
+    font-size: 10px;
+    &:hover{
+      color: #999;
+    }
+}
+.content-scroll {
+  min-height: 70vh;
+  max-height: 70vh;
+  overflow: auto;
+}

@@ -1,3 +1,27 @@
+//Menu 3 cấp childItems
+/* {
+  title: language."Danh mục mẫu",
+  index: numbber,
+  showInMenuIsRoles: ["Contributor", "Sale", "CustomerCare", "User"], ["*"] or array[role] or [];
+  accessIsRoles: ["*"],  ["*"] or array[role] or [];
+  updateIsRoles: ["*"],  ["*"] or array[role] or [];
+  iconClass: "fa fa-list",
+  state: null, Menu cha thì state = null;
+  activeState: null,
+  childItems: [{ array[object] or null
+    title: language.c_list + "Danh mục mẫu",
+    showInMenuIsRoles: ["*"],
+    accessIsRoles: ["*"],
+    updateIsRoles: ["*"],
+    iconClass: null,
+    state: "admin.demo.list",
+    activeState: [ array[string] or null; để active menu khi truy cập vào các view con, chỉ cần thêm thuộc tính này ở state đặt tại menu nếu có trang con
+      "admin.demo.create", "admin.demo.edit", "admin.demo.detail",
+    ],
+    childItems: null array[object] or null
+  }]
+}, */
+
 myApp.configMenu.push({
   title: myApp.configLanguage.language.location,
   index: 1,
@@ -20,7 +44,7 @@ myApp.configMenu.push({
         "admin.province.create", "admin.province.update", "admin.province.detail",
       ],
       childItems: null
-    },    
+    },
     {
       title: myApp.configLanguage.language.c_create + " " + myApp.configLanguage.language.province,
       index: 1,

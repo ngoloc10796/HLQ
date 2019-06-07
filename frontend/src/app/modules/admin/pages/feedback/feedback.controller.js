@@ -297,6 +297,10 @@
             "createdTime_from": ">=",
             "createdTime_to": "<="
           },
+          customHeader: string | null, viết từ thẻ <tr></tr>
+          ex: customHeader: `<tr><th colspan="8">Dòng 1 8 cột</th></tr>
+          <tr><th colspan="4">Dòng 2 4 cột</th><th colspan="4">Dòng 2 4 cột</th></tr>          
+          <tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>`,
           columns: (required) array[object]
             - type: stt | render (if use render angular) |  date | datetime | datetimehour | drag
             - title: string

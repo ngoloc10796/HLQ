@@ -531,6 +531,10 @@
             }
           };
 
+          //thêm dòng vào header
+          if ($scope.mConfig.customHeader) {
+            $element.context.innerHTML = `<table class="table table-bordered table-advance table-hover dataTable"><thead>${$scope.mConfig.customHeader}</thead><tbody></tbody></table>`
+          }
 
           //kích hoạt table
           var datatable_init = $("#" + $scope.id + ">table").DataTable(options);

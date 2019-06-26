@@ -255,10 +255,10 @@
           allowDrag: string | false, tên trường
           orderDefault: ["name", "asc"],  (required if ordering: true) ["attr", "asc | desc"] | false
           allowUpdate: $state.current.update, true | false ,default: false
-          allowButtons: ["delete", "create", "filter", "excel"], (required) ["delete", "create", "filter", "excel"] | []
+          allowButtons: ["delete", "create", "filter", "excel"], ["delete", "create", "filter", "excel"] | []
           allowOpenModal: "openModalForm", string | null, name of function openModal
           excelColumn: [1, 2, 3, 4, 6, 7], [array number] ,default: allColumn
-          allowActions: ["view", "update", "delete"], (required)  ["view", "update", "delete"] | []
+          allowActions: ["view", "update", "delete"],  ["view", "update", "delete"] | []
           customButtons: object{allowUpdate :array[object],notAllowUpdate:array[object]} | [], tương tự khai báo button của datatable
           ex: customButtons: {
             allowUpdate: [{
@@ -327,11 +327,11 @@
           // filter: true,
           // info: true,
           // allowDrag: false,
-          // orderDefault: ["name", "asc"],
+          orderDefault: ["name", "asc"],
           allowUpdate: $state.current.update,
           allowButtons: ["delete", "create", 'excel', "filter"],
           allowActions: ["view", "update", "delete"],
-          // allowOpenModal: "openModalForm",
+          allowOpenModal: "openModalForm",
           // excelColumn: [1, 2, 3, 4, 6, 7],
           // customButtons: {
           //   allowUpdate: [{
@@ -369,6 +369,9 @@
             "createdTime_from": ">=",
             "createdTime_to": "<="
           },
+          // customHeader: `<tr><th colspan="8">Dòng 1 8 cột</th></tr>
+          // <tr><th colspan="4">Dòng 2 4 cột</th><th colspan="4">Dòng 2 4 cột</th></tr>          
+          // <tr><th></th><th></th><th></th><th></th><th></th><th></th><th></th><th></th></tr>`,
           columns: [{
             type: "stt"
           },

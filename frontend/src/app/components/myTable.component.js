@@ -148,12 +148,16 @@
           };
 
           function locationSearch() {
-            $location.search($scope.urlParams);
+            if (!$scope.mConfig.hiddenParamUrl) {
+              $location.search($scope.urlParams);
+            }
           };
 
           function applyLocationSearch() {
-            $location.search($scope.urlParams);
-            $scope.$apply();
+            if (!$scope.mConfig.hiddenParamUrl) {
+              $location.search($scope.urlParams);
+              $scope.$apply();
+            }
           };
 
           locationSearch();
@@ -221,11 +225,16 @@
             btnAdd: {
               text: `<i class="fa fa-plus"></i> ${a_language.c_create}`,
               action: function () {
-                $rootScope.historyDataTable = {
-                  url: $scope.urlParams,
-                  controller: $state.current.controller
-                };
-                $state.go(`${$scope.mConfig.route}.create`);
+                if ($scope.mConfig.allowOpenModal) {
+                  $scope.$parent[$scope.mConfig.allowOpenModal]("create");
+                }
+                else{
+                  $rootScope.historyDataTable = {
+                    url: $scope.urlParams,
+                    controller: $state.current.controller
+                  };
+                  $state.go(`${$scope.mConfig.route}.create`);
+                }                
               },
               className: "btn"
             },
@@ -298,22 +307,34 @@
           //khai báo thao tác mặc định
           $scope.action = {};
           $scope.action.update = function (id) {
-            $rootScope.historyDataTable = {
-              url: $scope.urlParams,
-              controller: $state.current.controller
-            };
-            $state.go(`${$scope.mConfig.route}.update`, {
-              id: id,
-            });
+            if ($scope.mConfig.allowOpenModal) {
+              $scope.$parent[$scope.mConfig.allowOpenModal]("update", id);
+            }
+            else{
+              $rootScope.historyDataTable = {
+                url: $scope.urlParams,
+                controller: $state.current.controller
+              };
+              $state.go(`${$scope.mConfig.route}.update`, {
+                id: id,
+              });
+            }
+            
           };
           $scope.action.detail = function (id) {
-            $rootScope.historyDataTable = {
-              url: $scope.urlParams,
-              controller: $state.current.controller
-            };
-            $state.go(`${$scope.mConfig.route}.detail`, {
-              id: id,
-            });
+            if ($scope.mConfig.allowOpenModal) {
+              $scope.$parent[$scope.mConfig.allowOpenModal]("update", id);
+            }
+            else{
+              $rootScope.historyDataTable = {
+                url: $scope.urlParams,
+                controller: $state.current.controller
+              };
+              $state.go(`${$scope.mConfig.route}.detail`, {
+                id: id,
+              });
+            }
+            
           };
           $scope.action.delete = function (id) {
             swal.show('confirm', a_language.c_deleteConfirm, '', function (confirm) {
@@ -606,7 +627,9 @@
 
 
         $scope.$watch("mConfig", function (newVal, oldVal) {
-          if (newVal != undefined) {
+          if (oldVal != undefined) {
+            $rootScope.searchDataTable();
+          } else {
             init();
           }
         });

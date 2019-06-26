@@ -627,9 +627,7 @@
 
 
         $scope.$watch("mConfig", function (newVal, oldVal) {
-          if (oldVal != undefined) {
-            $rootScope.searchDataTable();
-          } else {
+          if (newVal != undefined) {
             init();
           }
         });

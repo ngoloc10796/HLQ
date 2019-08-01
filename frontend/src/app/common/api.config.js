@@ -158,7 +158,6 @@ MyApp.service('ApiService', ['$rootScope', 'APP_CONFIG', 'Restangular',
           }
 
           if (item_api.typeApi == "list") {
-            debugger;
             objectFn[item_api.name] = function (objData, objMessage) {
               objData.typeCode = item_module;
               objData.typeId = item_id;

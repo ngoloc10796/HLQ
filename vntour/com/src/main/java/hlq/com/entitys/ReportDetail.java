@@ -119,12 +119,12 @@ public class ReportDetail implements Serializable {
 		this.totalTour = totalTour;
 	}
 
-	public Report getReport() {
-		return report;
-	}
-
-	public void setReport(Report report) {
-		this.report = report;
-	}
+//	public Report getReport() {
+//		return report;
+//	}
+//
+//	public void setReport(Report report) {
+//		this.report = report;
+//	}
 
 }

@@ -22,7 +22,7 @@
           else{
             $rootScope.historyDataTable = {};
             if ($scope.mConfig.paging) {
-              $scope.urlParams.limit = $location.$$search.limit ? parseInt($location.$$search.limit) : 10;
+              $scope.urlParams.limit = $location.$$search.limit ? parseInt($location.$$search.limit) : $scope.mConfig.lengthMenu ? $scope.mConfig.lengthMenu[0] : 10;
               $scope.urlParams.page = $location.$$search.page ? parseInt($location.$$search.page) : 1;
               $scope.urlParams.offset = ($scope.urlParams.page - 1) * $scope.urlParams.limit;
             }
@@ -148,12 +148,16 @@
           };
 
           function locationSearch() {
-            $location.search($scope.urlParams);
+            if (!$scope.mConfig.hiddenParamUrl) {
+              $location.search($scope.urlParams);
+            }
           };
 
           function applyLocationSearch() {
-            $location.search($scope.urlParams);
-            $scope.$apply();
+            if (!$scope.mConfig.hiddenParamUrl) {
+              $location.search($scope.urlParams);
+              $scope.$apply();
+            }
           };
 
           locationSearch();
@@ -161,14 +165,14 @@
           //khởi tạo
           var options = {
             serverSide: true, //để khi sắp xếp sẽ gọi lại ajax
-            info: $scope.mConfig.info,
-            paging: $scope.mConfig.paging,
+            info: $scope.mConfig.info ? $scope.mConfig.info : false,
+            paging: $scope.mConfig.paging ? $scope.mConfig.paging : false,
             autoWidth: false,
-            processing: false, //hiện loading
-            lengthMenu: [10, 25, 50, 100, 500, 700],
+            processing: $scope.mConfig.processing ? $scope.mConfig.processing : false, //hiện loading
+            lengthMenu: $scope.mConfig.lengthMenu ? $scope.mConfig.lengthMenu : [10, 25, 50, 100, 500, 700, 1000],
             iDisplayLength: $scope.urlParams.limit,
             iDisplayStart: $scope.urlParams.offset,
-            ordering: $scope.mConfig.ordering,
+            ordering: $scope.mConfig.ordering ? $scope.mConfig.ordering : false,
             order: [[$scope.mConfig.orderNumber, $scope.urlParams.sortType]],
             language: {
               lengthMenu: "_MENU_",
@@ -221,11 +225,16 @@
             btnAdd: {
               text: `<i class="fa fa-plus"></i> ${a_language.c_create}`,
               action: function () {
-                $rootScope.historyDataTable = {
-                  url: $scope.urlParams,
-                  controller: $state.current.controller
-                };
-                $state.go(`${$scope.mConfig.route}.create`);
+                if ($scope.mConfig.allowOpenModal) {
+                  $scope.$parent[$scope.mConfig.allowOpenModal]("create");
+                }
+                else{
+                  $rootScope.historyDataTable = {
+                    url: $scope.urlParams,
+                    controller: $state.current.controller
+                  };
+                  $state.go(`${$scope.mConfig.route}.create`);
+                }                
               },
               className: "btn"
             },
@@ -243,34 +252,65 @@
               },
               className: "btn"
             },
+            btnExcel: {
+              text: `<i class="fa fa-download"></i> ${a_language.datatable_exportExcel}`,
+              extend: 'excelHtml5',
+              customize: function(xlsx) {
+                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+                $('row:first c', sheet).attr('s', '42');
+              },
+              exportOptions: {
+                columns: $scope.mConfig.excelColumn ? $scope.mConfig.excelColumn : undefined,
+              },
+              className: "btn",
+              extension: ".xlsx"
+            }
           };
 
           //check ẩn hiện button theo quyền sửa
           if ($scope.mConfig.allowUpdate) {
-            if ($scope.mConfig.allowButtons.indexOf('delete') > -1) {
+            if ($scope.mConfig.allowButtons && $scope.mConfig.allowButtons.indexOf('delete') > -1) {
               options.buttons.push(buttons.btnDelete);
             }
 
-            if ($scope.mConfig.allowButtons.indexOf('create') > -1) {
+            if ($scope.mConfig.allowButtons && $scope.mConfig.allowButtons.indexOf('create') > -1) {
               options.buttons.push(buttons.btnAdd);
             }
 
-            if ($scope.mConfig.allowButtons.indexOf('filter') > -1) {
+            if ($scope.mConfig.allowButtons && $scope.mConfig.allowButtons.indexOf('filter') > -1) {
               options.buttons.push(buttons.btnFilter);
             }
 
-            if ($scope.mConfig.customButtons && $scope.mConfig.customButtons.length > 0) {
-              options.buttons.push($scope.mConfig.customButtons);
+            if ($scope.mConfig.allowButtons && $scope.mConfig.allowButtons.indexOf('excel') > -1) {
+              options.buttons.push(buttons.btnExcel);
             }
+
+            if ($scope.mConfig.customButtons && $scope.mConfig.customButtons.allowUpdate && $scope.mConfig.customButtons.allowUpdate.length > 0) {
+              options.buttons.push($scope.mConfig.customButtons.allowUpdate);
+            }
+
           } else {
-            if ($scope.mConfig.allowButtons.indexOf('filter') > -1) {
+            if ($scope.mConfig.allowButtons && $scope.mConfig.allowButtons.indexOf('filter') > -1) {
               options.buttons.push(buttons.btnFilter);
             }
+
+            if ($scope.mConfig.allowButtons && $scope.mConfig.allowButtons.indexOf('excel') > -1) {
+              options.buttons.push(buttons.btnExcel);
+            }
+
+            if ($scope.mConfig.customButtons && $scope.mConfig.customButtons.notAllowUpdate && $scope.mConfig.customButtons.notAllowUpdate.length > 0) {
+              options.buttons.push($scope.mConfig.customButtons.notAllowUpdate);
+            }
+            
           }
 
           //khai báo thao tác mặc định
-          $scope.action = {
-            update: function (id) {
+          $scope.action = {};
+          $scope.action.update = function (id) {
+            if ($scope.mConfig.allowOpenModal) {
+              $scope.$parent[$scope.mConfig.allowOpenModal]("update", id);
+            }
+            else{
               $rootScope.historyDataTable = {
                 url: $scope.urlParams,
                 controller: $state.current.controller
@@ -278,8 +318,14 @@
               $state.go(`${$scope.mConfig.route}.update`, {
                 id: id,
               });
-            },
-            detail: function (id) {
+            }
+            
+          };
+          $scope.action.detail = function (id) {
+            if ($scope.mConfig.allowOpenModal) {
+              $scope.$parent[$scope.mConfig.allowOpenModal]("update", id);
+            }
+            else{
               $rootScope.historyDataTable = {
                 url: $scope.urlParams,
                 controller: $state.current.controller
@@ -287,44 +333,68 @@
               $state.go(`${$scope.mConfig.route}.detail`, {
                 id: id,
               });
-            },
-            delete: function (id) {
-              swal.show('confirm', a_language.c_deleteConfirm, '', function (confirm) {
-                if (confirm) {
-                  ApiService[$scope.mConfig.module].delete(id).then(function(res){
-                    datatable_init.draw();
-                  });
-                }
-              });
-            },
+            }
+            
+          };
+          $scope.action.delete = function (id) {
+            swal.show('confirm', a_language.c_deleteConfirm, '', function (confirm) {
+              if (confirm) {
+                ApiService[$scope.mConfig.module].delete(id).then(function(res){
+                  datatable_init.draw();
+                });
+              }
+            });
           };
 
+          //custom button action
+          if ($scope.mConfig.customActions && $scope.mConfig.customActions.allowUpdate && $scope.mConfig.customActions.allowUpdate.length > 0) {
+            $.each($scope.mConfig.customActions.allowUpdate, function (index, item) {
+              $scope.action[item.nameActionFn] = $scope.$parent[item.nameActionFn];
+            });
+          }
+
+          if ($scope.mConfig.customActions && $scope.mConfig.customActions.notAllowUpdate && $scope.mConfig.customActions.notAllowUpdate.length > 0) {
+            $.each($scope.mConfig.customActions.notAllowUpdate, function (index, item) {
+              $scope.action[item.nameActionFn] = $scope.$parent[item.nameActionFn];
+            });
+          }
+
           //check ẩn hiện action theo quyền sửa
-          if ($scope.mConfig.allowActions && $scope.mConfig.allowActions.length > 0) {
+          if (($scope.mConfig.allowActions && $scope.mConfig.allowActions.length > 0) || $scope.mConfig.customActions) {
             options.columns.push({
               data: "id",
               title: a_language.datatable_action,
               orderable: false,
               className: "text-center",
-              width: 40 * $scope.mConfig.allowActions.length + 'px',
+              width: 45 * (($scope.mConfig.allowActions ? $scope.mConfig.allowActions.length : 0) + ($scope.mConfig.customActions && $scope.mConfig.customActions.allowUpdate && $scope.mConfig.allowUpdate ? $scope.mConfig.customActions.allowUpdate.length : 0) + ($scope.mConfig.customActions && $scope.mConfig.customActions.notAllowUpdate && !$scope.mConfig.allowUpdate ? $scope.mConfig.customActions.notAllowUpdate.length : 0)) + 'px',
               render: function (data, type, full, meta) {
                 let btnView = `<button class="btn btn-xs tooltipster" title="${a_language.c_view}" ng-click="action.detail('${data}')"><i class="fa fa-eye"></i></button>`;
                 let btnUpdate = `<button class="btn btn-xs tooltipster" title="${a_language.c_update}" ng-click="action.update('${data}')"><i class="fa fa-pencil"></i></button>`;
                 let btnDelete = `<button class="btn btn-xs tooltipster" title="${a_language.c_delete}" ng-click="action.delete('${data}')"><i class="fa fa-trash-o"></i></button>`;
                 let buttons = "";
                 if ($scope.mConfig.allowUpdate) {
-                  if ($scope.mConfig.allowActions.indexOf('view') > -1) {
+                  if ($scope.mConfig.allowActions && $scope.mConfig.allowActions.indexOf('view') > -1) {
                     buttons += btnView;
                   }
-                  if ($scope.mConfig.allowActions.indexOf('update') > -1) {
+                  if ($scope.mConfig.allowActions && $scope.mConfig.allowActions.indexOf('update') > -1) {
                     buttons += btnUpdate;
                   }
-                  if ($scope.mConfig.allowActions.indexOf('delete') > -1) {
+                  if ($scope.mConfig.allowActions && $scope.mConfig.allowActions.indexOf('delete') > -1) {
                     buttons += btnDelete;
                   }
+                  if ($scope.mConfig.customActions && $scope.mConfig.customActions.allowUpdate && $scope.mConfig.customActions.allowUpdate.length > 0) {
+                    $.each($scope.mConfig.customActions.allowUpdate, function (index, item) {
+                      buttons += `<button class="btn btn-xs tooltipster" title="${item.title}" ng-click="action.${item.nameActionFn}('${data}')">${item.text}</button>`;
+                    });
+                  }
                 } else {
-                  if ($scope.mConfig.allowActions.indexOf('view') > -1) {
+                  if ($scope.mConfig.allowActions && $scope.mConfig.allowActions.indexOf('view') > -1) {
                     buttons += btnView;
+                  }
+                  if ($scope.mConfig.customActions && $scope.mConfig.customActions.notAllowUpdate && $scope.mConfig.customActions.notAllowUpdate.length > 0) {
+                    $.each($scope.mConfig.customActions.notAllowUpdate, function (index, item) {
+                      buttons += `<button class="btn btn-xs tooltipster" title="${item.title}" ng-click="action.${item.nameActionFn}('${data}')">${item.text}</button>`;
+                    });
                   }
                 }
                 return buttons;
@@ -382,33 +452,35 @@
               $("th.select-checkbox").removeClass("selected");
             }
 
-            var sortTypeList = "";
+            /* var sortTypeList = "";
             if ($scope.urlParams.sortType == "asc") {
               sortTypeList = $scope.urlParams.sortBy;
             }
             if ($scope.urlParams.sortType == "desc") {
               sortTypeList = "-" + $scope.urlParams.sortBy;
-            }
+            } */
 
+
+            var filter = "";
             //kiểm tra object.Search có rỗng k
             if (_.isEmpty($scope.mSearch)) {
               locationSearch();
             }
 
             else {
-              var filter = "";
+              
               var arrOperator = [];
 
               //xử lý filter
               Object.keys($scope.mSearch).map(function (key, index) {
 
                 //cắt _to và _from
-                var key2 = key;
+                /* var key2 = key;
                 key2 = key.replace("_to", "");
-                key2 = key2.replace("_from", "");
+                key2 = key2.replace("_from", ""); */
 
                 if ($scope.mSearch[key] && $scope.mSearch[key] != "") {
-                  if ($scope.mConfig.customOperatorSearch) {
+                  /* if ($scope.mConfig.customOperatorSearch) {
                     if ($scope.mConfig.customOperatorSearch[key]) {
                       arrOperator.push(key2 + $scope.mConfig.customOperatorSearch[key] + $scope.mSearch[key]);
                     } else {
@@ -417,7 +489,8 @@
                   }
                   else {
                     arrOperator.push(key2 + "=" + $scope.mSearch[key]);
-                  }
+                  } */
+                  arrOperator.push(key + "=" + $scope.mSearch[key]);
                 }
 
               });
@@ -435,7 +508,7 @@
               locationSearch();
             }
 
-            var objFilter = {
+            /* var objFilter = {
               //filters: filter,
               //limit: $scope.urlParams.limit,
               //offset: $scope.urlParams.offset,
@@ -446,12 +519,20 @@
               sortType: $scope.urlParams.sortType,
               sortBy: $scope.urlParams.sortBy,
 
-            };
-            var value = {};
-
+            }; */
+            var objFilter = {};
+            if ($scope.mConfig.paging) {
+              objFilter.size = $scope.urlParams.limit;
+              objFilter.page = $scope.urlParams.page - 1;
+            }
+            if ($scope.mConfig.ordering) {
+              objFilter.sortType = $scope.urlParams.sortType;
+              objFilter.sortBy = $scope.urlParams.sortBy;
+            }
             //truyền tham số search ra controller cha để xử lý list
             if ($scope.mConfig.customList) {
               $scope.$parent[$scope.mConfig.customList](function (res) {
+                let value = {};
                 value.recordsFiltered = res.data.totalElements;
                 value.recordsTotal = res.data.totalElements;
                 value.data = res.data.content;
@@ -461,6 +542,7 @@
             }
             else {
               ApiService[$scope.mConfig.module].list(objFilter).then(function (res) {
+                let value = {};
                 value.recordsFiltered = res.data.totalElements;
                 value.recordsTotal = res.data.totalElements;
                 value.data = res.data.content;
@@ -470,6 +552,10 @@
             }
           };
 
+          //thêm dòng vào header
+          if ($scope.mConfig.customHeader) {
+            $element.context.innerHTML = `<table class="table table-bordered table-advance table-hover dataTable"><thead>${$scope.mConfig.customHeader}</thead><tbody></tbody></table>`
+          }
 
           //kích hoạt table
           var datatable_init = $("#" + $scope.id + ">table").DataTable(options);

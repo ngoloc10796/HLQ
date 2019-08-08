@@ -1,13 +1,14 @@
+
 (function () {
   "use strict";
   angular
     .module("MyApp")
-    .controller("district.Controller", function ($rootScope, $scope, $timeout, $q, $state, $stateParams, $compile, AuthService, ApiService, APP_CONFIG) {
+    .controller("collaborator.Controller", function ($rootScope, $scope, $timeout, $q, $state, $stateParams, $compile, AuthService, ApiService, APP_CONFIG) {
 
       var a_language = APP_CONFIG.languageConfig.language;
       var a_userInfo = APP_CONFIG.userInfo;
 
-      $scope.module = "district";
+      $scope.module = "collaborator";
       $scope.route = "admin." + $scope.module;
       $scope.modelForm = "dataForm";
       $scope.modelSearch = "dataSearch";
@@ -16,18 +17,7 @@
       $scope.currentScope = $scope;
 
       $scope.attrForm = [
-        [
-          {
-            title: "province_name",
-            name: "parentId",
-            col: "3",
-            required: true,
-            ngDisabled: "viewMode == 'detail'",
-            type: "select",
-            mOption: "listProvince",
-            mKeytotext: "name",
-          },
-          {
+        [{
           name: "name",
           col: "3",
           required: true,
@@ -56,33 +46,24 @@
       $scope.$on("$viewContentLoaded", function () {
         if ($state.current.name == $scope.route + ".list") {
           $scope.initTable();
-        } else if ($state.current.name == $scope.route + ".create") {
-          $scope.viewMode = "create";
-          $scope.getListProvince();
         } else {
-          if ($state.current.name == $scope.route + ".update") {
-            $scope.viewMode = "update";
+          if ($state.current.name == $scope.route + ".create") {
+            $scope.viewMode = "create";
+          } else {
+            if ($state.current.name == $scope.route + ".update") {
+              $scope.viewMode = "update";
+            }
+            if ($state.current.name == $scope.route + ".detail") {
+              $scope.viewMode = "detail";
+            }
+            ApiService[$scope.module].findById($stateParams.id).then(function (res) {
+              $scope.$apply(function () {
+                $scope[$scope.modelForm] = res.data;
+              });
+            })
           }
-          if ($state.current.name == $scope.route + ".detail") {
-            $scope.viewMode = "detail";
-          }
-          $scope.getListProvince();
-          ApiService[$scope.module].findById($stateParams.id).then(function (res) {
-            $scope.$apply(function () {
-              $scope[$scope.modelForm] = res.data;
-            });
-          })
         }
       });
-
-      $scope.getListProvince = function () {
-        ApiService['province'].list({size: 1000}).then(function (res) {
-          $scope.$apply(function () {
-            $scope.listProvince = res.data.content;
-          });
-        })
-      };
-      
 
       $scope.search = function () {
         // hàm được viết trong myTable
@@ -115,7 +96,7 @@
 
       // $scope.getList = function (callback, objFilter) {
       //   ApiService[$scope.module].list(objFilter).then(function (res) {
-      //     callback(res,res.info.meta.total);
+      //     callback(res,res.data.totalElements);
       //   });
       // };
 
@@ -143,31 +124,22 @@
           //   type: "stt"
           // },
           {
-            title: a_language.province_numericalOrder,
+            title: a_language[$scope.module + '_' + 'numericalOrder'],
             data: "numericalOrder",
             width: "50px",
             className:"text-center"
           },
           {
-            title: a_language.district_name,
+            title: a_language[$scope.module + '_' + 'name'],
             data: "name",
             width: "200px",
           },
           {
-            title: a_language.province_name,
-            data: "parent",
-            width: "200px",
-          },
-          {
-            title: a_language.district_description,
+            title: a_language[$scope.module + '_' + 'description'],
             data: "description",
             width: "auto",
           },
-          // {
-          //   title: a_language.district_numericalOrder,
-          //   data: "numericalOrder",
-          //   width: "50px",
-          // }
+          
           ]
         };
       };

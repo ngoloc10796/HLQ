@@ -271,11 +271,11 @@ $color-default: #1bbc9b;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #888;
+  background: #999;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #777;
+  background: #888;
 }
 
 ::-webkit-scrollbar-thumb:horizontal {
@@ -304,10 +304,10 @@ $color-default: #1bbc9b;
       .fa {
         font-size: 14px;
       }
-      .scroll {
-        overflow-y: auto !important;
-        height: calc(100vh - 80px) !important;
-      }
+    }
+    #scroll-sidebar.scroll {
+      overflow-y: auto !important;
+      height: calc(100vh - 80px) !important;
     }
 
     #scroll-sidebar:not(.scroll) {
@@ -348,36 +348,6 @@ $color-default: #1bbc9b;
 
     .page-sidebar-menu.page-sidebar-menu-closed>li:hover {
       box-shadow: none;
-    }
-
-    
-
-    ul {
-      &::-webkit-scrollbar {
-        width: 10px;
-        background-color: #f5f5f5;
-
-      }
-
-      &::-webkit-scrollbar-track {
-        border-radius: 10px;
-        background: rgba(0, 0, 0, 0.01);
-        border: 1px solid #ccc;
-      }
-
-      &::-webkit-scrollbar-thumb {
-        border-radius: 10px;
-        background: linear-gradient(to left, #fff, #ccc);
-        border: 1px solid #aaa;
-      }
-
-      &::-webkit-scrollbar-thumb:hover {
-        background: linear-gradient(to left, #fff, #ccc);
-      }
-
-      &::-webkit-scrollbar-thumb:active {
-        background: linear-gradient(to left, #fff, #ccc);
-      }
     }
 
     @media (min-width: 992px) {
@@ -734,4 +704,19 @@ small {
 .datatable-drag{
   cursor: move;
 }
-
+.modal-title-close2{
+  position: absolute;
+    right: 13px;
+    color: #ccc;
+    top: 13px;
+    cursor: pointer;
+    font-size: 10px;
+    &:hover{
+      color: #999;
+    }
+}
+.content-scroll {
+  min-height: 70vh;
+  max-height: 70vh;
+  overflow: auto;
+}

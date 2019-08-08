@@ -958,3 +958,9 @@ p {
 .md-checkbox label>span.inc{
   display: none;
 }
+.mt-radio-inline .mt-radio{
+  margin-bottom: 0px;
+}
+.has-error .mt-radio span{
+  border: 1px solid #e73d4a !important;
+}

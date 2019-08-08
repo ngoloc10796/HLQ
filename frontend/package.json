@@ -1,6 +1,9 @@
 {
-  "name": "siten",
-  "version": "0.0.0",
+  "name": "@metronic/angularjs",
+  "version": "1.0.0",
+  "description": "@metronic4/angularjs1.5.8",
+  "author": "VanQuyet",
+  "copyright": "Copyright 2019 create by VanQuyet",
   "dependencies": {
     "angular-deferred-bootstrap": "^0.1.9",
     "dom-to-image": "^2.6.0",

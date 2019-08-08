@@ -2,12 +2,12 @@
   "use strict";
   angular
     .module("MyApp")
-    .controller("province.Controller", function ($rootScope, $scope, $timeout, $q, $state, $stateParams, $compile, AuthService, ApiService, APP_CONFIG) {
+    .controller("school.Controller", function ($rootScope, $scope, $timeout, $q, $state, $stateParams, $compile, AuthService, ApiService, APP_CONFIG) {
 
       var a_language = APP_CONFIG.languageConfig.language;
       var a_userInfo = APP_CONFIG.userInfo;
 
-      $scope.module = "province";
+      $scope.module = "school";
       $scope.route = "admin." + $scope.module;
       $scope.modelForm = "dataForm";
       $scope.modelSearch = "dataSearch";
@@ -18,17 +18,30 @@
       $scope.attrForm = [
         [{
           name: "name",
-          col: "3",
+          col: "4",
           required: true,
           ngDisabled: "viewMode == 'detail'",
           type: "text",
         },
         {
-          name: "numericalOrder",
-          col: "2",
+          name: "born",
+          col: "4",
           required: true,
           ngDisabled: "viewMode == 'detail'",
-          type: "number-integer",
+          type: "date",
+        },{
+          name: "type",
+          col: "4",
+          required: false,
+          ngDisabled: "viewMode == 'detail'",
+          type: "text",
+        }],
+        [{
+          name: "address",
+          col: "12",
+          required: true,
+          ngDisabled: "viewMode == 'detail'",
+          type: "text",
         }],[
         {
           name: "description",
@@ -45,20 +58,22 @@
       $scope.$on("$viewContentLoaded", function () {
         if ($state.current.name == $scope.route + ".list") {
           $scope.initTable();
-        } else if ($state.current.name == $scope.route + ".create") {
-          $scope.viewMode = "create";
         } else {
-          if ($state.current.name == $scope.route + ".update") {
-            $scope.viewMode = "update";
+          if ($state.current.name == $scope.route + ".create") {
+            $scope.viewMode = "create";
+          } else {
+            if ($state.current.name == $scope.route + ".update") {
+              $scope.viewMode = "update";
+            }
+            if ($state.current.name == $scope.route + ".detail") {
+              $scope.viewMode = "detail";
+            }
+            ApiService[$scope.module].findById($stateParams.id).then(function (res) {
+              $scope.$apply(function () {
+                $scope[$scope.modelForm] = res.data;
+              });
+            })
           }
-          if ($state.current.name == $scope.route + ".detail") {
-            $scope.viewMode = "detail";
-          }
-          ApiService[$scope.module].findById($stateParams.id).then(function (res) {
-            $scope.$apply(function () {
-              $scope[$scope.modelForm] = res.data;
-            });
-          })
         }
       });
 
@@ -93,7 +108,7 @@
 
       // $scope.getList = function (callback, objFilter) {
       //   ApiService[$scope.module].list(objFilter).then(function (res) {
-      //     callback(res,res.info.meta.total);
+      //     callback(res,res.data.totalElements);
       //   });
       // };
 
@@ -117,26 +132,24 @@
           customList: null,
           customOperatorSearch: null,
           columns: [
-          //   {
-          //   type: "stt"
-          // },
-          {
-            title: a_language.province_numericalOrder,
-            data: "numericalOrder",
-            width: "50px",
-            className:"text-center"
+            {
+            type: "stt"
           },
           {
-            title: a_language.province_name,
+            title: a_language[$scope.module + '_' + 'name'],
             data: "name",
+            width: "auto",
+          },
+          {
+            title: a_language[$scope.module + '_' + 'born'],
+            data: "born",
             width: "200px",
           },
           {
-            title: a_language.province_description,
-            data: "description",
-            width: "auto",
+            title: a_language[$scope.module + '_' + 'type'],
+            data: "type",
+            width: "200px",
           },
-          
           ]
         };
       };

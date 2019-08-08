@@ -3,11 +3,10 @@
   angular
     .module('MyApp')
     .config(function routerConfig($stateProvider, APP_CONFIG) {
-
-
+      
       var a_language = APP_CONFIG.languageConfig.language;
 
-      let res = "feedback";
+      let res = "aspiration";
       let state = "admin." + res;
       let ctrl = res + ".Controller";
       let temp = "/app/modules/admin/pages/";
@@ -42,6 +41,5 @@
           controller: ctrl,
           pageTitle: a_language.c_detail + " " + a_language[res]
         })
-
     });
 })();

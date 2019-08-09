@@ -23,10 +23,6 @@ import javax.persistence.Table;
 public class ReportDetail implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String id;
-
 	@Column(name = "from_viet_nam")
 	private Integer fromVietNam;
 
@@ -53,14 +49,6 @@ public class ReportDetail implements Serializable {
 	private Report report;
 
 	public ReportDetail() {
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public Integer getFromVietNam() {

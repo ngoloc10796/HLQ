@@ -1,7 +1,6 @@
 package hlq.com.entitys;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -30,15 +28,15 @@ public class RolePermistion implements Serializable {
 	// bi-directional many-to-one association to Function
 	@ManyToOne
 	@JoinColumn(name = "funtion_id")
-	private Function function;
+	private Tblfunction function;
 
 	// bi-directional many-to-one association to Role
 	@ManyToOne
 	private Role role;
 
 	// bi-directional many-to-one association to User
-	@OneToMany(mappedBy = "rolePermistion")
-	private List<User> users;
+//	@OneToMany(mappedBy = "rolePermistion")
+//	private List<User> users;
 
 	public RolePermistion() {
 	}
@@ -51,14 +49,14 @@ public class RolePermistion implements Serializable {
 		this.id = id;
 	}
 
-	public Function getFunction() {
-		return this.function;
-	}
-
-	public void setFunction(Function function) {
-		this.function = function;
-	}
-
+//	public Function getFunction() {
+//		return this.function;
+//	}
+//
+//	public void setFunction(Function function) {
+//		this.function = function;
+//	}
+//
 	public Role getRole() {
 		return this.role;
 	}

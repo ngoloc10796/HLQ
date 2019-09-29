@@ -1,7 +1,6 @@
 package hlq.com.entitys;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,15 +8,14 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 
 /**
  * The persistent class for the function database table.
  * 
  */
 @Entity
-@NamedQuery(name = "Function.findAll", query = "SELECT f FROM Function f")
-public class Function implements Serializable {
+@NamedQuery(name = "Tblfunction.findAll", query = "SELECT f FROM Tblfunction f")
+public class Tblfunction implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -27,16 +25,16 @@ public class Function implements Serializable {
 	private String description;
 
 	private String name;
-	@Column(name="PARENT_id")
+	@Column(name = "PARENT_id")
 	private Integer parentId;
 
 	private String path;
 
 	// bi-directional many-to-one association to RolePermistion
-	@OneToMany(mappedBy = "function")
-	private List<RolePermistion> rolePermistions;
+//	@OneToMany(mappedBy = "function")
+//	private List<RolePermistion> rolePermistions;
 
-	public Function() {
+	public Tblfunction() {
 	}
 
 	public int getId() {

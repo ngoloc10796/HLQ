@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -38,16 +39,27 @@ public class User implements Serializable {
 	private String password;
 
 	private String username;
-	
+
 	private String name;
-	
+
 	private String email;
 	// bi-directional many-to-one association to RolePermistion
+	@Column(name = "role_permistion_id")
+	private Integer role_permistion_id;
+
 	@ManyToOne
-	@JoinColumn(name = "role_permistion_id")
+	@JoinColumn(name = "role_permistion_id", insertable = false, updatable = false)
 	private RolePermistion rolePermistion;
 
 	public User() {
+	}
+
+	public Integer getRole_permistion_id() {
+		return role_permistion_id;
+	}
+
+	public void setRole_permistion_id(Integer role_permistion_id) {
+		this.role_permistion_id = role_permistion_id;
 	}
 
 	public int getId() {
@@ -102,9 +114,9 @@ public class User implements Serializable {
 		return this.rolePermistion;
 	}
 
-	public void setRolePermistion(RolePermistion rolePermistion) {
-		this.rolePermistion = rolePermistion;
-	}
+//	public void setRolePermistion(RolePermistion rolePermistion) {
+//		this.rolePermistion = rolePermistion;
+//	}
 
 	public List<GrantedAuthority> getAuthorities() {
 		List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();

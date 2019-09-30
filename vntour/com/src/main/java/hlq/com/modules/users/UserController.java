@@ -50,6 +50,15 @@ public class UserController extends BaseController {
 		return new ResponseEntity<Object>("Not Found User", HttpStatus.NO_CONTENT);
 	}
 
+	@RequestMapping(value = "/users/info", method = RequestMethod.GET)
+	public ResponseEntity<Object> getUserInfo() {
+		Object info = getCurrentUserInfo();
+		if (info != null) {
+			return new ResponseEntity<Object>(info, HttpStatus.OK);
+		}
+		return new ResponseEntity<Object>("Not Found User", HttpStatus.NO_CONTENT);
+	}
+
 	/* ---------------- CREATE NEW USER ------------------------ */
 	@RequestMapping(value = "/signUp", method = RequestMethod.POST)
 	public ResponseEntity<Object> createUser(@RequestBody User user) {

@@ -36,6 +36,7 @@ public class UserService {
 	}
 
 	public User updateUser(User user) {
+		user.setEnable(0);
 		return repo.save(user);
 	}
 
@@ -46,7 +47,8 @@ public class UserService {
 		User user = repo.findById(id);
 		if (user == null)
 			return false;
-		repo.delete(user);
+		user.setEnable(0);
+		repo.save(user);
 		return true;
 	}
 

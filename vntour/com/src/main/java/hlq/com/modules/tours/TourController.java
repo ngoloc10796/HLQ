@@ -31,7 +31,7 @@ public class TourController extends BaseController {
 			@RequestParam(value = "sortType", required = false, defaultValue = "asc") String sortType) {
 		ResponseBean response = new ResponseBean();
 		try {
-			response.setData(service.getPage(page, size, sortBy, sortType));
+			response.setData(service.getPage( page, size, sortBy, sortType));
 			return response(response);
 		} catch (Exception e) {
 			return responseError(response, e.getMessage());

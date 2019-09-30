@@ -43,6 +43,10 @@ public class User implements Serializable {
 	private String name;
 
 	private String email;
+
+	private Integer agentid;
+
+	private Integer enable;
 	// bi-directional many-to-one association to RolePermistion
 	@Column(name = "role_permistion_id")
 	private Integer role_permistion_id;
@@ -52,6 +56,22 @@ public class User implements Serializable {
 	private RolePermistion rolePermistion;
 
 	public User() {
+	}
+
+	public Integer getEnable() {
+		return enable;
+	}
+
+	public void setEnable(Integer enable) {
+		this.enable = enable;
+	}
+
+	public Integer getAgentid() {
+		return agentid;
+	}
+
+	public void setAgentid(Integer agentid) {
+		this.agentid = agentid;
 	}
 
 	public Integer getRole_permistion_id() {
@@ -110,9 +130,9 @@ public class User implements Serializable {
 		this.username = username;
 	}
 
-	public RolePermistion getRolePermistion() {
-		return this.rolePermistion;
-	}
+//	public RolePermistion getRolePermistion() {
+//		return this.rolePermistion;
+//	}
 
 //	public void setRolePermistion(RolePermistion rolePermistion) {
 //		this.rolePermistion = rolePermistion;

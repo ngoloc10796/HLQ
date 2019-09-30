@@ -1,7 +1,6 @@
 package hlq.com.entitys;
 
 import java.io.Serializable;
-import java.math.BigInteger;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -30,7 +29,7 @@ public class Tour implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 
-	private BigInteger agentID;
+	private Integer agentID;
 
 	private String code;
 
@@ -49,6 +48,8 @@ public class Tour implements Serializable {
 
 	private int status;
 
+	private String files;
+
 	private int type;
 	@Column(name = "finish_stay")
 	private Integer finishStay;
@@ -57,20 +58,28 @@ public class Tour implements Serializable {
 	private Integer startStay;
 	// bi-directional many-to-one association to ZCommuna
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "finish_stay" , insertable = false, updatable = false)
+	@JoinColumn(name = "finish_stay", insertable = false, updatable = false)
 	private ZCommuna ZCommuna1;
 
 	// bi-directional many-to-one association to ZCommuna
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "start_stay" , insertable = false, updatable = false)
+	@JoinColumn(name = "start_stay", insertable = false, updatable = false)
 	private ZCommuna ZCommuna2;
 
 	// bi-directional many-to-one association to Agent
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "agentID" , insertable = false, updatable = false)
+	@JoinColumn(name = "agentID", insertable = false, updatable = false)
 	private Agent agent;
 
 	public Tour() {
+	}
+
+	public String getFiles() {
+		return files;
+	}
+
+	public void setFiles(String files) {
+		this.files = files;
 	}
 
 	public int getId() {
@@ -81,7 +90,7 @@ public class Tour implements Serializable {
 		this.id = id;
 	}
 
-	public BigInteger getAgentID() {
+	public Integer getAgentID() {
 		return this.agentID;
 	}
 
@@ -101,7 +110,7 @@ public class Tour implements Serializable {
 		this.startStay = startStay;
 	}
 
-	public void setAgentID(BigInteger agentID) {
+	public void setAgentID(Integer agentID) {
 		this.agentID = agentID;
 	}
 

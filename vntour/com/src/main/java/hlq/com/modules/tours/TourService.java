@@ -11,11 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import hlq.com.bean.ResponseBean;
+import hlq.com.bean.UserPrincipal;
+import hlq.com.commons.BaseService;
 import hlq.com.commons.Contants;
 import hlq.com.entitys.Tour;
 
 @Service
-public class TourService {
+public class TourService extends BaseService {
 	@Autowired
 	private TourRepository repo;
 
@@ -33,6 +35,7 @@ public class TourService {
 	}
 
 	public void save(Tour data, ResponseBean response) {
+
 		response.setData(repo.save(data));
 	}
 
@@ -43,8 +46,12 @@ public class TourService {
 	public Page<Tour> getPage(int page, int size, String sortBy, String sortType) {
 		Sort.Order order = new Sort.Order(
 				Contants.ORDER_ASC.equalsIgnoreCase(sortType) ? Direction.ASC : Direction.DESC, sortBy).ignoreCase();
+		UserPrincipal info = getCurrentUserInfo();
+		Integer agentId = null;
+		if (info != null)
+			agentId = info.getAgentID();
 
-		return repo.getAndPaging(new PageRequest(page, size, new Sort(order)));
+		return repo.getAndPaging(agentId, new PageRequest(page, size, new Sort(order)));
 	}
 
 	public void delete(int id, ResponseBean response) {

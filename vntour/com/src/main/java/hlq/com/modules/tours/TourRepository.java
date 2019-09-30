@@ -15,8 +15,8 @@ import hlq.com.entitys.Tour;
 public interface TourRepository extends JpaRepository<Tour, Integer> {
 	public Tour findById(int id);
 
-	@Query("select s from Tour s")
-	public Page<Tour> getAndPaging(Pageable pageRequest);
+	@Query("select s from Tour s where (:agentID is null OR s.agentID = :agentID)")
+	public Page<Tour> getAndPaging(Integer agentID, Pageable pageRequest);
 
 	@Query("select count(*) from Tour s")
 	public Long totalTour();

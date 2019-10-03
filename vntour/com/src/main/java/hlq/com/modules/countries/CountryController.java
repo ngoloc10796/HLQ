@@ -26,7 +26,7 @@ public class CountryController extends BaseController {
 			@RequestParam(value = "parentId", required = false) Integer parentId) {
 		ResponseBean response = new ResponseBean();
 		try {
-			response.setData(service.findAll(parentId));
+			response.setData(service.getPage(parentId, page, size, sortBy, sortType));
 			return response(response);
 		} catch (Exception e) {
 			return responseError(response, e.getMessage());

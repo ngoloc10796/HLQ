@@ -1,4 +1,4 @@
-package hlq.com.modules.provinces;
+package hlq.com.modules.careers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,22 +11,21 @@ import hlq.com.bean.ResponseBean;
 import hlq.com.commons.BaseController;
 
 @RestController
-@RequestMapping("/api/province")
-public class ProvinceController extends BaseController {
+@RequestMapping("/api/career")
+public class CareerController extends BaseController {
 
 	@Autowired
-	private ProvinceService service;
+	private CareerService service;
 
 	@GetMapping(value = "")
 	public ResponseEntity<ResponseBean> getList(
 			@RequestParam(value = "page", required = false, defaultValue = "0") int page,
 			@RequestParam(value = "size", required = false, defaultValue = "100") int size,
 			@RequestParam(value = "sortBy", required = false, defaultValue = "id") String sortBy,
-			@RequestParam(value = "sortType", required = false, defaultValue = "asc") String sortType,
-			@RequestParam(value = "parentId", required = false) Integer parentId) {
+			@RequestParam(value = "sortType", required = false, defaultValue = "asc") String sortType) {
 		ResponseBean response = new ResponseBean();
 		try {
-			response.setData(service.getPage(parentId, page, size, sortBy, sortType));
+			response.setData(service.getPage(page, size, sortBy, sortType));
 			return response(response);
 		} catch (Exception e) {
 			return responseError(response, e.getMessage());

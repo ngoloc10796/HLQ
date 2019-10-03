@@ -2,9 +2,6 @@ package hlq.com.modules.files;
 
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -24,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import hlq.com.bean.ResponseBean;
 import hlq.com.bean.UploadFileResponse;
 import hlq.com.commons.BaseController;
 
@@ -36,19 +34,20 @@ public class FileController extends BaseController {
 	private FileStorageService fileStorageService;
 
 	@PostMapping("/uploadFile")
-	public UploadFileResponse uploadFile(@RequestParam("file") MultipartFile file) {
+	public ResponseEntity<ResponseBean> uploadFile(@RequestParam("file") MultipartFile file) {
 		String fileName = fileStorageService.storeFile(file);
 
 		String fileDownloadUri = ServletUriComponentsBuilder.fromCurrentContextPath().path("/downloadFile/")
 				.path(fileName).toUriString();
-
-		return new UploadFileResponse(fileName, fileDownloadUri, file.getContentType(), file.getSize());
+		ResponseBean response = new ResponseBean();
+		response.setData(new UploadFileResponse(fileName, fileDownloadUri, file.getContentType(), file.getSize()));
+		return response(response);
 	}
 
-	@PostMapping("/uploadMultipleFiles")
-	public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
-		return Arrays.asList(files).stream().map(file -> uploadFile(file)).collect(Collectors.toList());
-	}
+//	@PostMapping("/uploadMultipleFiles")
+//	public List<UploadFileResponse> uploadMultipleFiles(@RequestParam("files") MultipartFile[] files) {
+//		return Arrays.asList(files).stream().map(file -> uploadFile(file)).collect(Collectors.toList());
+//	}
 
 	@GetMapping("/getFile/{fileName:.+}")
 	public ResponseEntity<byte[]> getFile(@PathVariable String fileName, HttpServletRequest request) {

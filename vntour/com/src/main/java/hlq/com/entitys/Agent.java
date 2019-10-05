@@ -57,7 +57,7 @@ public class Agent implements Serializable {
 	@Column(name = "off_address")
 	private String offAddress;
 
-	private int parentID;
+	private Integer parentID;
 
 	private String phone;
 
@@ -195,11 +195,11 @@ public class Agent implements Serializable {
 		this.offAddress = offAddress;
 	}
 
-	public int getParentID() {
+	public Integer getParentID() {
 		return this.parentID;
 	}
 
-	public void setParentID(int parentID) {
+	public void setParentID(Integer parentID) {
 		this.parentID = parentID;
 	}
 

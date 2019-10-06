@@ -99,11 +99,11 @@ public class Agent implements Serializable {
 		this.attachment = attachment;
 	}
 
-	public int getCareerId() {
+	public Integer getCareerId() {
 		return this.careerId;
 	}
 
-	public void setCareerId(int careerId) {
+	public void setCareerId(Integer careerId) {
 		this.careerId = careerId;
 	}
 

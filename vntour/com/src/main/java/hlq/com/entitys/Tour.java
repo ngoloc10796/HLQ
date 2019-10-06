@@ -27,7 +27,7 @@ public class Tour implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String id;
+	private int id;
 
 	private Integer adult;
 
@@ -51,8 +51,8 @@ public class Tour implements Serializable {
 
 	@Column(name = "insurrance_attachment")
 	private String insurranceAttachment;
-
-	private Integer limit;
+	@Column(name = "limit_customer")
+	private Integer limitCustomer;
 
 	private Integer men;
 
@@ -123,11 +123,11 @@ public class Tour implements Serializable {
 	public Tour() {
 	}
 
-	public String getId() {
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -203,12 +203,12 @@ public class Tour implements Serializable {
 		this.insurranceAttachment = insurranceAttachment;
 	}
 
-	public Integer getLimit() {
-		return limit;
+	public ZGuild getZGuild() {
+		return ZGuild;
 	}
 
-	public void setLimit(Integer limit) {
-		this.limit = limit;
+	public void setZGuild(ZGuild zGuild) {
+		ZGuild = zGuild;
 	}
 
 	public Integer getMen() {

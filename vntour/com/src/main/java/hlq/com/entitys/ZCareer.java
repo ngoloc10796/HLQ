@@ -72,7 +72,7 @@ public class ZCareer implements Serializable {
 		return this.order;
 	}
 
-	public void setOrder(int order) {
+	public void setOrder(Integer order) {
 		this.order = order;
 	}
 

@@ -23,6 +23,7 @@ public abstract class BaseController {
 		if (response.getCode().equals(HttpStatus.UNAUTHORIZED.value() + ""))
 			return new ResponseEntity<ResponseBean>(response, HttpStatus.UNAUTHORIZED);
 		response.setMessage(message);
+		response.setCode("500");
 		return new ResponseEntity<ResponseBean>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 

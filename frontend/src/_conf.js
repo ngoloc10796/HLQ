@@ -20,6 +20,6 @@ if (environment == "test") {
   //setting origin/path
   MyConfig.basePath = "";
 
-  MyConfig.host = "http://35.198.253.228:9090";
+  MyConfig.host = "http://123.16.67.116:9090";
 
 }

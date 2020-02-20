@@ -100,7 +100,7 @@ App_Dictionary = [
   ['select2_emptyValue', 'Không có kết quả', ''],
 
 
-  /* ['feedback', 'phản hồi', ''],
+  ['feedback', 'phản hồi', ''],
   ['Feedback', 'Phản hồi', ''],
   ['feedback_name', 'Tên', ''],
   ['feedback_email', 'Email', ''],
@@ -112,7 +112,7 @@ App_Dictionary = [
   ['feedback_processing', 'Đang xử lý', ''],
   ['feedback_deleted', 'Đã xóa', ''],
   ['feedback_closed', 'Đã đóng', ''],
-  ['feedback_createdTime', 'Ngày tạo', ''], */
+  ['feedback_createdTime', 'Ngày tạo', ''], 
 
   ['', '', ''],
 

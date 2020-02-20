@@ -126,7 +126,7 @@
           info: true,
           // allowDrag: false,
           // orderDefault: ["name", "asc"],
-          // allowUpdate: $state.current.update,
+          allowUpdate: $state.current.update,
           allowButtons: ["create"],
           allowActions: ["view", "update", "delete"],
           // excelColumn: [1, 2, 3, 4, 6, 7],

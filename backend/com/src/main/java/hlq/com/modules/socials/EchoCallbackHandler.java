@@ -42,7 +42,7 @@ public class EchoCallbackHandler extends AbstractCallbackHandler {
 
         if (message.getText() != null) {
             // Echo the received text message
-            messenger.send().textMessage(recipient, format("Echo: %s", message.getText()));
+//            messenger.send().textMessage(recipient, format("Echo: %s", message.getText()));
         } else {
             if (message.getAttachments() != null) {
                 for (MessagingAttachment attachment : message.getAttachments()) {
@@ -52,13 +52,13 @@ public class EchoCallbackHandler extends AbstractCallbackHandler {
                         CoordinatesItem coordinates = attachment.getPayload().getCoordinates();
                         Double lat = coordinates.getLat();
                         Double longVal = coordinates.getLongVal();
-                        messenger.send().textMessage(recipient, format("Lat: %s", lat));
-                        messenger.send().textMessage(recipient, format("Long: %s", longVal));
+//                        messenger.send().textMessage(recipient, format("Lat: %s", lat));
+//                        messenger.send().textMessage(recipient, format("Long: %s", longVal));
                     } else {
                         // Echo the attachment
                         String url = attachment.getPayload().getUrl();
-                        messenger.send().attachment(recipient,
-                                MediaAttachment.Type.valueOf(type.toUpperCase()), url);
+//                        messenger.send().attachment(recipient,
+//                                MediaAttachment.Type.valueOf(type.toUpperCase()), url);
                     }
                 }
             }

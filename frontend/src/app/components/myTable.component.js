@@ -266,7 +266,7 @@
               extension: ".xlsx"
             }
           };
-
+         
           //check ẩn hiện button theo quyền sửa
           if ($scope.mConfig.allowUpdate) {
             if ($scope.mConfig.allowButtons && $scope.mConfig.allowButtons.indexOf('delete') > -1) {
